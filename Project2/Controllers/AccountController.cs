@@ -11,7 +11,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework; 
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
-using Microsoft.Owin.Security.Cookies;
+using Microsoft.Owin.Security.Cookies;  
 using Microsoft.Owin.Security.OAuth;
 using Project2.Models;
 using Project2.Providers;
@@ -22,7 +22,7 @@ namespace Project2.Controllers
     [Authorize]
     [RoutePrefix("api/Account")]
     public class AccountController : ApiController 
-    {
+    { 
         private const string LocalLoginProvider = "Local";
         private ApplicationUserManager _userManager;
 
