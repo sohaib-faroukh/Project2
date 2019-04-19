@@ -15,7 +15,7 @@ namespace CustomerProfileBank.Models.Context
         {
             public UserConfiguration()
             {
-                this.ToTable("Users", "");
+                this.ToTable("Users", "MYDATABASE");
                 this.HasKey(P => P.Id);
                 this.Property(p => p.FullName).HasMaxLength(200);
             }
@@ -25,7 +25,7 @@ namespace CustomerProfileBank.Models.Context
         {
             public RoleConfiguration()
             {
-                this.ToTable("Roles", "");
+                this.ToTable("Roles", "MYDATABASE");
                 this.HasKey(P => P.Id);
                 this.Property(p => p.Name).HasMaxLength(200);
             }
@@ -35,7 +35,7 @@ namespace CustomerProfileBank.Models.Context
         {
             public PrivilegeConfiguration()
             {
-                this.ToTable("Privileges", "");
+                this.ToTable("Privileges", "MYDATABASE");
                 this.HasKey(P => P.Id);
             }
         }
@@ -44,7 +44,7 @@ namespace CustomerProfileBank.Models.Context
         {
             public PrivilegeTypeConfiguration()
             {
-                this.ToTable("PrivilegeTypes", "");
+                this.ToTable("PrivilegeTypes", "MYDATABASE");
                 this.HasKey(P => P.Id);
                 this.Property(p => p.Name).HasMaxLength(200);
             }
@@ -53,7 +53,7 @@ namespace CustomerProfileBank.Models.Context
         {
             public Role_UserConfiguration()
             {
-                this.ToTable("Role_Users", "");
+                this.ToTable("Role_Users", "MYDATABASE");
                 this.HasKey(P => P.Id);
             }
         }
@@ -65,7 +65,7 @@ namespace CustomerProfileBank.Models.Context
         {
             public CustomerConfiguration()
             {
-                this.ToTable("Customers", "");
+                this.ToTable("Customers", "MYDATABASE");
                 this.HasKey(P => P.Id);
                 this.Property(p => p.FirstName).HasMaxLength(200);
                 this.Property(p => p.LastName).HasMaxLength(200);
@@ -77,7 +77,7 @@ namespace CustomerProfileBank.Models.Context
         {
             public SurveyConfiguration()
             {
-                this.ToTable("Surveys", "");
+                this.ToTable("Surveys", "MYDATABASE");
                 this.HasKey(P => P.Id);
                 this.Property(p => p.Name).HasMaxLength(200);
                 this.Property(p => p.Description).HasMaxLength(500);
@@ -88,7 +88,7 @@ namespace CustomerProfileBank.Models.Context
         {
             public Survey_ResponseConfiguration()
             {
-                this.ToTable("Survey_Responses", "");
+                this.ToTable("Survey_Responses", "MYDATABASE");
                 this.HasKey(P => P.Id);
             }
         }
@@ -97,7 +97,7 @@ namespace CustomerProfileBank.Models.Context
         {
             public ServiceConfiguration()
             {
-                this.ToTable("Services", "");
+                this.ToTable("Services", "MYDATABASE");
                 this.HasKey(P => P.Id);
             }
         }
@@ -105,7 +105,7 @@ namespace CustomerProfileBank.Models.Context
         {
             public ServiceTypeConfiguration()
             {
-                this.ToTable("ServiceTypes", "");
+                this.ToTable("ServiceTypes", "MYDATABASE");
                 this.HasKey(P => P.Id);
                 this.Property(p => p.Name).HasMaxLength(200);
             }
@@ -115,7 +115,7 @@ namespace CustomerProfileBank.Models.Context
         {
             public ResponseConfiguration()
             {
-                this.ToTable("Responses", "");
+                this.ToTable("Responses", "MYDATABASE");
                 this.HasKey(P => P.Id);
                 this.Property(p => p.Answer).HasMaxLength(500);
             }
@@ -125,7 +125,7 @@ namespace CustomerProfileBank.Models.Context
         {
             public Question_OrderConfiguration()
             {
-                this.ToTable("Question_Orders", "");
+                this.ToTable("Question_Orders", "MYDATABASE");
                 this.HasKey(P => P.Id);
             }
         }
@@ -134,7 +134,7 @@ namespace CustomerProfileBank.Models.Context
         {
             public QuestionConfiguration()
             {
-                this.ToTable("Questions", "");
+                this.ToTable("Questions", "MYDATABASE");
                 this.HasKey(P => P.Id);
                 this.Property(p => p.Text).HasMaxLength(500);
             }
@@ -143,7 +143,7 @@ namespace CustomerProfileBank.Models.Context
         {
             public HobbyTypeConfiguration()
             {
-                this.ToTable("HobbyTypes", "");
+                this.ToTable("HobbyTypes", "MYDATABASE");
                 this.HasKey(P => P.Id);
                 this.Property(p => p.Name).HasMaxLength(200);
             }
@@ -152,7 +152,7 @@ namespace CustomerProfileBank.Models.Context
         {
             public CustomerHobbyConfiguration()
             {
-                this.ToTable("CustomerHobbies", "");
+                this.ToTable("CustomerHobbies", "MYDATABASE");
                 this.HasKey(P => P.Id);
             }
         }
@@ -160,7 +160,7 @@ namespace CustomerProfileBank.Models.Context
         {
             public NumberConfiguration()
             {
-                this.ToTable("Numbers", "");
+                this.ToTable("Numbers", "MYDATABASE");
                 this.HasKey(P => P.Id);
             }
         }
@@ -168,7 +168,7 @@ namespace CustomerProfileBank.Models.Context
         {
             public NumberTypeConfiguration()
             {
-                this.ToTable("NumberTypes", "");
+                this.ToTable("NumberTypes", "MYDATABASE");
                 this.HasKey(P => P.Id);
                 this.Property(p => p.Name).HasMaxLength(200);
             }
@@ -181,7 +181,7 @@ namespace CustomerProfileBank.Models.Context
         {
             public FingerPrintClassConfiguration()
             {
-                this.ToTable("FingerPrintClasses", "");
+                this.ToTable("FingerPrintClasses", "MYDATABASE");
                 this.HasKey(P => P.Id);
                 this.Property(p => p.Name).HasMaxLength(200);
             }
@@ -190,7 +190,7 @@ namespace CustomerProfileBank.Models.Context
         {
             public CustomerFingerPrintConfiguration()
             {
-                this.ToTable("CustomerFingerPrints", "");
+                this.ToTable("CustomerFingerPrints", "MYDATABASE");
                 this.HasKey(P => P.Id);
             }
         }
@@ -198,7 +198,7 @@ namespace CustomerProfileBank.Models.Context
         {
             public UserFingerPrintConfiguration()
             {
-                this.ToTable("UserFingerPrints", "");
+                this.ToTable("UserFingerPrints", "MYDATABASE");
                 this.HasKey(P => P.Id);
             }
         }

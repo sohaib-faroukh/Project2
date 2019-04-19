@@ -15,6 +15,7 @@ namespace CustomerProfileBank.Models.Models
         public int IsActive { get; set; }
         public int CreatedBy { get; set; }
         public User User { get; set; }
+        public virtual ICollection<Question> Questions { get; set; }
         public Survey() { }
         ~Survey() { }
     }

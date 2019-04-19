@@ -13,7 +13,7 @@ namespace CustomerProfileBank.Models.Models
         public int IsActive { get; set; }
         public int ManagerId { get; set; }
         public virtual User Manager { get; set; }
-
+        public virtual ICollection<Role> Roles { get; set; }
         public User() { }
         ~User() { }
     }

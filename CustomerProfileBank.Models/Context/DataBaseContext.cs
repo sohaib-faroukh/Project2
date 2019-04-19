@@ -17,7 +17,7 @@ namespace CustomerProfileBank.Models.Context
 
         //Connect to database 
         public DataBaseContext(bool isReading) :
-                base(new OracleConnection(ConfigurationManager.ConnectionStrings[""].ConnectionString), true)
+                base(new OracleConnection(ConfigurationManager.ConnectionStrings["CustomerBank"].ConnectionString), true)
         {
             if (isReading)
                 this.Configuration.ProxyCreationEnabled = false;
@@ -59,7 +59,7 @@ namespace CustomerProfileBank.Models.Context
         {
 
             base.OnModelCreating(modelBuilder);
-            modelBuilder.HasDefaultSchema("");
+            modelBuilder.HasDefaultSchema("MYDATABASE");
 
             //UserAndRole Configration 
             modelBuilder.Configurations.Add(new UserConfiguration());
