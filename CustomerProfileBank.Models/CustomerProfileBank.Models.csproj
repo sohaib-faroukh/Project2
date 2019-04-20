@@ -60,9 +60,9 @@
   <ItemGroup>
     <Compile Include="Context\DbConfiguration.cs" />
     <Compile Include="Context\DataBaseContext.cs" />
-    <Compile Include="Migrations\201904191628475_first.cs" />
-    <Compile Include="Migrations\201904191628475_first.Designer.cs">
-      <DependentUpon>201904191628475_first.cs</DependentUpon>
+    <Compile Include="Migrations\201904202226166_Initial_Change_.cs" />
+    <Compile Include="Migrations\201904202226166_Initial_Change_.Designer.cs">
+      <DependentUpon>201904202226166_Initial_Change_.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Customer.cs" />
@@ -78,7 +78,6 @@
     <Compile Include="Models\Question_Order.cs" />
     <Compile Include="Models\Response.cs" />
     <Compile Include="Models\Role.cs" />
-    <Compile Include="Models\Role_User.cs" />
     <Compile Include="Models\Service.cs" />
     <Compile Include="Models\ServiceType.cs" />
     <Compile Include="Models\Survey.cs" />
@@ -114,8 +113,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201904191628475_first.resx">
-      <DependentUpon>201904191628475_first.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201904202226166_Initial_Change_.resx">
+      <DependentUpon>201904202226166_Initial_Change_.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
