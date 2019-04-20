@@ -32,7 +32,7 @@ namespace CustomerProfileBank.Models.Context
         //UserAndRole
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
-        public DbSet<Role_User> Role_Users { get; set; }
+        //public DbSet<Role_User> Role_Users { get; set; }
         public DbSet<Privilege> Privileges { get; set; }
 
         //CustomerInfo
@@ -59,14 +59,15 @@ namespace CustomerProfileBank.Models.Context
         {
 
             base.OnModelCreating(modelBuilder);
-            modelBuilder.HasDefaultSchema("MYDATABASE");
+            //modelBuilder.HasDefaultSchema("MYDATABASE");
+            modelBuilder.HasDefaultSchema(ConfigurationManager.AppSettings["DefaultSchema"]);
 
             //UserAndRole Configration 
             modelBuilder.Configurations.Add(new UserConfiguration());
             modelBuilder.Configurations.Add(new RoleConfiguration());
             modelBuilder.Configurations.Add(new PrivilegeConfiguration());
             modelBuilder.Configurations.Add(new PrivilegeTypeConfiguration());
-            modelBuilder.Configurations.Add(new Role_UserConfiguration());
+            //modelBuilder.Configurations.Add(new Role_UserConfiguration());
 
             //CustomerInfo Configuration
             modelBuilder.Configurations.Add(new CustomerConfiguration());
