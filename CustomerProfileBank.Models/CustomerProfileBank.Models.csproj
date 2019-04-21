@@ -50,6 +50,10 @@
     <Reference Include="System.Data.Entity.Repository, Version=2.0.0.1, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Data.Entity.Repository.2.0.0.1\lib\net45\System.Data.Entity.Repository.dll</HintPath>
     </Reference>
+    <Reference Include="System.Web.Mvc.Extensions, Version=1.1.0.6, Culture=neutral, PublicKeyToken=d631f4e4b226a032, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Web.Mvc.Extensions.1.1.1.2\lib\net45\System.Web.Mvc.Extensions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -58,11 +62,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Context\DbConfiguration.cs" />
     <Compile Include="Context\DataBaseContext.cs" />
-    <Compile Include="Migrations\201904202226166_Initial_Change_.cs" />
-    <Compile Include="Migrations\201904202226166_Initial_Change_.Designer.cs">
-      <DependentUpon>201904202226166_Initial_Change_.cs</DependentUpon>
+    <Compile Include="Migrations\201904202332581_Initial_Change_1.cs" />
+    <Compile Include="Migrations\201904202332581_Initial_Change_1.Designer.cs">
+      <DependentUpon>201904202332581_Initial_Change_1.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Customer.cs" />
@@ -113,8 +116,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201904202226166_Initial_Change_.resx">
-      <DependentUpon>201904202226166_Initial_Change_.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201904202332581_Initial_Change_1.resx">
+      <DependentUpon>201904202332581_Initial_Change_1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
