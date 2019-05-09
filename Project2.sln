@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomerProfileBank.Models"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomerProfileBank.FingerPrint", "CustomerProfileBank.FingerPrint\CustomerProfileBank.FingerPrint.csproj", "{767E6EB7-B200-4CDF-B4EC-969918D7411D}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CPB_UI", "CPB_UI", "{9F1DB8CC-A358-41DF-B34D-BA97063F715D}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

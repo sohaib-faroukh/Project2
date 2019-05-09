@@ -3,7 +3,7 @@ namespace CustomerProfileBank.Models.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class Initial_Change_1 : DbMigration
+    public partial class Initial : DbMigration
     {
         public override void Up()
         {
@@ -248,7 +248,7 @@ namespace CustomerProfileBank.Models.Migrations
                 .Index(t => t.FingerPrintClassId);
             
             CreateTable(
-                "SOHAIB.RolePrivileges",
+                "SOHAIB.SOHAIB_ROLEPRIVILEGES",
                 c => new
                     {
                         Role_Id = c.Decimal(nullable: false, precision: 10, scale: 0),
@@ -261,7 +261,7 @@ namespace CustomerProfileBank.Models.Migrations
                 .Index(t => t.Privilege_Id);
             
             CreateTable(
-                "SOHAIB.UserRoles",
+                "SOHAIB.SOHAIB_USERROLES",
                 c => new
                     {
                         User_Id = c.Decimal(nullable: false, precision: 10, scale: 0),
@@ -288,10 +288,10 @@ namespace CustomerProfileBank.Models.Migrations
             DropForeignKey("SOHAIB.SOHAIB_SURVEY", "User_Id", "SOHAIB.SOHAIB_USER");
             DropForeignKey("SOHAIB.SOHAIB_QUESTION", "Survey_Id", "SOHAIB.SOHAIB_SURVEY");
             DropForeignKey("SOHAIB.SOHAIB_QUESTION_ORDER", "QuestionId", "SOHAIB.SOHAIB_QUESTION");
-            DropForeignKey("SOHAIB.UserRoles", "Role_Id", "SOHAIB.SOHAIB_ROLE");
-            DropForeignKey("SOHAIB.UserRoles", "User_Id", "SOHAIB.SOHAIB_USER");
-            DropForeignKey("SOHAIB.RolePrivileges", "Privilege_Id", "SOHAIB.SOHAIB_PRIVILEGE");
-            DropForeignKey("SOHAIB.RolePrivileges", "Role_Id", "SOHAIB.SOHAIB_ROLE");
+            DropForeignKey("SOHAIB.SOHAIB_USERROLES", "Role_Id", "SOHAIB.SOHAIB_ROLE");
+            DropForeignKey("SOHAIB.SOHAIB_USERROLES", "User_Id", "SOHAIB.SOHAIB_USER");
+            DropForeignKey("SOHAIB.SOHAIB_ROLEPRIVILEGES", "Privilege_Id", "SOHAIB.SOHAIB_PRIVILEGE");
+            DropForeignKey("SOHAIB.SOHAIB_ROLEPRIVILEGES", "Role_Id", "SOHAIB.SOHAIB_ROLE");
             DropForeignKey("SOHAIB.SOHAIB_CUSTOMERFINGERPRINT", "FingerPrintClassId", "SOHAIB.SOHAIB_FINGERPRINTCLASS");
             DropForeignKey("SOHAIB.SOHAIB_CUSTOMERFINGERPRINT", "CustomerId", "SOHAIB.SOHAIB_CUSTOMER");
             DropForeignKey("SOHAIB.SOHAIB_SERVICE", "ServiceTypeId", "SOHAIB.SOHAIB_SERVICETYPE");
@@ -300,10 +300,10 @@ namespace CustomerProfileBank.Models.Migrations
             DropForeignKey("SOHAIB.SOHAIB_NUMBER", "CustomerId", "SOHAIB.SOHAIB_CUSTOMER");
             DropForeignKey("SOHAIB.SOHAIB_CUSTOMERHOBBY", "HobbyTypeId", "SOHAIB.SOHAIB_HOBBYTYPE");
             DropForeignKey("SOHAIB.SOHAIB_CUSTOMERHOBBY", "CustomerId", "SOHAIB.SOHAIB_CUSTOMER");
-            DropIndex("SOHAIB.UserRoles", new[] { "Role_Id" });
-            DropIndex("SOHAIB.UserRoles", new[] { "User_Id" });
-            DropIndex("SOHAIB.RolePrivileges", new[] { "Privilege_Id" });
-            DropIndex("SOHAIB.RolePrivileges", new[] { "Role_Id" });
+            DropIndex("SOHAIB.SOHAIB_USERROLES", new[] { "Role_Id" });
+            DropIndex("SOHAIB.SOHAIB_USERROLES", new[] { "User_Id" });
+            DropIndex("SOHAIB.SOHAIB_ROLEPRIVILEGES", new[] { "Privilege_Id" });
+            DropIndex("SOHAIB.SOHAIB_ROLEPRIVILEGES", new[] { "Role_Id" });
             DropIndex("SOHAIB.SOHAIB_USERFINGERPRINT", new[] { "FingerPrintClassId" });
             DropIndex("SOHAIB.SOHAIB_USERFINGERPRINT", new[] { "UserId" });
             DropIndex("SOHAIB.SOHAIB_SURVEY_RESPONSE", new[] { "SurveyId" });
@@ -326,8 +326,8 @@ namespace CustomerProfileBank.Models.Migrations
             DropIndex("SOHAIB.SOHAIB_CUSTOMERHOBBY", new[] { "CustomerId" });
             DropIndex("SOHAIB.SOHAIB_CUSTOMERFINGERPRINT", new[] { "FingerPrintClassId" });
             DropIndex("SOHAIB.SOHAIB_CUSTOMERFINGERPRINT", new[] { "CustomerId" });
-            DropTable("SOHAIB.UserRoles");
-            DropTable("SOHAIB.RolePrivileges");
+            DropTable("SOHAIB.SOHAIB_USERROLES");
+            DropTable("SOHAIB.SOHAIB_ROLEPRIVILEGES");
             DropTable("SOHAIB.SOHAIB_USERFINGERPRINT");
             DropTable("SOHAIB.SOHAIB_SURVEY_RESPONSE");
             DropTable("SOHAIB.SOHAIB_RESPONSE");
