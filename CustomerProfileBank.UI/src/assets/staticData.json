@@ -1,0 +1,109 @@
+{
+    "Users": [
+        {
+            "id": 1,
+            "firstName": "sohaib",
+            "lastName": "faroukh",
+            "alias": "x_user_AL",
+            "creationDate": "10/8/2015",
+            "Roles": [
+                {
+                    "id": 1,
+                    "name": "Admin",
+                    "description": "admin desc",
+                    "creationDate": "5/5/2015"
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "alias": "x_user_AL",
+            "firstName": "x_user_FN",
+            "lastName": "x_user_LN",
+            "creationDate": "10/4/2015",
+            "Roles": [
+                {
+                    "id": 2,
+                    "name": "Front Linear",
+                    "description": "Front Linear desc",
+                    "creationDate": "8/8/2015",
+                    "Privileges": [
+                        {
+                            "id": 3,
+                            "name": "showUser",
+                            "title": "show User"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "Roles": [
+        {
+            "id": 1,
+            "name": "Admin",
+            "description": "admin desc",
+            "creationDate": "5/5/2015",
+            "Users": [
+                {
+                    "id": 1,
+                    "firstName": "sohaib",
+                    "lastName": "faroukh",
+                    "creationDate": "10/10/2015"
+                }
+            ],
+            "Privileges": [
+                {
+                    "id": 1,
+                    "name": "addUser",
+                    "title": "add User"
+                },
+                {
+                    "id": 2,
+                    "name": "editUser",
+                    "title": "edit User"
+                },
+                {
+                    "id": 3,
+                    "name": "showUser",
+                    "title": "show User"
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "name": "Front Linear",
+            "description": "Front Linear desc",
+            "creationDate": "8/8/2015",
+            "Privileges": [
+                {
+                    "id": 3,
+                    "name": "showUser",
+                    "title": "show User"
+                }
+            ]
+        }
+    ],
+    "Privileges": [
+        {
+            "id": 1,
+            "name": "showRoles",
+            "title": "Show Roles"
+        },
+        {
+            "id": 2,
+            "name": "addUser",
+            "title": "Add User"
+        },
+        {
+            "id": 3,
+            "name": "editUser",
+            "title": "Edit User"
+        },
+        {
+            "id": 4,
+            "name": "showUser",
+            "title": "Show User"
+        }
+    ]
+}

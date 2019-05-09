@@ -12,7 +12,12 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
-
+import { AuthGuard } from './guards/auth.guard';
+// import {
+//   DxDataGridModule,
+//   DxBulletModule,
+//   DxTemplateModule
+// } from 'devextreme-angular';
 
 @NgModule({
   imports: [
@@ -22,12 +27,15 @@ import { ComponentsModule } from './components/components.module';
     ComponentsModule,
     NgbModule,
     RouterModule,
-    AppRoutingModule
+    AppRoutingModule,
+    // DxDataGridModule,
+    // DxTemplateModule,
+    // DxBulletModule
   ],
   declarations: [
     AppComponent,
     AdminLayoutComponent,
-    AuthLayoutComponent
+    AuthLayoutComponent,
   ],
   providers: [],
   bootstrap: [AppComponent]
