@@ -61,36 +61,17 @@ namespace CustomerProfileBank.Models.Context
             base.OnModelCreating(modelBuilder);
             //modelBuilder.HasDefaultSchema("MYDATABASE");
             modelBuilder.HasDefaultSchema(ConfigurationManager.AppSettings["DefaultSchema"]);
-            modelBuilder.Types().Configure(entity => entity.ToTable(ConfigurationManager.AppSettings["DefaultSchema"] +"_"+ entity.ClrType.Name.ToUpper()));
-
-            //UserAndRole Configration 
-
-            //modelBuilder.Configurations.Add(new UserConfiguration());
-            //modelBuilder.Configurations.Add(new RoleConfiguration());
-            //modelBuilder.Configurations.Add(new PrivilegeConfiguration());
-            //modelBuilder.Configurations.Add(new PrivilegeTypeConfiguration());
-            //modelBuilder.Configurations.Add(new Role_UserConfiguration());
-
-            //CustomerInfo Configuration
-            //modelBuilder.Configurations.Add(new CustomerConfiguration());
-            //modelBuilder.Configurations.Add(new SurveyConfiguration());
-            //modelBuilder.Configurations.Add(new Survey_ResponseConfiguration());
-            //modelBuilder.Configurations.Add(new ServiceConfiguration());
-            //modelBuilder.Configurations.Add(new ServiceTypeConfiguration());
-            //modelBuilder.Configurations.Add(new ResponseConfiguration());
-            //modelBuilder.Configurations.Add(new Question_OrderConfiguration());
-            //modelBuilder.Configurations.Add(new QuestionConfiguration());
-            //modelBuilder.Configurations.Add(new HobbyTypeConfiguration());
-            //modelBuilder.Configurations.Add(new CustomerHobbyConfiguration());
-            //modelBuilder.Configurations.Add(new NumberConfiguration());
-            //modelBuilder.Configurations.Add(new NumberTypeConfiguration());
-
-
-
-            //FingerPrint Configuration
-            //modelBuilder.Configurations.Add(new FingerPrintClassConfiguration());
-            //modelBuilder.Configurations.Add(new CustomerFingerPrintConfiguration());
-            //modelBuilder.Configurations.Add(new UserFingerPrintConfiguration());                  
+            modelBuilder.Types().Configure(entity => entity.ToTable(
+                ConfigurationManager.AppSettings["DefaultSchema"] + "_" + entity.ClrType.Name.ToUpper()
+            ));
+            modelBuilder.Entity<User>().HasMany(u => u.Roles).WithMany(u => u.Users).Map(ur =>
+            {
+                ur.ToTable(ConfigurationManager.AppSettings["DefaultSchema"] + "_USERROLES");
+            });
+            modelBuilder.Entity<Role>().HasMany(p => p.Privileges).WithMany(r => r.Roles).Map(pr =>
+            {
+                pr.ToTable(ConfigurationManager.AppSettings["DefaultSchema"] + "_ROLEPRIVILEGES");
+            });
 
         }
         #endregion

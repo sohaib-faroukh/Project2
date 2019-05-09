@@ -1,4 +1,5 @@
-﻿using CustomerProfileBank.Models.Models;
+﻿using Antlr.Runtime;
+using CustomerProfileBank.Models.Models;
 using CustomerProfileBank.Models.Repositories;
 using System;
 using System.Collections.Generic;
@@ -16,20 +17,40 @@ namespace Project2.WebAPIs
         UserRepo uRepo = new UserRepo();
 
 
-        // URL : api/UserRoleManagement/User/{id}
         /// <summary>
-        /// return user information by it's id from repo
+        /// return user full information 
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">user id</param>
         /// <returns></returns>
         [HttpGet]
+        [Route("api/User/{id}")]
         public IHttpActionResult GetUser(int id)
         {
             try
-            {              
-                    var user = uRepo.FindById(id);
-                    if (user == null) return NotFound();
-                    return Ok(user);                
+            {
+                var ele = uRepo.FindById(id);
+                if (ele == null)
+                {
+                    throw new Exception("Not Found");
+                }
+                var toReturnUser = new
+                {
+                    id = ele.Id,
+                    hrId = ele.HRId,
+                    alias = ele.Alias,
+                    lastName = ele.LastName,
+                    firstName = ele.FirstName,
+                    status = ele.Status,
+                    creationDate = ele.CreationDate,
+                    deactivationDate = ele.DeactivationDate,
+                    Roles = ele.Roles.Select(rol => new
+                    {
+                        id = rol.Id,
+                        name = rol.Name,
+                        description = rol.Description
+                    })
+                };
+                return Ok(toReturnUser);
             }
             catch (Exception ex)
             {
@@ -43,12 +64,31 @@ namespace Project2.WebAPIs
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        [Route("api/Users")]
         public IHttpActionResult GetUsers()
         {
             try
-            {              
-                    var users = uRepo.GetAll();
-                    return Ok(users);                
+            {
+                var users = uRepo.GetAll().Select(ele => new
+                {
+                    id = ele.Id,
+                    hrId = ele.HRId,
+                    alias = ele.Alias,
+                    lastName = ele.LastName,
+                    firstName = ele.FirstName,
+                    status = ele.Status,
+                    creationDate = ele.CreationDate,
+                    deactivationDate = ele.DeactivationDate,
+                    Roles = ele.Roles.Select(rol => new
+                    {
+                        id = rol.Id,
+                        name = rol.Name,
+                        description = rol.Description
+                    })
+                });
+
+
+                return Json(users);
             }
             catch (Exception ex)
             {
@@ -64,56 +104,87 @@ namespace Project2.WebAPIs
         /// <param name="user">user object</param>
         /// <returns></returns>
         [HttpPost]
+        [Route("api/Users/post")]
+
         public IHttpActionResult PostUser([FromBody]User user)
         {
-            int error_code = 0;
+            User newUser = new User();
 
-            //if (!ModelState.IsValid) {
-            //    return BadRequest(ModelState);
-            //}
+            user.Status = "Active";
+            user.CreationDate = DateTime.Now;
 
-            User newUser = new CustomerProfileBank.Models.Models.User();
+            this.Validate(user, "errorModelState");
 
-            if (user.HRId < Int32.MaxValue && user.HRId > Int32.MinValue)
+            if (!ModelState.IsValidField("errorModelState"))
             {
-                newUser.HRId = user.HRId;
+                return BadRequest(ModelState);
+            }
+
+
+            // Check Required HRId 
+            if (user.HRId != null)
+            {
+                // Check HRId Duplication
+                if (uRepo.GetAll().FirstOrDefault(it => it.HRId == user.HRId) == null)
+                {
+                    newUser.HRId = user.HRId;
+                }
+
+                else
+                {
+                    throw new Exception("HRId is required");
+                }
             }
             else
             {
-                error_code = 100;
-                throw new Exception("HRID volume is out of boundaries");
+                throw new Exception("This HRId aleady exist");
+            }
+
+
+            // Check Required ALias 
+            if (user.Alias != null && user.Alias != String.Empty)
+            {
+                // Check ALias Duplication
+                if (uRepo.GetAll().FirstOrDefault(it => it.Alias == user.Alias) == null)
+                {
+                    newUser.Alias = user.Alias.Trim().ToUpperInvariant();
+
+                }
+                else
+                {
+                    throw new Exception("This Alias aleady exist");
+                }
 
             }
-            if (user.FirstName != null && user.FirstName != String.Empty) {
+            else
+            {
+                throw new Exception("Alias is required");
+            }
+
+
+
+            // Check Required FirstName 
+            if (user.FirstName != null && user.FirstName != String.Empty)
+            {
 
                 newUser.FirstName = user.FirstName.Trim();
             }
             else
             {
-                error_code = 120;
-                throw new Exception("FirstName is required");
+                throw new Exception("First Name is required");
             }
-            if (user.LastName != null && user.FirstName != String.Empty) {
+
+
+            // Check Required LastName 
+            if (user.LastName != null && user.FirstName != String.Empty)
+            {
                 newUser.LastName = user.LastName.Trim();
-            }else
-            {
-
-                error_code = 130;
-                throw new Exception("LastName is required");
-
-
-            }
-            if (user.Alias != null && user.Alias != String.Empty)
-            {
-                newUser.Alias = user.Alias.Trim().ToUpperInvariant();
-
             }
             else
             {
-                error_code = 110;
-                throw new Exception("Alias is required");
-
+                throw new Exception("Last Name is required");
             }
+
 
             newUser.Status = "Active";
             newUser.CreationDate = DateTime.Now;
@@ -121,10 +192,32 @@ namespace Project2.WebAPIs
 
             try
             {
+                var ele = uRepo.Add(newUser);
 
-                    uRepo.Add(newUser);
-                    return Json(new { user = newUser , error_code});
+                if (ele == null)
+                {
+                    throw new Exception("No returned user after Add it");
+                }
+                var addedUser = new
+                {
+                    id = ele.Id,
+                    hrId = ele.HRId,
+                    alias = ele.Alias,
+                    lastName = ele.LastName,
+                    firstName = ele.FirstName,
+                    status = ele.Status,
+                    creationDate = ele.CreationDate,
+                    deactivationDate = ele.DeactivationDate,
+                    Roles = ele.Roles.Select(rol => new
+                    {
+                        id = rol.Id,
+                        name = rol.Name,
+                        description = rol.Description
+                    })
+                };
+                return Json(addedUser);
             }
+
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
@@ -134,53 +227,182 @@ namespace Project2.WebAPIs
         /// <summary>
         /// update user information
         /// </summary>
-        /// <param name="id">the user to update id </param>
+        /// <param name="id">the user id </param>
         /// <param name="user">user new data </param>
         /// <returns></returns>
         [HttpPut]
+        [Route("api/Users/put/{id}")]
         public IHttpActionResult UpdateUser(int id, [FromBody]User user)
         {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
-            if (id != user.Id) return BadRequest();
+            User newUser = uRepo.FindById(id);
+            if (newUser == null)
+            {
+                throw new Exception("Not Found");
+
+            }
+
+            user.Status = "Active";
+            user.CreationDate = DateTime.Now;
+
+            this.Validate(user, "errorModelState");
+
+            if (!ModelState.IsValidField("errorModelState"))
+            {
+                return BadRequest(ModelState);
+            }
+
+
+            // Check Required HRId 
+            if (user.HRId != null && user.HRId <= Int32.MaxValue && user.HRId >= Int32.MinValue)
+            {
+                // Check HRId Duplication
+                if (uRepo.GetAll().FirstOrDefault(it => it.Id != id && it.HRId == user.HRId) == null)
+                {
+                    newUser.HRId = user.HRId;
+                }
+
+                else
+                {
+                    throw new Exception("This HRId aleady exist");
+                }
+            }
+            else
+            {
+                throw new Exception("HRId is required");
+
+            }
+
+
+            // Check Required ALias 
+            if (user.Alias != null && user.Alias != String.Empty)
+            {
+                // Check ALias Duplication
+                if (uRepo.GetAll().FirstOrDefault(it => it.Id != id && it.Alias == user.Alias) == null)
+                {
+                    newUser.Alias = user.Alias.Trim().ToUpperInvariant();
+
+                }
+                else
+                {
+                    throw new Exception("This Alias aleady exist");
+                }
+
+            }
+            else
+            {
+                throw new Exception("Alias is required");
+
+            }
+
+
+
+            // Check Required FirstName 
+            if (user.FirstName != null && user.FirstName != String.Empty)
+            {
+
+                newUser.FirstName = user.FirstName.Trim();
+            }
+            else
+            {
+                throw new Exception("First Name is required");
+            }
+
+
+            // Check Required LastName 
+            if (user.LastName != null && user.FirstName != String.Empty)
+            {
+                newUser.LastName = user.LastName.Trim();
+            }
+            else
+            {
+                throw new Exception("Last Name is required");
+            }
+
+
+            newUser.Status = "Active";
+            newUser.CreationDate = DateTime.Now;
+            newUser.Roles = user.Roles;
 
             try
-            {              
-                    var oldUser = uRepo.FindById(id);
-                    if (oldUser == null) return NotFound();
-                    var newUser = uRepo.Edit(oldUser, user);
-                    return Ok(newUser);
-                
+            {
+                var ele = uRepo.Edit(newUser);
+                if (ele == null)
+                {
+                    throw new Exception("No returned user after update it");
+                }
+                var updatedUser = new
+                {
+                    id = ele.Id,
+                    hrId = ele.HRId,
+                    alias = ele.Alias,
+                    lastName = ele.LastName,
+                    firstName = ele.FirstName,
+                    status = ele.Status,
+                    creationDate = ele.CreationDate,
+                    deactivationDate = ele.DeactivationDate,
+                    Roles = ele.Roles.Select(rol => new
+                    {
+                        id = rol.Id,
+                        name = rol.Name,
+                        description = rol.Description
+                    })
+                };
+                return Json(updatedUser);
             }
+
             catch (Exception ex)
             {
+                //Request.CreateResponse(ex);
+                //return this.InternalServerError(ex);
                 return BadRequest(ex.Message);
             }
 
         }
 
-        /// <summary>
-        /// delete or deactivate user from use system
-        /// </summary>
-        /// <param name="id">the user to delete/deactivate id </param>
-        /// <returns></returns>
-        [HttpDelete]
         public IHttpActionResult DeleteUser(int id)
         {
             try
             {
-               
-                    var user = uRepo.FindById(id);
-                    if (user == null) return NotFound();
+                var ele = uRepo.FindById(id);
+                if (ele == null)
+                {
+                    throw new Exception("Can't find the user with id :" + id);
+                }
 
-                   var deletedUser= uRepo.Delete(id);
+                var deletedUser = new
+                {
+                    id = ele.Id,
+                    hrId = ele.HRId,
+                    alias = ele.Alias,
+                    lastName = ele.LastName,
+                    firstName = ele.FirstName,
+                    status = ele.Status,
+                    creationDate = ele.CreationDate,
+                    deactivationDate = ele.DeactivationDate,
+                    Roles = ele.Roles.Select(rol => new
+                    {
+                        id = rol.Id,
+                        name = rol.Name,
+                        description = rol.Description
+                    })
+                };
 
-                    return Ok(deletedUser);
-                
+                bool res = uRepo.Delete(id);
+                if (res == false)
+                {
+                    throw new Exception("Can't Delete the user with id :" + id);
+                }
+
+                return Json(deletedUser);
+
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
+
         }
+
     }
+
 }
