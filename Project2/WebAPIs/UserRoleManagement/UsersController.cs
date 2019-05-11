@@ -6,59 +6,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Formatting;
+using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Cors;
+using System.Web.Http.Results;
 
 namespace Project2.WebAPIs
 {
-    [EnableCors("http://localhost:4200", "*", "*")]
+    [EnableCors("*", "*", "*")]
     public class UsersController : ApiController
     {
         UserRepo uRepo = new UserRepo();
 
+        private List<dynamic> errorsList = new List<dynamic>();
 
-        /// <summary>
-        /// return user full information 
-        /// </summary>
-        /// <param name="id">user id</param>
-        /// <returns></returns>
-        [HttpGet]
-        [Route("api/User/{id}")]
-        public IHttpActionResult GetUser(int id)
-        {
-            try
-            {
-                var ele = uRepo.FindById(id);
-                if (ele == null)
-                {
-                    throw new Exception("Not Found");
-                }
-                var toReturnUser = new
-                {
-                    id = ele.Id,
-                    hrId = ele.HRId,
-                    alias = ele.Alias,
-                    lastName = ele.LastName,
-                    firstName = ele.FirstName,
-                    status = ele.Status,
-                    creationDate = ele.CreationDate,
-                    deactivationDate = ele.DeactivationDate,
-                    Roles = ele.Roles.Select(rol => new
-                    {
-                        id = rol.Id,
-                        name = rol.Name,
-                        description = rol.Description
-                    })
-                };
-                return Ok(toReturnUser);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-
-        }
-
+      
         /// <summary>
         /// gets all users from repo
         /// </summary>
@@ -67,32 +30,78 @@ namespace Project2.WebAPIs
         [Route("api/Users")]
         public IHttpActionResult GetUsers()
         {
+            errorsList.Clear();
             try
             {
                 var users = uRepo.GetAll().Select(ele => new
                 {
-                    id = ele.Id,
-                    hrId = ele.HRId,
-                    alias = ele.Alias,
-                    lastName = ele.LastName,
-                    firstName = ele.FirstName,
-                    status = ele.Status,
-                    creationDate = ele.CreationDate,
-                    deactivationDate = ele.DeactivationDate,
+                    Id = ele.Id,
+                    HrId = ele.HRId,
+                    Alias = ele.Alias,
+                    LastName = ele.LastName,
+                    FirstName = ele.FirstName,
+                    Status = ele.Status,
+                    CreationDate = ele.CreationDate,
+                    DeactivationDate = ele.DeactivationDate,
                     Roles = ele.Roles.Select(rol => new
                     {
-                        id = rol.Id,
-                        name = rol.Name,
-                        description = rol.Description
+                        Id = rol.Id,
+                        Name = rol.Name,
+                        Description = rol.Description
                     })
                 });
-
 
                 return Json(users);
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                errorsList.Add(new { Code = ex.HResult, Message = ex.Message, InnerException = ex.InnerException });
+                throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.InternalServerError, errorsList));
+            }
+
+        }
+
+        /// <summary>
+        /// return user full information 
+        /// </summary>
+        /// <param name="id">user id</param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("api/Users/{id}")]
+        public IHttpActionResult GetUser(int id)
+        {
+
+            errorsList.Clear();
+            try
+            {
+                var ele = uRepo.FindById(id);
+                if (ele == null)
+                {
+                    throw new Exception("User Not Found");
+                }
+                var toReturnUser = new
+                {
+                    Id = ele.Id,
+                    HrId = ele.HRId,
+                    Alias = ele.Alias,
+                    LastName = ele.LastName,
+                    FirstName = ele.FirstName,
+                    Status = ele.Status,
+                    CreationDate = ele.CreationDate,
+                    DeactivationDate = ele.DeactivationDate,
+                    Roles = ele.Roles.Select(rol => new
+                    {
+                        Id = rol.Id,
+                        Name = rol.Name,
+                        Description = rol.Description
+                    })
+                };
+                return Json(toReturnUser);
+            }
+            catch (Exception ex)
+            {
+                errorsList.Add(new { Code = ex.HResult, Message = ex.Message, InnerException = ex.InnerException });
+                throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound, errorsList));
             }
 
         }
@@ -104,25 +113,20 @@ namespace Project2.WebAPIs
         /// <param name="user">user object</param>
         /// <returns></returns>
         [HttpPost]
-        [Route("api/Users/post")]
+        [Route("api/Users")]
 
         public IHttpActionResult PostUser([FromBody]User user)
         {
+
+            errorsList.Clear();
             User newUser = new User();
 
             user.Status = "Active";
             user.CreationDate = DateTime.Now;
 
-            this.Validate(user, "errorModelState");
-
-            if (!ModelState.IsValidField("errorModelState"))
-            {
-                return BadRequest(ModelState);
-            }
-
-
             // Check Required HRId 
-            if (user.HRId != null)
+
+            if (user.HRId != 0 && user.HRId <= int.MaxValue && user.HRId >= int.MinValue)
             {
                 // Check HRId Duplication
                 if (uRepo.GetAll().FirstOrDefault(it => it.HRId == user.HRId) == null)
@@ -132,12 +136,12 @@ namespace Project2.WebAPIs
 
                 else
                 {
-                    throw new Exception("HRId is required");
+                    errorsList.Add(new { error_code = 10, Message = "This HRId aleady exist" });
                 }
             }
             else
             {
-                throw new Exception("This HRId aleady exist");
+                errorsList.Add(new { error_code = 10, Message = "HRId ir required" });
             }
 
 
@@ -145,20 +149,20 @@ namespace Project2.WebAPIs
             if (user.Alias != null && user.Alias != String.Empty)
             {
                 // Check ALias Duplication
-                if (uRepo.GetAll().FirstOrDefault(it => it.Alias == user.Alias) == null)
+                if (uRepo.GetAll().FirstOrDefault(it => it.Alias.Trim().ToUpper() == user.Alias.Trim().ToUpper()) == null)
                 {
                     newUser.Alias = user.Alias.Trim().ToUpperInvariant();
 
                 }
                 else
                 {
-                    throw new Exception("This Alias aleady exist");
+                    errorsList.Add(new { error_code = 10, Message = "This Alias aleady exist" });
                 }
 
             }
             else
             {
-                throw new Exception("Alias is required");
+                errorsList.Add(new { error_code = 10, Message = "Alias is required" });
             }
 
 
@@ -166,12 +170,11 @@ namespace Project2.WebAPIs
             // Check Required FirstName 
             if (user.FirstName != null && user.FirstName != String.Empty)
             {
-
                 newUser.FirstName = user.FirstName.Trim();
             }
             else
             {
-                throw new Exception("First Name is required");
+                errorsList.Add(new { error_code = 10, Message = "First Name is required" });
             }
 
 
@@ -182,16 +185,22 @@ namespace Project2.WebAPIs
             }
             else
             {
-                throw new Exception("Last Name is required");
+                errorsList.Add(new { error_code = 10, Message = "Last Name is required" });
             }
 
 
-            newUser.Status = "Active";
-            newUser.CreationDate = DateTime.Now;
-            newUser.Roles = user.Roles;
+            if (errorsList.Count > 0)
+            {
+                throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.InternalServerError, errorsList));
+            }
 
             try
             {
+                newUser.Status = "Active";
+                newUser.CreationDate = DateTime.Now;
+                newUser.Roles = user.Roles;
+
+
                 var ele = uRepo.Add(newUser);
 
                 if (ele == null)
@@ -200,19 +209,19 @@ namespace Project2.WebAPIs
                 }
                 var addedUser = new
                 {
-                    id = ele.Id,
-                    hrId = ele.HRId,
-                    alias = ele.Alias,
-                    lastName = ele.LastName,
-                    firstName = ele.FirstName,
-                    status = ele.Status,
-                    creationDate = ele.CreationDate,
-                    deactivationDate = ele.DeactivationDate,
+                    Id = ele.Id,
+                    HrId = ele.HRId,
+                    Alias = ele.Alias,
+                    LastName = ele.LastName,
+                    FirstName = ele.FirstName,
+                    Status = ele.Status,
+                    CreationDate = ele.CreationDate,
+                    DeactivationDate = ele.DeactivationDate,
                     Roles = ele.Roles.Select(rol => new
                     {
-                        id = rol.Id,
-                        name = rol.Name,
-                        description = rol.Description
+                        Id = rol.Id,
+                        Name = rol.Name,
+                        Description = rol.Description
                     })
                 };
                 return Json(addedUser);
@@ -220,7 +229,8 @@ namespace Project2.WebAPIs
 
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                errorsList.Add(new { Code = ex.HResult, Message = ex.Message, InnerException = ex.InnerException });
+                throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound, errorsList));
             }
         }
 
@@ -231,45 +241,40 @@ namespace Project2.WebAPIs
         /// <param name="user">user new data </param>
         /// <returns></returns>
         [HttpPut]
-        [Route("api/Users/put/{id}")]
+        [Route("api/Users/{id}")]
         public IHttpActionResult UpdateUser(int id, [FromBody]User user)
         {
+
+            errorsList.Clear();
+
             User newUser = uRepo.FindById(id);
+
             if (newUser == null)
             {
-                throw new Exception("Not Found");
-
+                errorsList.Add(new { Code = 404, Message = "User Not Found" });
+                throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound, errorsList));
             }
 
-            user.Status = "Active";
-            user.CreationDate = DateTime.Now;
-
-            this.Validate(user, "errorModelState");
-
-            if (!ModelState.IsValidField("errorModelState"))
+            if (newUser.Status.Trim().ToUpper() == "INACTIVE")
             {
-                return BadRequest(ModelState);
+                errorsList.Add(new { Code = 404, Message = "Can't Edit deactivated User" });
+                throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound, errorsList));
             }
 
 
+            #region validation
             // Check Required HRId 
-            if (user.HRId != null && user.HRId <= Int32.MaxValue && user.HRId >= Int32.MinValue)
+            if (user.HRId != 0 && user.HRId <= int.MaxValue && user.HRId >= int.MinValue)
             {
                 // Check HRId Duplication
-                if (uRepo.GetAll().FirstOrDefault(it => it.Id != id && it.HRId == user.HRId) == null)
+                if (uRepo.GetAll().FirstOrDefault(it => it.Id != id && it.HRId == user.HRId) != null)
                 {
-                    newUser.HRId = user.HRId;
-                }
-
-                else
-                {
-                    throw new Exception("This HRId aleady exist");
+                    errorsList.Add(new { Code = 505, Message = "This HRId aleady exist" });
                 }
             }
             else
             {
-                throw new Exception("HRId is required");
-
+                errorsList.Add(new { Code = 404, Message = "HRId is required" });
             }
 
 
@@ -277,21 +282,19 @@ namespace Project2.WebAPIs
             if (user.Alias != null && user.Alias != String.Empty)
             {
                 // Check ALias Duplication
-                if (uRepo.GetAll().FirstOrDefault(it => it.Id != id && it.Alias == user.Alias) == null)
+                if (uRepo.GetAll().FirstOrDefault(it => it.Id != id && it.Alias.Trim().ToUpper() == user.Alias.Trim().ToUpper()) == null)
                 {
-                    newUser.Alias = user.Alias.Trim().ToUpperInvariant();
-
+                    user.Alias = user.Alias.Trim().ToUpper();
                 }
                 else
                 {
-                    throw new Exception("This Alias aleady exist");
+                    errorsList.Add(new { Code = 505, Message = "This Alias aleady exist" });
                 }
 
             }
             else
             {
-                throw new Exception("Alias is required");
-
+                errorsList.Add(new { Code = 404, Message = "Alias is required" });
             }
 
 
@@ -299,52 +302,62 @@ namespace Project2.WebAPIs
             // Check Required FirstName 
             if (user.FirstName != null && user.FirstName != String.Empty)
             {
-
-                newUser.FirstName = user.FirstName.Trim();
+                user.FirstName = user.FirstName.Trim();
             }
             else
             {
-                throw new Exception("First Name is required");
+                errorsList.Add(new { Code = 404, Message = "First Name is required" });
             }
 
 
             // Check Required LastName 
             if (user.LastName != null && user.FirstName != String.Empty)
             {
-                newUser.LastName = user.LastName.Trim();
+                user.LastName = user.LastName.Trim();
             }
             else
             {
-                throw new Exception("Last Name is required");
+                errorsList.Add(new { Code = 404, Message = "Last Name is required" });
             }
 
 
-            newUser.Status = "Active";
-            newUser.CreationDate = DateTime.Now;
-            newUser.Roles = user.Roles;
+            if (errorsList.Count > 0)
+            {
+                throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.InternalServerError, errorsList));
+            }
+
+            #endregion
 
             try
             {
+                newUser.HRId = user.HRId;
+                newUser.Alias = user.Alias;
+                newUser.FirstName = user.FirstName;
+                newUser.LastName = user.LastName;
+                newUser.Roles.Clear();
+                newUser.Roles = user.Roles;
+
                 var ele = uRepo.Edit(newUser);
+
                 if (ele == null)
                 {
                     throw new Exception("No returned user after update it");
                 }
                 var updatedUser = new
                 {
-                    id = ele.Id,
-                    hrId = ele.HRId,
-                    alias = ele.Alias,
-                    lastName = ele.LastName,
-                    firstName = ele.FirstName,
-                    status = ele.Status,
-                    creationDate = ele.CreationDate,
-                    deactivationDate = ele.DeactivationDate,
+                    Id = ele.Id,
+                    HrId = ele.HRId,
+                    Alias = ele.Alias,
+                    LastName = ele.LastName,
+                    FirstName = ele.FirstName,
+                    Status = ele.Status,
+                    CreationDate = ele.CreationDate,
+                    DeactivationDate = ele.DeactivationDate,
                     Roles = ele.Roles.Select(rol => new
                     {
-                        id = rol.Id,
-                        name = rol.Name,
-                        description = rol.Description
+                        Id = rol.Id,
+                        Name = rol.Name,
+                        Description = rol.Description
                     })
                 };
                 return Json(updatedUser);
@@ -352,42 +365,53 @@ namespace Project2.WebAPIs
 
             catch (Exception ex)
             {
-                //Request.CreateResponse(ex);
-                //return this.InternalServerError(ex);
-                return BadRequest(ex.Message);
+                errorsList.Add(new { Code = ex.HResult, Message = ex.Message, InnerException = ex.InnerException });
+                throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound, errorsList));
             }
 
         }
 
+
+
+        /// <summary>
+        /// delete user from system
+        /// </summary>
+        /// <param name="id">user id</param>
+        /// <returns></returns>
+        [HttpDelete]
+        [Route("api/Users/{id}")]
+
         public IHttpActionResult DeleteUser(int id)
         {
+            errorsList.Clear();
             try
             {
                 var ele = uRepo.FindById(id);
                 if (ele == null)
                 {
-                    throw new Exception("Can't find the user with id :" + id);
+                    throw new Exception("Can't find the user with id : " + id);
                 }
 
                 var deletedUser = new
                 {
-                    id = ele.Id,
-                    hrId = ele.HRId,
-                    alias = ele.Alias,
-                    lastName = ele.LastName,
-                    firstName = ele.FirstName,
-                    status = ele.Status,
-                    creationDate = ele.CreationDate,
-                    deactivationDate = ele.DeactivationDate,
+                    Id = ele.Id,
+                    HrId = ele.HRId,
+                    Alias = ele.Alias,
+                    LastName = ele.LastName,
+                    FirstName = ele.FirstName,
+                    Status = ele.Status,
+                    CreationDate = ele.CreationDate,
+                    DeactivationDate = ele.DeactivationDate,
                     Roles = ele.Roles.Select(rol => new
                     {
-                        id = rol.Id,
-                        name = rol.Name,
-                        description = rol.Description
+                        Id = rol.Id,
+                        Name = rol.Name,
+                        Description = rol.Description
                     })
                 };
 
                 bool res = uRepo.Delete(id);
+
                 if (res == false)
                 {
                     throw new Exception("Can't Delete the user with id :" + id);
@@ -398,7 +422,8 @@ namespace Project2.WebAPIs
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                errorsList.Add(new { Code = ex.HResult, Message = ex.Message, InnerException = ex.InnerException });
+                throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound, errorsList));
             }
 
         }
