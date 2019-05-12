@@ -66,7 +66,7 @@ export class AddEditRoleComponent implements OnInit {
 
   // to use for compare tow objects by id property for Select HTML element 
   selectCompareFun(a: any, b: any): boolean {
-    return a && b && a.id == b.id ? true : false;
+    return a && b && a.Id == b.Id ? true : false;
   }
 
 

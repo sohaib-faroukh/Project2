@@ -1,6 +1,6 @@
 export class Privilege{
-    id:number;
-    name:string;
-    title?:string;
-    description?:string;    
+    Id:number;
+    Name:string;
+    Title?:string;
+    Description?:string;    
 }

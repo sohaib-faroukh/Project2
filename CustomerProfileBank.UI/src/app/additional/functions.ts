@@ -1,26 +1,84 @@
 import { isArray, isObject } from "util";
+import * as jQuery from 'jquery';
+import 'bootstrap-notify';
 
 
-export function catchConnectionError(err:any){
+let $: any = jQuery;
+
+export function showNotification(Message: string, From: string, Align: string, Type: string) {
+
+  $[`notify`]({// options
+    icon: 'glyphicon glyphicon-warning-sign',
+    title: 'Notification',
+    message: Message,
+    // url: 'https://github.com/mouse0270/bootstrap-notify',
+    // target: '_blank'
+  }, {
+      // settings
+      element: 'body',
+      position: null,
+      type: Type.trim().toLowerCase(),
+      allow_dismiss: true,
+      newest_on_top: false,
+      showProgressbar: false,
+      placement: {
+        from: From.trim().toLowerCase(),
+        align: Align.trim().toLowerCase()
+      },
+      offset: 20,
+      spacing: 10,
+      z_index: 1031,
+      delay: 5000,
+      timer: 1000,
+      url_target: '_blank',
+      mouse_over: null,
+      animate: {
+        enter: 'animated fadeInDown',
+        exit: 'animated fadeOutUp'
+      },
+      onShow: null,
+      onShown: null,
+      onClose: null,
+      onClosed: null,
+      icon_type: 'class',
+
+      template:
+        '<div data-notify="container" class="col-xs-11 col-sm-3 alert alert-{0}" role="alert">' +
+          '<button type="button" aria-hidden="true" class="close" data-notify="dismiss">×</button>' +
+          '<span data-notify="icon"></span> ' +
+          // '<span data-notify="title">{1}</span> ' +
+          '<span data-notify="message">{2}</span>' +
+          '<div class="progress" data-notify="progressbar">' +
+          	'<div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>' +
+          '</div>' +
+          // '<a href="{3}" target="{4}" data-notify="url"></a>' +
+        '</div>'
+
+    });
+
+}
+
+
+export function catchConnectionError(err: any) {
   console.log(err);
 }
 
 
 
 export function extract_keys(arr: any): string[] {
-    let res: string[] = [];
-    if (isArray(arr) && arr.length > 0) {
-      for (let key in arr[0]) {
-        res.push(key);
-      }
-      return res.length > 0 ? res : null;
+  let res: string[] = [];
+  if (isArray(arr) && arr.length > 0) {
+    for (let key in arr[0]) {
+      res.push(key);
     }
-    else if (isObject(arr)) {
-      for (let key in arr) {
-        res.push(key);
-      }
-      return res.length > 0 ? res : null;
+    return res.length > 0 ? res : null;
+  }
+  else if (isObject(arr)) {
+    for (let key in arr) {
+      res.push(key);
     }
+    return res.length > 0 ? res : null;
+  }
 }
 
 

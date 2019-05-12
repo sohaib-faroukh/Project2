@@ -36,7 +36,7 @@ namespace Project2.WebAPIs
                 var users = uRepo.GetAll().Select(ele => new
                 {
                     Id = ele.Id,
-                    HrId = ele.HRId,
+                    HRId = ele.HRId,
                     Alias = ele.Alias,
                     LastName = ele.LastName,
                     FirstName = ele.FirstName,
@@ -82,7 +82,7 @@ namespace Project2.WebAPIs
                 var toReturnUser = new
                 {
                     Id = ele.Id,
-                    HrId = ele.HRId,
+                    HRId = ele.HRId,
                     Alias = ele.Alias,
                     LastName = ele.LastName,
                     FirstName = ele.FirstName,
@@ -210,7 +210,7 @@ namespace Project2.WebAPIs
                 var addedUser = new
                 {
                     Id = ele.Id,
-                    HrId = ele.HRId,
+                    HRId = ele.HRId,
                     Alias = ele.Alias,
                     LastName = ele.LastName,
                     FirstName = ele.FirstName,
@@ -346,7 +346,7 @@ namespace Project2.WebAPIs
                 var updatedUser = new
                 {
                     Id = ele.Id,
-                    HrId = ele.HRId,
+                    HRId = ele.HRId,
                     Alias = ele.Alias,
                     LastName = ele.LastName,
                     FirstName = ele.FirstName,
@@ -395,7 +395,7 @@ namespace Project2.WebAPIs
                 var deletedUser = new
                 {
                     Id = ele.Id,
-                    HrId = ele.HRId,
+                    HRId = ele.HRId,
                     Alias = ele.Alias,
                     LastName = ele.LastName,
                     FirstName = ele.FirstName,

@@ -1,21 +1,22 @@
 import { Role } from "./Role";
 
 export class User{
-    id:number;
-    firstName:string;
-    lastName?:string;
-    alias:string;
-    status:string;
-    creationDate:Date;
-    deactivationDate ?: Date;
+    Id:number;
+    HRId:number;
+    FirstName:string;
+    LastName?:string;
+    Alias:string;
+    Status:string;
+    CreationDate:Date;
+    DeactivationDate ?: Date;
     Roles?:Role[]=[];
 
     constructor(){
-        this.firstName="";
-        this.alias="";
-        this.lastName="";
-        this.status="Active";
-        this.creationDate=new Date();
+        this.FirstName="";
+        this.Alias="";
+        this.LastName="";
+        this.Status="Active";
+        this.CreationDate=new Date();
         this.Roles=[];
     }
 
