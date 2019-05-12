@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { User } from 'src/app/models/User';
 import { Role } from 'src/app/models/Role';
 import { state } from '../../component-state';
-import { onValueChange, catchConnectionError } from 'src/app/additional/functions';
+import { onValueChange, catchConnectionError, showNotification } from 'src/app/additional/functions';
 import { UsersService } from '../users.service';
 
 
@@ -15,31 +15,40 @@ import { UsersService } from '../users.service';
 })
 export class AddEditUserComponent implements OnInit {
 
+
   action: string
   compoState: state = state.add;
 
   currentUser: User = new User();
   currentUserCopy: User = new User();
 
-  Roles: Role[] = [];
+  _Roles: Role[] = [];
+  Roles: any[] = [];
 
-  valuesChanged : boolean = false;
+  valuesChanged: boolean = false;
 
-  constructor(private srv:UsersService,private router: Router, private route: ActivatedRoute) { }
+  constructor(private srv: UsersService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit() {
     let RouteData = this.route.snapshot.data;
 
     if (RouteData["Roles"]) {
-      this.Roles = RouteData["Roles"];
+
+      this._Roles = RouteData["Roles"];
+
+      this.Roles = this._Roles.map(ele => {
+        if (ele.Status.trim().toUpperCase() == "ACTIVE") {
+          return { Id: ele.Id, Name: ele.Name, Description: ele.Description };
+        }
+      })
+
     }
-    
+
     let ActionRouteParam: string = this.route.snapshot.params["action"];
 
     if (ActionRouteParam && ActionRouteParam.trim().toLowerCase() == "edit") {
 
       this.compoState = state.edit;
-
 
 
       this.currentUser = RouteData["User"];
@@ -53,7 +62,7 @@ export class AddEditUserComponent implements OnInit {
       this.compoState = state.add;
       this.currentUser = new User();
     }
-    else{
+    else {
       this.router.navigate(['/users']);
     }
 
@@ -61,11 +70,11 @@ export class AddEditUserComponent implements OnInit {
 
 
   onValueChange() {
-    this.valuesChanged=onValueChange(this.currentUser,this.currentUserCopy);
+    this.valuesChanged = onValueChange(this.currentUser, this.currentUserCopy);
   }
 
-  selectCompareFun(a:any,b:any):boolean{
-    return  a && b && a.id == b.id ? true : false; 
+  selectCompareFun(a: any, b: any): boolean {
+    return a && b && a.Id == b.Id ? true : false;
   }
 
 
@@ -79,7 +88,7 @@ export class AddEditUserComponent implements OnInit {
         this.put()
         break;
       }
-      default:{
+      default: {
         break;
       }
     }
@@ -88,17 +97,21 @@ export class AddEditUserComponent implements OnInit {
 
   // to use for post new  role by calling the service method which connect via HTTP with backend
   post() {
-    debugger
     this.srv.post(this.currentUser).subscribe(
       res => {
+        this.valuesChanged = false;
+        this.router.navigate(['/users']);
         if (res) {
+          showNotification("Added succesfully", "bottom", "center", "success");
           console.log("POSTED : " + JSON.stringify(res));
         }
         else {
-          console.log("%c Didn't POST , no result", 'color:red');
+          showNotification("Didn't POSTED , no result returned", "bottom", "center", "danger");
+          console.log("%c Didn't POSTED , no result returned", 'color:red');
         }
       },
       err => {
+        showNotification("Error : "+JSON.stringify(err), "bottom", "center", "danger");
         catchConnectionError(err);
       }
     )
@@ -108,14 +121,18 @@ export class AddEditUserComponent implements OnInit {
 
   // to use for update existing role by calling the service method which connect via HTTP with backend
   put() {
-    debugger
     this.srv.put(this.currentUser).subscribe(
       res => {
+
+        this.valuesChanged = false;
+        this.router.navigate(['/users']);
         if (res) {
+          showNotification("Updated succesfully", "bottom", "center", "success");
           console.log("UPDATED : " + JSON.stringify(res));
         }
         else {
-          console.log("%c Didn't UPDATE , no result", 'color:red');
+          showNotification("Didn't UPDATED , no result returned", "bottom", "center", "danger");
+          console.log("%c Didn't UPDATED , no result", 'color:red');
         }
       },
       err => {
@@ -124,5 +141,5 @@ export class AddEditUserComponent implements OnInit {
     )
   }
 
-  
+
 }

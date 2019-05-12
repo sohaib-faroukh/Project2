@@ -2,18 +2,18 @@ import { User } from "./User";
 import { Privilege } from "./Privilege";
 
 export class Role{
-    id:number;
-    name:string;
-    description?:string;
-    status:string;
-    creationDate:Date;
+    Id:number;
+    Name:string;
+    Description?:string;
+    Status:string;
+    CreationDate:Date;
     Users?:User[]=[];
     Privileges?:Privilege[]=[];
     constructor(){
-        this.name="";
-        this.description="";
-        this.status="Active";
-        this.creationDate=new Date();
+        this.Name="";
+        this.Description="";
+        this.Status="Active";
+        this.CreationDate=new Date();
         this.Users=[];
         this.Privileges=[];
     }

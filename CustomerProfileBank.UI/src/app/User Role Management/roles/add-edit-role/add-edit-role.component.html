@@ -8,8 +8,8 @@
     <div class="col-md-6">
 
       <mat-form-field class="example-full-width">
-        <input matInput placeholder="Name" type="text" name="name" required [ngModel]="currentRole.name"
-          (ngModelChange)="currentRole.name = $event;onValueChange()" #nameModel="ngModel">
+        <input matInput placeholder="Name" type="text" name="Name" required [ngModel]="currentRole.Name"
+          (ngModelChange)="currentRole.Name = $event;onValueChange()" #nameModel="ngModel">
         <mat-error *ngIf="nameModel.invalid && (nameModel.dirty || nameModel.touched)">
           <span [hidden]="!nameModel.errors.required">Name is <strong>required</strong></span>
         </mat-error>
@@ -20,8 +20,8 @@
     <div class="col-md-6">
 
       <mat-form-field class="example-full-width">
-        <textarea matInput placeholder="Description" name="description" required [ngModel]="currentRole.description"
-          (ngModelChange)="currentRole.description = $event;onValueChange()" #descriptionModel="ngModel"></textarea>
+        <textarea matInput placeholder="Description" name="Description" required [ngModel]="currentRole.Description"
+          (ngModelChange)="currentRole.Description = $event;onValueChange()" #descriptionModel="ngModel"></textarea>
         <mat-error *ngIf="descriptionModel.invalid && (descriptionModel.dirty || descriptionModel.touched)">
           <span [hidden]="!descriptionModel.errors.required">Description is <strong>required</strong></span>
         </mat-error>
@@ -69,8 +69,8 @@
               <input name="searchSelect2" #filetrInput2 class="mat-filter-input" matInput placeholder="Search">
             </div>
           </form>
-          <mat-option *ngFor="let item of Privileges | keyValuefilter:'name':filetrInput2.value" [value]="item">
-            {{item?.title +" - "+ item.name}}
+          <mat-option *ngFor="let item of Privileges | keyValuefilter:'Name':filetrInput2.value" [value]="item">
+            {{item?.title +" - "+ item.Name}}
           </mat-option>
         </mat-select>
       </mat-form-field>

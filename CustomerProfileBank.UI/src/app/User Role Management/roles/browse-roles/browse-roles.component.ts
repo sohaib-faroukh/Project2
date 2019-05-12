@@ -44,7 +44,7 @@ export class BrowseRolesComponent implements OnInit {
       if (dialogResult == true) {
         this.srv.deactivate(id).subscribe(
           res => {
-            this.Roles[this.Roles.findIndex(ele => ele.id == id)] = res;
+            this.Roles[this.Roles.findIndex(ele => ele.Id == id)] = res;
             this.dataGrid.instance.refresh();
           },
           err => {

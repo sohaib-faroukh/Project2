@@ -1,7 +1,7 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgModule } from '@angular/core';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
@@ -13,6 +13,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
 import { AuthGuard } from './guards/auth.guard';
+import { ConfigService, API_BASE_URL, ConfigFactory } from './config/config.service';
+import { HttpModule } from '@angular/http';
 // import {
 //   DxDataGridModule,
 //   DxBulletModule,
@@ -24,6 +26,7 @@ import { AuthGuard } from './guards/auth.guard';
     BrowserAnimationsModule,
     FormsModule,
     HttpClientModule,
+
     ComponentsModule,
     NgbModule,
     RouterModule,
@@ -31,13 +34,23 @@ import { AuthGuard } from './guards/auth.guard';
     // DxDataGridModule,
     // DxTemplateModule,
     // DxBulletModule
+
+    HttpModule
   ],
   declarations: [
     AppComponent,
     AdminLayoutComponent,
     AuthLayoutComponent,
   ],
-  providers: [],
+  providers: [
+    ConfigService,
+    {provide :'CONFIG.JSON',useValue:'assets/config.json'},
+    {provide :'BASE-API-VARIABLE',useValue:'API_URL'},
+    {
+      provide: API_BASE_URL, useFactory: ConfigFactory,
+      deps: [ConfigService,'CONFIG.JSON','BASE-API-VARIABLE']
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

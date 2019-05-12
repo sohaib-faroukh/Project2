@@ -1,74 +1,77 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Role } from 'src/app/models/Role';
 import { HOST_API_URL, httpPostHeader, httpGetHeader, httpPutHeader } from 'src/app/config/config';
-import { map, find, debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { map, find, debounceTime, distinctUntilChanged, delay } from 'rxjs/operators';
 import { Resolve, ActivatedRouteSnapshot } from '@angular/router';
 import { Privilege } from 'src/app/models/Privilege';
+import { ConfigService, API_BASE_URL } from 'src/app/config/config.service';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class RolesService implements Resolve<Role[]>{
 
-  constructor(private http: HttpClient) {
-	console.log(HOST_API_URL);
-  }
+  apiUrl:string=null;
+
+  constructor(private http: HttpClient, @Inject(API_BASE_URL)_apiUrl_ :string) {
+    this.apiUrl=_apiUrl_;
+   }
+
 
   getAllRoles(): Observable<Role[]> {
-    return this.http.get<Role[]>(HOST_API_URL, { headers: httpGetHeader })
-
-      .pipe(map(ele => ele["Roles"]));
+    
+    let url = `${this.apiUrl}/Roles`;
+    console.log("getAllRoles() : ");
+    console.log(url);
+    return this.http.get<Role[]>(url, { headers: httpGetHeader });
   }
 
   getAllPrivileges(): Observable<Privilege[]> {
-    return this.http.get<Privilege[]>(HOST_API_URL, { headers: httpGetHeader })
+    
+    let url = `${this.apiUrl}/Privileges`;
+    console.log("getAllPrivileges() : ");
+    console.log(url);
 
-      .pipe(map(ele => ele["Privileges"]));
+    return this.http.get<Privilege[]>(url, { headers: httpGetHeader });
   }
 
   getRoleById(id: number | string): Observable<Role> {
-    return this.http.get<Role>(HOST_API_URL, { headers: httpGetHeader })
-
-      .pipe(map(ele => ele["Roles"].find(t => t.id == +id)))
+    let url = `${this.apiUrl}/Roles/${+id}`;
+    console.log("getRoleById(id: number | string):");
+    console.log(url);
+    return this.http.get<Role>(url, { headers: httpGetHeader });
   }
 
   post(item: Role): Observable<Role> {
-    return this.http.post<Role>(HOST_API_URL, JSON.stringify(item), { headers: httpPostHeader })
+    let url = `${this.apiUrl}/Roles`;
+    console.log("post(role: Role):");
+    console.log(url);
 
-      .pipe(
-        map(() => item),
-        debounceTime(500),
-      );
-
+    return this.http.post<Role>(url, JSON.stringify(item), { headers: httpPostHeader });
   }
 
 
 
   put(item: Role): Observable<Role> {
-    return this.http.post<Role>(`${HOST_API_URL}/${item.id}`, JSON.stringify(item), { headers: httpPutHeader })
 
-      .pipe(
-        // map(() => item),
-        debounceTime(500),
-      );
+    let url = `${this.apiUrl}/Roles/${item.Id}`;
+    console.log("put(item: Role):");
+    console.log(url);
+
+    return this.http.post<Role>(url, JSON.stringify(item), { headers: httpPutHeader });
 
   }
 
-  deactivate(id: number): Observable<any> {
-    return this.http.get<Role>(HOST_API_URL, { headers: httpGetHeader })
+  deactivate(id: number | string): Observable<any> {
+    
+    let url = `${this.apiUrl}/Roles/${+id}`;
+    console.log("deactivate(id: number | string):");
+    console.log(url);
 
-      .pipe(map(ele => {
-
-
-        let res = ele["Roles"];
-        let ix = res.findIndex(t => t.id == id);
-        res[ix].status = 'InActive';
-        res[ix] = new Date();
-
-        return res[ix];
-      }));
+    return this.http.delete<Role>(url, { headers: httpGetHeader });
   }
 
   resolve() {
@@ -97,12 +100,14 @@ export class EditRoleResolverService implements Resolve<Role>{
     let id: number = +route.params.id;
 
     if (action.trim().toLowerCase() == "edit" && id && !isNaN(id)) {
-      return this.srv.getRoleById(id).pipe(
-        debounceTime(500),
-        distinctUntilChanged(),
-        // delay(5000)
-      );
-
+      return this.srv.getRoleById(id)
+      
+      // enhance requests experiance        
+      .pipe(
+          debounceTime(150),
+          distinctUntilChanged(),
+          delay(200)
+        );
     }
   }
 
