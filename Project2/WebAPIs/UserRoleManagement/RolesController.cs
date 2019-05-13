@@ -18,7 +18,7 @@ namespace Project2.WebAPIs.UserRoleManagement
     {
         private List<dynamic> errorsList = new List<dynamic>();
         RoleRepo RoleRepo = new RoleRepo();
-
+        PrivilegeRepo PrivilegeRepo = new PrivilegeRepo();
 
         /// <summary>
         /// get all system roles
@@ -63,6 +63,34 @@ namespace Project2.WebAPIs.UserRoleManagement
 
         }
 
+        /// <summary>
+        /// get all system privileges (premissions)
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("api/Privileges")]
+        public IHttpActionResult getPrivileges()
+        {
+            errorsList.Clear();
+            try
+            {
+                var Privileges = PrivilegeRepo.GetAll().Select(ele => new
+                {
+                    Id = ele.Id,
+                    Name = ele.Name,
+                    Description = ele.Description
+                });
+
+
+                return Json(Privileges);
+            }
+            catch (Exception ex)
+            {
+                errorsList.Add(new { Code = ex.HResult, Message = ex.Message, InnerException = ex.InnerException });
+                throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.InternalServerError, errorsList));
+            }
+
+        }
 
         /// <summary>
         /// get role by id
