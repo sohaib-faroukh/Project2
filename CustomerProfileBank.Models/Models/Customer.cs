@@ -18,6 +18,9 @@ namespace CustomerProfileBank.Models.Models
         public string ISPN { get; set; }
 
         public int Status { get; set; }
+        public virtual ICollection<CustomerHobby> Hobbies { get; set; }
+        public virtual ICollection<Number> Numbers { get; set; }
+        public virtual ICollection<Service> Services { get; set; }
 
         public Customer() { }
         ~Customer(){ }

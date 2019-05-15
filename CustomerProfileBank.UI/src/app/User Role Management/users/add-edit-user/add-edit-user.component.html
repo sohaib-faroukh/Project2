@@ -1,0 +1,98 @@
+<form #submitForm="ngForm" (ngSubmit)="onSubmit()">
+
+
+  <!-- <div class="row">
+    {{currentUser | json}}
+  </div>
+
+  <div class="row">
+    {{valuesChanged}}
+  </div>
+ -->
+
+
+  <div class="row">
+    <div class="col-md-6">
+
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="HR ID" type="number" name="HRId" required [ngModel]="currentUser.HRId"
+          (ngModelChange)="currentUser.HRId= $event;onValueChange()" #hRIdModel="ngModel">
+        <mat-error *ngIf="hRIdModel.invalid && (hRIdModel.dirty || hRIdModel.touched)">
+          <span [hidden]="!hRIdModel.errors.required">HR ID is <strong>required</strong></span>
+        </mat-error>
+
+      </mat-form-field>
+
+    </div>
+    <div class="col-md-6">
+
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="Alias" type="text" name="Alias" required [ngModel]="currentUser.Alias"
+          (ngModelChange)="currentUser.Alias= $event;onValueChange()" #aliasModel="ngModel">
+        <mat-error *ngIf="aliasModel.invalid && (aliasModel.dirty || aliasModel.touched)">
+          <span [hidden]="!aliasModel.errors.required">Alias is <strong>required</strong></span>
+        </mat-error>
+
+      </mat-form-field>
+
+    </div>
+
+  </div>
+
+  <div class="row">
+    <div class="col-md-6">
+
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="First Name" type="text" name="FirstName" required [ngModel]="currentUser.FirstName"
+          (ngModelChange)="currentUser.FirstName = $event;onValueChange()" #firstNameModel="ngModel">
+        <mat-error *ngIf="firstNameModel.invalid && (firstNameModel.dirty || firstNameModel.touched)">
+          <span [hidden]="!firstNameModel.errors.required">First Name is <strong>required</strong></span>
+        </mat-error>
+
+      </mat-form-field>
+
+    </div>
+    <div class="col-md-6">
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="Last Name" type="text" name="LastName" required [ngModel]="currentUser.LastName"
+          (ngModelChange)="currentUser.LastName= $event;onValueChange()" #lastNameModel="ngModel">
+        <mat-error *ngIf="lastNameModel.invalid && (lastNameModel.dirty || lastNameModel.touched)">
+          <span [hidden]="!lastNameModel.errors.required">Last Name is <strong>required</strong></span>
+        </mat-error>
+
+      </mat-form-field>
+
+    </div>
+
+  </div>
+
+  <div class="row">
+    <div class="col-md-6">
+      <mat-form-field class="example-full-width">
+        <mat-label>Roles</mat-label>
+
+
+
+        <mat-select multiple [compareWith]="selectCompareFun" [value]="currentUser.Roles"
+          (valueChange)="currentUser.Roles= $event;onValueChange()">
+
+          <form class="mat-filter">
+            <div>
+              <input name="searchSelect" #filetrInput class="mat-filter-input" matInput placeholder="Search">
+              <!-- <mat-spinner *ngIf="localSpinner" class="spinner" diameter="16"></mat-spinner> -->
+            </div>
+          </form>
+          <mat-option *ngFor="let item of Roles | keyValuefilter:'Name':filetrInput.value" 
+          [value]="item">{{item.Name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <!-- button row -->
+  <div class="row">
+    <button type="submit" class="btn btn-lg btn-success" [disabled]="submitForm.invalid">Save</button>
+    <!--  (click)="onSubmit()" -->
+  </div>
+</form>

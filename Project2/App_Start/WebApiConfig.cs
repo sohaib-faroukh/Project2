@@ -17,7 +17,7 @@ namespace Project2
             // Configure Web API to use only bearer token authentication.
             config.SuppressDefaultHostAuthentication();
             config.Filters.Add(new HostAuthenticationFilter(OAuthDefaults.AuthenticationType));
-            config.EnableCors(new EnableCorsAttribute("http://localhost:4200", "*", "*") { SupportsCredentials = false });
+            config.EnableCors(new EnableCorsAttribute("*", "*", "*") { SupportsCredentials = false });
 
             // Web API routes
             config.MapHttpAttributeRoutes();
