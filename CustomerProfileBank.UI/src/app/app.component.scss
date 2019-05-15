@@ -12,7 +12,7 @@
   
   
   .mat-filter {
-    position: sticky;
+    position: inherit;
     top: 0;
     border-bottom-width: 1px;
     border-bottom-style: solid;
@@ -27,6 +27,7 @@
   }
   
   .mat-filter-input {
+    position: inherit;
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;

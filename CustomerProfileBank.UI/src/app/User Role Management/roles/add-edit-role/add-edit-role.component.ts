@@ -30,6 +30,9 @@ export class AddEditRoleComponent implements OnInit {
     let RouteData = this.route.snapshot.data;
 
     if (RouteData["Users"]) {
+      
+      debugger;
+
       this.Users = RouteData["Users"];
     }
     if (RouteData["Privileges"]) {
