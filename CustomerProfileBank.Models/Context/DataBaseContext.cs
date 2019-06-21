@@ -40,12 +40,15 @@ namespace CustomerProfileBank.Models.Context
         public DbSet<CustomerHobby> CustomerHobbies { get; set; }
         public DbSet<Number> Numbers { get; set; }
         public DbSet<Question> Questions { get; set; }
-        public DbSet<Question_Order> Question_Orders { get; set; }
-        public DbSet<Response> Responses { get; set; }
         public DbSet<Service> Services { get; set; }
-        public DbSet<Survey> Surveys { get; set; }
-        public DbSet<Survey_Response> Survey_Responses { get; set; }
 
+        //Survey
+        public DbSet<Survey> Surveys { get; set; }
+        public DbSet<SurveyQuestion> SurveyQuestions { get; set; }
+        public DbSet<SurveyResponse> SurveyResponses { get; set; }
+        public DbSet<Answer> Answers { get; set; }
+        public DbSet<Option> Options { get; set; }
+        
         //FingerPrint
         public DbSet<CustomerFingerPrint> CustomerFingerPrints { get; set; }
         public DbSet<UserFingerPrint> UserFingerPrints { get; set; }

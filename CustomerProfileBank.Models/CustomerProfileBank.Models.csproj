@@ -63,9 +63,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Context\DataBaseContext.cs" />
-    <Compile Include="Migrations\201905082243353_Initial.cs" />
-    <Compile Include="Migrations\201905082243353_Initial.Designer.cs">
-      <DependentUpon>201905082243353_Initial.cs</DependentUpon>
+    <Compile Include="Migrations\201906212313565_initial-22-6-2019.cs" />
+    <Compile Include="Migrations\201906212313565_initial-22-6-2019.Designer.cs">
+      <DependentUpon>201906212313565_initial-22-6-2019.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Customer.cs" />
@@ -75,16 +75,17 @@
     <Compile Include="Models\HobbyType.cs" />
     <Compile Include="Models\Number.cs" />
     <Compile Include="Models\NumberType.cs" />
+    <Compile Include="Models\Option.cs" />
     <Compile Include="Models\Privilege.cs" />
     <Compile Include="Models\PrivilegeType.cs" />
     <Compile Include="Models\Question.cs" />
-    <Compile Include="Models\Question_Order.cs" />
-    <Compile Include="Models\Response.cs" />
+    <Compile Include="Models\Answer.cs" />
     <Compile Include="Models\Role.cs" />
     <Compile Include="Models\Service.cs" />
     <Compile Include="Models\ServiceType.cs" />
     <Compile Include="Models\Survey.cs" />
-    <Compile Include="Models\Survey_Response.cs" />
+    <Compile Include="Models\SurveyQuestion.cs" />
+    <Compile Include="Models\SurveyResponse.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserFingerPrint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -116,8 +117,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201905082243353_Initial.resx">
-      <DependentUpon>201905082243353_Initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201906212313565_initial-22-6-2019.resx">
+      <DependentUpon>201906212313565_initial-22-6-2019.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
