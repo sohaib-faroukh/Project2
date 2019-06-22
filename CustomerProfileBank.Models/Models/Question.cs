@@ -18,10 +18,42 @@ namespace CustomerProfileBank.Models.Models
         [MaxLength(250)]
         public string Text { get; set; }
 
+
+
+        // question text which will show when ask the question
+        [Required]
+        [MaxLength(100)]
+        public string Type
+        {
+            get { return Type; }
+            set
+            {
+                this.Type = this.Type?.Trim().ToUpper();
+            }
+        }
+
+
+
+        // question current status "active,inactive,pendding,..."
+        [Required]
+        [MaxLength(100)]
+        public string Status
+        {
+            get { return Status; }
+            set
+            {
+                this.Status = this.Status?.Trim().ToUpper();
+            }
+        }
+
+
+
+
         // foregin key on parentQuestion 
         public int ParentQuestionId { get; set; }
         [ForeignKey("ParentQuestionId")]
         public virtual Question ParentQuestion { get; set; }
+
 
 
         // foregin key on parentOption 
@@ -29,45 +61,23 @@ namespace CustomerProfileBank.Models.Models
         [ForeignKey("ParentOptionId")]
         public virtual Option ParentOption { get; set; }
 
-        // question text which will show when ask the question
-        public string Type
-        {
-            get { return Type; }
-            set
-            {
-                if (this.Type != null)
-                {
-                    this.Type = this.Type.Trim().ToUpper();
-                }
-                else
-                {
-                    throw new Exception("Type can't be null");
-                }
-            }
-        }
 
 
-        // question current status "active,inactive,pendding,..."
-        public string Status
-        {
-            get { return Status; }
-            set
-            {
-                if (this.Status != null)
-                {
-                    this.Status = this.Status.Trim().ToUpper();
-                }
-                else
-                {
-                    throw new Exception("Status can't be null");
-                }
-            }
-        }
+
+
+        // foregin key on CategoryId 
+        public int CategoryId { get; set; }
+        [ForeignKey("CategoryId ")]
+        public virtual Category Category { get; set; }
+
+
+
 
         // qustion maybe existing in one or more survey
         public virtual ICollection<SurveyQuestion> Surveys { get; set; }
 
         public virtual ICollection<Option> Options { get; set; }
+
 
 
         public Question() { }
