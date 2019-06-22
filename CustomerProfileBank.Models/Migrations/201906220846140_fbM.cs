@@ -3,12 +3,12 @@
 //    using System;
 //    using System.Data.Entity.Migrations;
     
-//    public partial class initial2262019 : DbMigration
+//    public partial class fbM : DbMigration
 //    {
 //        public override void Up()
 //        {
 //            CreateTable(
-//                "SOHAIB.SOHAIB_ANSWER",
+//                "mydatabase.mydatabase_ANSWER",
 //                c => new
 //                    {
 //                        Id = c.Decimal(nullable: false, precision: 10, scale: 0, identity: true),
@@ -17,13 +17,13 @@
 //                        QuestionId = c.Decimal(nullable: false, precision: 10, scale: 0),
 //                    })
 //                .PrimaryKey(t => t.Id)
-//                .ForeignKey("SOHAIB.SOHAIB_QUESTION", t => t.QuestionId, cascadeDelete: true)
-//                .ForeignKey("SOHAIB.SOHAIB_SURVEYRESPONSE", t => t.SurveyResponseId, cascadeDelete: true)
+//                .ForeignKey("mydatabase.mydatabase_QUESTION", t => t.QuestionId, cascadeDelete: true)
+//                .ForeignKey("mydatabase.mydatabase_SURVEYRESPONSE", t => t.SurveyResponseId, cascadeDelete: true)
 //                .Index(t => t.SurveyResponseId)
 //                .Index(t => t.QuestionId);
             
 //            CreateTable(
-//                "SOHAIB.SOHAIB_QUESTION",
+//                "mydatabase.mydatabase_QUESTION",
 //                c => new
 //                    {
 //                        Id = c.Decimal(nullable: false, precision: 10, scale: 0, identity: true),
@@ -35,15 +35,15 @@
 //                        Option_Id = c.Decimal(precision: 10, scale: 0),
 //                    })
 //                .PrimaryKey(t => t.Id)
-//                .ForeignKey("SOHAIB.SOHAIB_OPTION", t => t.Option_Id)
-//                .ForeignKey("SOHAIB.SOHAIB_OPTION", t => t.ParentOptionId, cascadeDelete: true)
-//                .ForeignKey("SOHAIB.SOHAIB_QUESTION", t => t.ParentQuestionId)
+//                .ForeignKey("mydatabase.mydatabase_OPTION", t => t.Option_Id)
+//                .ForeignKey("mydatabase.mydatabase_OPTION", t => t.ParentOptionId, cascadeDelete: true)
+//                .ForeignKey("mydatabase.mydatabase_QUESTION", t => t.ParentQuestionId)
 //                .Index(t => t.ParentQuestionId)
 //                .Index(t => t.ParentOptionId)
 //                .Index(t => t.Option_Id);
             
 //            CreateTable(
-//                "SOHAIB.SOHAIB_OPTION",
+//                "mydatabase.mydatabase_OPTION",
 //                c => new
 //                    {
 //                        Id = c.Decimal(nullable: false, precision: 10, scale: 0, identity: true),
@@ -54,13 +54,13 @@
 //                        Question_Id = c.Decimal(precision: 10, scale: 0),
 //                    })
 //                .PrimaryKey(t => t.Id)
-//                .ForeignKey("SOHAIB.SOHAIB_QUESTION", t => t.ParentQuestionId, cascadeDelete: true)
-//                .ForeignKey("SOHAIB.SOHAIB_QUESTION", t => t.Question_Id)
+//                .ForeignKey("mydatabase.mydatabase_QUESTION", t => t.ParentQuestionId, cascadeDelete: true)
+//                .ForeignKey("mydatabase.mydatabase_QUESTION", t => t.Question_Id)
 //                .Index(t => t.ParentQuestionId)
 //                .Index(t => t.Question_Id);
             
 //            CreateTable(
-//                "SOHAIB.SOHAIB_SURVEYQUESTION",
+//                "mydatabase.mydatabase_SURVEYQUESTION",
 //                c => new
 //                    {
 //                        Id = c.Decimal(nullable: false, precision: 10, scale: 0, identity: true),
@@ -70,13 +70,13 @@
 //                        QuestionId = c.Decimal(nullable: false, precision: 10, scale: 0),
 //                    })
 //                .PrimaryKey(t => t.Id)
-//                .ForeignKey("SOHAIB.SOHAIB_QUESTION", t => t.QuestionId, cascadeDelete: true)
-//                .ForeignKey("SOHAIB.SOHAIB_SURVEY", t => t.SurveyId, cascadeDelete: true)
+//                .ForeignKey("mydatabase.mydatabase_QUESTION", t => t.QuestionId, cascadeDelete: true)
+//                .ForeignKey("mydatabase.mydatabase_SURVEY", t => t.SurveyId, cascadeDelete: true)
 //                .Index(t => t.SurveyId)
 //                .Index(t => t.QuestionId);
             
 //            CreateTable(
-//                "SOHAIB.SOHAIB_SURVEY",
+//                "mydatabase.mydatabase_SURVEY",
 //                c => new
 //                    {
 //                        Id = c.Decimal(nullable: false, precision: 10, scale: 0, identity: true),
@@ -90,12 +90,12 @@
 //                        CreatorId = c.Decimal(nullable: false, precision: 10, scale: 0),
 //                    })
 //                .PrimaryKey(t => t.Id)
-//                .ForeignKey("SOHAIB.SOHAIB_USER", t => t.CreatorId, cascadeDelete: true)
+//                .ForeignKey("mydatabase.mydatabase_USER", t => t.CreatorId, cascadeDelete: true)
 //                .Index(t => t.Name, unique: true)
 //                .Index(t => t.CreatorId);
             
 //            CreateTable(
-//                "SOHAIB.SOHAIB_USER",
+//                "mydatabase.mydatabase_USER",
 //                c => new
 //                    {
 //                        Id = c.Decimal(nullable: false, precision: 10, scale: 0, identity: true),
@@ -112,7 +112,7 @@
 //                .Index(t => t.Alias, unique: true);
             
 //            CreateTable(
-//                "SOHAIB.SOHAIB_ROLE",
+//                "mydatabase.mydatabase_ROLE",
 //                c => new
 //                    {
 //                        Id = c.Decimal(nullable: false, precision: 10, scale: 0, identity: true),
@@ -124,7 +124,7 @@
 //                .Index(t => t.Name, unique: true);
             
 //            CreateTable(
-//                "SOHAIB.SOHAIB_PRIVILEGE",
+//                "mydatabase.mydatabase_PRIVILEGE",
 //                c => new
 //                    {
 //                        Id = c.Decimal(nullable: false, precision: 10, scale: 0, identity: true),
@@ -134,7 +134,7 @@
 //                .PrimaryKey(t => t.Id);
             
 //            CreateTable(
-//                "SOHAIB.SOHAIB_SURVEYRESPONSE",
+//                "mydatabase.mydatabase_SURVEYRESPONSE",
 //                c => new
 //                    {
 //                        Id = c.Decimal(nullable: false, precision: 10, scale: 0, identity: true),
@@ -143,13 +143,13 @@
 //                        SurveyId = c.Decimal(nullable: false, precision: 10, scale: 0),
 //                    })
 //                .PrimaryKey(t => t.Id)
-//                .ForeignKey("SOHAIB.SOHAIB_CUSTOMER", t => t.CustomerId, cascadeDelete: true)
-//                .ForeignKey("SOHAIB.SOHAIB_SURVEY", t => t.SurveyId, cascadeDelete: true)
+//                .ForeignKey("mydatabase.mydatabase_CUSTOMER", t => t.CustomerId, cascadeDelete: true)
+//                .ForeignKey("mydatabase.mydatabase_SURVEY", t => t.SurveyId, cascadeDelete: true)
 //                .Index(t => t.CustomerId)
 //                .Index(t => t.SurveyId);
             
 //            CreateTable(
-//                "SOHAIB.SOHAIB_CUSTOMER",
+//                "mydatabase.mydatabase_CUSTOMER",
 //                c => new
 //                    {
 //                        Id = c.Decimal(nullable: false, precision: 10, scale: 0, identity: true),
@@ -162,7 +162,7 @@
 //                .PrimaryKey(t => t.Id);
             
 //            CreateTable(
-//                "SOHAIB.SOHAIB_CUSTOMERHOBBY",
+//                "mydatabase.mydatabase_CUSTOMERHOBBY",
 //                c => new
 //                    {
 //                        Id = c.Decimal(nullable: false, precision: 10, scale: 0, identity: true),
@@ -170,13 +170,13 @@
 //                        HobbyTypeId = c.Decimal(nullable: false, precision: 10, scale: 0),
 //                    })
 //                .PrimaryKey(t => t.Id)
-//                .ForeignKey("SOHAIB.SOHAIB_CUSTOMER", t => t.CustomerId, cascadeDelete: true)
-//                .ForeignKey("SOHAIB.SOHAIB_HOBBYTYPE", t => t.HobbyTypeId, cascadeDelete: true)
+//                .ForeignKey("mydatabase.mydatabase_CUSTOMER", t => t.CustomerId, cascadeDelete: true)
+//                .ForeignKey("mydatabase.mydatabase_HOBBYTYPE", t => t.HobbyTypeId, cascadeDelete: true)
 //                .Index(t => t.CustomerId)
 //                .Index(t => t.HobbyTypeId);
             
 //            CreateTable(
-//                "SOHAIB.SOHAIB_HOBBYTYPE",
+//                "mydatabase.mydatabase_HOBBYTYPE",
 //                c => new
 //                    {
 //                        Id = c.Decimal(nullable: false, precision: 10, scale: 0, identity: true),
@@ -185,7 +185,7 @@
 //                .PrimaryKey(t => t.Id);
             
 //            CreateTable(
-//                "SOHAIB.SOHAIB_NUMBER",
+//                "mydatabase.mydatabase_NUMBER",
 //                c => new
 //                    {
 //                        Id = c.Decimal(nullable: false, precision: 10, scale: 0, identity: true),
@@ -194,13 +194,13 @@
 //                        NumberTypeId = c.Decimal(nullable: false, precision: 10, scale: 0),
 //                    })
 //                .PrimaryKey(t => t.Id)
-//                .ForeignKey("SOHAIB.SOHAIB_CUSTOMER", t => t.CustomerId, cascadeDelete: true)
-//                .ForeignKey("SOHAIB.SOHAIB_NUMBERTYPE", t => t.NumberTypeId, cascadeDelete: true)
+//                .ForeignKey("mydatabase.mydatabase_CUSTOMER", t => t.CustomerId, cascadeDelete: true)
+//                .ForeignKey("mydatabase.mydatabase_NUMBERTYPE", t => t.NumberTypeId, cascadeDelete: true)
 //                .Index(t => t.CustomerId)
 //                .Index(t => t.NumberTypeId);
             
 //            CreateTable(
-//                "SOHAIB.SOHAIB_NUMBERTYPE",
+//                "mydatabase.mydatabase_NUMBERTYPE",
 //                c => new
 //                    {
 //                        Id = c.Decimal(nullable: false, precision: 10, scale: 0, identity: true),
@@ -209,7 +209,7 @@
 //                .PrimaryKey(t => t.Id);
             
 //            CreateTable(
-//                "SOHAIB.SOHAIB_SERVICE",
+//                "mydatabase.mydatabase_SERVICE",
 //                c => new
 //                    {
 //                        Id = c.Decimal(nullable: false, precision: 10, scale: 0, identity: true),
@@ -218,13 +218,13 @@
 //                        ServiceTypeId = c.Decimal(nullable: false, precision: 10, scale: 0),
 //                    })
 //                .PrimaryKey(t => t.Id)
-//                .ForeignKey("SOHAIB.SOHAIB_CUSTOMER", t => t.CustomerId, cascadeDelete: true)
-//                .ForeignKey("SOHAIB.SOHAIB_SERVICETYPE", t => t.ServiceTypeId, cascadeDelete: true)
+//                .ForeignKey("mydatabase.mydatabase_CUSTOMER", t => t.CustomerId, cascadeDelete: true)
+//                .ForeignKey("mydatabase.mydatabase_SERVICETYPE", t => t.ServiceTypeId, cascadeDelete: true)
 //                .Index(t => t.CustomerId)
 //                .Index(t => t.ServiceTypeId);
             
 //            CreateTable(
-//                "SOHAIB.SOHAIB_SERVICETYPE",
+//                "mydatabase.mydatabase_SERVICETYPE",
 //                c => new
 //                    {
 //                        Id = c.Decimal(nullable: false, precision: 10, scale: 0, identity: true),
@@ -233,7 +233,7 @@
 //                .PrimaryKey(t => t.Id);
             
 //            CreateTable(
-//                "SOHAIB.SOHAIB_CUSTOMERFINGERPRINT",
+//                "mydatabase.mydatabase_CUSTOMERFINGERPRINT",
 //                c => new
 //                    {
 //                        Id = c.Decimal(nullable: false, precision: 10, scale: 0, identity: true),
@@ -242,13 +242,13 @@
 //                        FingerPrintClassId = c.Decimal(nullable: false, precision: 10, scale: 0),
 //                    })
 //                .PrimaryKey(t => t.Id)
-//                .ForeignKey("SOHAIB.SOHAIB_CUSTOMER", t => t.CustomerId, cascadeDelete: true)
-//                .ForeignKey("SOHAIB.SOHAIB_FINGERPRINTCLASS", t => t.FingerPrintClassId, cascadeDelete: true)
+//                .ForeignKey("mydatabase.mydatabase_CUSTOMER", t => t.CustomerId, cascadeDelete: true)
+//                .ForeignKey("mydatabase.mydatabase_FINGERPRINTCLASS", t => t.FingerPrintClassId, cascadeDelete: true)
 //                .Index(t => t.CustomerId)
 //                .Index(t => t.FingerPrintClassId);
             
 //            CreateTable(
-//                "SOHAIB.SOHAIB_FINGERPRINTCLASS",
+//                "mydatabase.mydatabase_FINGERPRINTCLASS",
 //                c => new
 //                    {
 //                        Id = c.Decimal(nullable: false, precision: 10, scale: 0, identity: true),
@@ -257,7 +257,7 @@
 //                .PrimaryKey(t => t.Id);
             
 //            CreateTable(
-//                "SOHAIB.SOHAIB_USERFINGERPRINT",
+//                "mydatabase.mydatabase_USERFINGERPRINT",
 //                c => new
 //                    {
 //                        Id = c.Decimal(nullable: false, precision: 10, scale: 0, identity: true),
@@ -266,34 +266,34 @@
 //                        FingerPrintClassId = c.Decimal(nullable: false, precision: 10, scale: 0),
 //                    })
 //                .PrimaryKey(t => t.Id)
-//                .ForeignKey("SOHAIB.SOHAIB_FINGERPRINTCLASS", t => t.FingerPrintClassId, cascadeDelete: true)
-//                .ForeignKey("SOHAIB.SOHAIB_USER", t => t.UserId, cascadeDelete: true)
+//                .ForeignKey("mydatabase.mydatabase_FINGERPRINTCLASS", t => t.FingerPrintClassId, cascadeDelete: true)
+//                .ForeignKey("mydatabase.mydatabase_USER", t => t.UserId, cascadeDelete: true)
 //                .Index(t => t.UserId)
 //                .Index(t => t.FingerPrintClassId);
             
 //            CreateTable(
-//                "SOHAIB.SOHAIB_ROLEPRIVILEGES",
+//                "mydatabase.mydatabase_ROLEPRIVILEGES",
 //                c => new
 //                    {
 //                        Role_Id = c.Decimal(nullable: false, precision: 10, scale: 0),
 //                        Privilege_Id = c.Decimal(nullable: false, precision: 10, scale: 0),
 //                    })
 //                .PrimaryKey(t => new { t.Role_Id, t.Privilege_Id })
-//                .ForeignKey("SOHAIB.SOHAIB_ROLE", t => t.Role_Id, cascadeDelete: true)
-//                .ForeignKey("SOHAIB.SOHAIB_PRIVILEGE", t => t.Privilege_Id, cascadeDelete: true)
+//                .ForeignKey("mydatabase.mydatabase_ROLE", t => t.Role_Id, cascadeDelete: true)
+//                .ForeignKey("mydatabase.mydatabase_PRIVILEGE", t => t.Privilege_Id, cascadeDelete: true)
 //                .Index(t => t.Role_Id)
 //                .Index(t => t.Privilege_Id);
             
 //            CreateTable(
-//                "SOHAIB.SOHAIB_USERROLES",
+//                "mydatabase.mydatabase_USERROLES",
 //                c => new
 //                    {
 //                        User_Id = c.Decimal(nullable: false, precision: 10, scale: 0),
 //                        Role_Id = c.Decimal(nullable: false, precision: 10, scale: 0),
 //                    })
 //                .PrimaryKey(t => new { t.User_Id, t.Role_Id })
-//                .ForeignKey("SOHAIB.SOHAIB_USER", t => t.User_Id, cascadeDelete: true)
-//                .ForeignKey("SOHAIB.SOHAIB_ROLE", t => t.Role_Id, cascadeDelete: true)
+//                .ForeignKey("mydatabase.mydatabase_USER", t => t.User_Id, cascadeDelete: true)
+//                .ForeignKey("mydatabase.mydatabase_ROLE", t => t.Role_Id, cascadeDelete: true)
 //                .Index(t => t.User_Id)
 //                .Index(t => t.Role_Id);
             
@@ -301,83 +301,83 @@
         
 //        public override void Down()
 //        {
-//            DropForeignKey("SOHAIB.SOHAIB_USERFINGERPRINT", "UserId", "SOHAIB.SOHAIB_USER");
-//            DropForeignKey("SOHAIB.SOHAIB_USERFINGERPRINT", "FingerPrintClassId", "SOHAIB.SOHAIB_FINGERPRINTCLASS");
-//            DropForeignKey("SOHAIB.SOHAIB_CUSTOMERFINGERPRINT", "FingerPrintClassId", "SOHAIB.SOHAIB_FINGERPRINTCLASS");
-//            DropForeignKey("SOHAIB.SOHAIB_CUSTOMERFINGERPRINT", "CustomerId", "SOHAIB.SOHAIB_CUSTOMER");
-//            DropForeignKey("SOHAIB.SOHAIB_ANSWER", "SurveyResponseId", "SOHAIB.SOHAIB_SURVEYRESPONSE");
-//            DropForeignKey("SOHAIB.SOHAIB_SURVEYRESPONSE", "SurveyId", "SOHAIB.SOHAIB_SURVEY");
-//            DropForeignKey("SOHAIB.SOHAIB_SURVEYRESPONSE", "CustomerId", "SOHAIB.SOHAIB_CUSTOMER");
-//            DropForeignKey("SOHAIB.SOHAIB_SERVICE", "ServiceTypeId", "SOHAIB.SOHAIB_SERVICETYPE");
-//            DropForeignKey("SOHAIB.SOHAIB_SERVICE", "CustomerId", "SOHAIB.SOHAIB_CUSTOMER");
-//            DropForeignKey("SOHAIB.SOHAIB_NUMBER", "NumberTypeId", "SOHAIB.SOHAIB_NUMBERTYPE");
-//            DropForeignKey("SOHAIB.SOHAIB_NUMBER", "CustomerId", "SOHAIB.SOHAIB_CUSTOMER");
-//            DropForeignKey("SOHAIB.SOHAIB_CUSTOMERHOBBY", "HobbyTypeId", "SOHAIB.SOHAIB_HOBBYTYPE");
-//            DropForeignKey("SOHAIB.SOHAIB_CUSTOMERHOBBY", "CustomerId", "SOHAIB.SOHAIB_CUSTOMER");
-//            DropForeignKey("SOHAIB.SOHAIB_ANSWER", "QuestionId", "SOHAIB.SOHAIB_QUESTION");
-//            DropForeignKey("SOHAIB.SOHAIB_SURVEYQUESTION", "SurveyId", "SOHAIB.SOHAIB_SURVEY");
-//            DropForeignKey("SOHAIB.SOHAIB_SURVEY", "CreatorId", "SOHAIB.SOHAIB_USER");
-//            DropForeignKey("SOHAIB.SOHAIB_USERROLES", "Role_Id", "SOHAIB.SOHAIB_ROLE");
-//            DropForeignKey("SOHAIB.SOHAIB_USERROLES", "User_Id", "SOHAIB.SOHAIB_USER");
-//            DropForeignKey("SOHAIB.SOHAIB_ROLEPRIVILEGES", "Privilege_Id", "SOHAIB.SOHAIB_PRIVILEGE");
-//            DropForeignKey("SOHAIB.SOHAIB_ROLEPRIVILEGES", "Role_Id", "SOHAIB.SOHAIB_ROLE");
-//            DropForeignKey("SOHAIB.SOHAIB_SURVEYQUESTION", "QuestionId", "SOHAIB.SOHAIB_QUESTION");
-//            DropForeignKey("SOHAIB.SOHAIB_QUESTION", "ParentQuestionId", "SOHAIB.SOHAIB_QUESTION");
-//            DropForeignKey("SOHAIB.SOHAIB_QUESTION", "ParentOptionId", "SOHAIB.SOHAIB_OPTION");
-//            DropForeignKey("SOHAIB.SOHAIB_OPTION", "Question_Id", "SOHAIB.SOHAIB_QUESTION");
-//            DropForeignKey("SOHAIB.SOHAIB_QUESTION", "Option_Id", "SOHAIB.SOHAIB_OPTION");
-//            DropForeignKey("SOHAIB.SOHAIB_OPTION", "ParentQuestionId", "SOHAIB.SOHAIB_QUESTION");
-//            DropIndex("SOHAIB.SOHAIB_USERROLES", new[] { "Role_Id" });
-//            DropIndex("SOHAIB.SOHAIB_USERROLES", new[] { "User_Id" });
-//            DropIndex("SOHAIB.SOHAIB_ROLEPRIVILEGES", new[] { "Privilege_Id" });
-//            DropIndex("SOHAIB.SOHAIB_ROLEPRIVILEGES", new[] { "Role_Id" });
-//            DropIndex("SOHAIB.SOHAIB_USERFINGERPRINT", new[] { "FingerPrintClassId" });
-//            DropIndex("SOHAIB.SOHAIB_USERFINGERPRINT", new[] { "UserId" });
-//            DropIndex("SOHAIB.SOHAIB_CUSTOMERFINGERPRINT", new[] { "FingerPrintClassId" });
-//            DropIndex("SOHAIB.SOHAIB_CUSTOMERFINGERPRINT", new[] { "CustomerId" });
-//            DropIndex("SOHAIB.SOHAIB_SERVICE", new[] { "ServiceTypeId" });
-//            DropIndex("SOHAIB.SOHAIB_SERVICE", new[] { "CustomerId" });
-//            DropIndex("SOHAIB.SOHAIB_NUMBER", new[] { "NumberTypeId" });
-//            DropIndex("SOHAIB.SOHAIB_NUMBER", new[] { "CustomerId" });
-//            DropIndex("SOHAIB.SOHAIB_CUSTOMERHOBBY", new[] { "HobbyTypeId" });
-//            DropIndex("SOHAIB.SOHAIB_CUSTOMERHOBBY", new[] { "CustomerId" });
-//            DropIndex("SOHAIB.SOHAIB_SURVEYRESPONSE", new[] { "SurveyId" });
-//            DropIndex("SOHAIB.SOHAIB_SURVEYRESPONSE", new[] { "CustomerId" });
-//            DropIndex("SOHAIB.SOHAIB_ROLE", new[] { "Name" });
-//            DropIndex("SOHAIB.SOHAIB_USER", new[] { "Alias" });
-//            DropIndex("SOHAIB.SOHAIB_USER", new[] { "HRId" });
-//            DropIndex("SOHAIB.SOHAIB_SURVEY", new[] { "CreatorId" });
-//            DropIndex("SOHAIB.SOHAIB_SURVEY", new[] { "Name" });
-//            DropIndex("SOHAIB.SOHAIB_SURVEYQUESTION", new[] { "QuestionId" });
-//            DropIndex("SOHAIB.SOHAIB_SURVEYQUESTION", new[] { "SurveyId" });
-//            DropIndex("SOHAIB.SOHAIB_OPTION", new[] { "Question_Id" });
-//            DropIndex("SOHAIB.SOHAIB_OPTION", new[] { "ParentQuestionId" });
-//            DropIndex("SOHAIB.SOHAIB_QUESTION", new[] { "Option_Id" });
-//            DropIndex("SOHAIB.SOHAIB_QUESTION", new[] { "ParentOptionId" });
-//            DropIndex("SOHAIB.SOHAIB_QUESTION", new[] { "ParentQuestionId" });
-//            DropIndex("SOHAIB.SOHAIB_ANSWER", new[] { "QuestionId" });
-//            DropIndex("SOHAIB.SOHAIB_ANSWER", new[] { "SurveyResponseId" });
-//            DropTable("SOHAIB.SOHAIB_USERROLES");
-//            DropTable("SOHAIB.SOHAIB_ROLEPRIVILEGES");
-//            DropTable("SOHAIB.SOHAIB_USERFINGERPRINT");
-//            DropTable("SOHAIB.SOHAIB_FINGERPRINTCLASS");
-//            DropTable("SOHAIB.SOHAIB_CUSTOMERFINGERPRINT");
-//            DropTable("SOHAIB.SOHAIB_SERVICETYPE");
-//            DropTable("SOHAIB.SOHAIB_SERVICE");
-//            DropTable("SOHAIB.SOHAIB_NUMBERTYPE");
-//            DropTable("SOHAIB.SOHAIB_NUMBER");
-//            DropTable("SOHAIB.SOHAIB_HOBBYTYPE");
-//            DropTable("SOHAIB.SOHAIB_CUSTOMERHOBBY");
-//            DropTable("SOHAIB.SOHAIB_CUSTOMER");
-//            DropTable("SOHAIB.SOHAIB_SURVEYRESPONSE");
-//            DropTable("SOHAIB.SOHAIB_PRIVILEGE");
-//            DropTable("SOHAIB.SOHAIB_ROLE");
-//            DropTable("SOHAIB.SOHAIB_USER");
-//            DropTable("SOHAIB.SOHAIB_SURVEY");
-//            DropTable("SOHAIB.SOHAIB_SURVEYQUESTION");
-//            DropTable("SOHAIB.SOHAIB_OPTION");
-//            DropTable("SOHAIB.SOHAIB_QUESTION");
-//            DropTable("SOHAIB.SOHAIB_ANSWER");
+//            DropForeignKey("mydatabase.mydatabase_USERFINGERPRINT", "UserId", "mydatabase.mydatabase_USER");
+//            DropForeignKey("mydatabase.mydatabase_USERFINGERPRINT", "FingerPrintClassId", "mydatabase.mydatabase_FINGERPRINTCLASS");
+//            DropForeignKey("mydatabase.mydatabase_CUSTOMERFINGERPRINT", "FingerPrintClassId", "mydatabase.mydatabase_FINGERPRINTCLASS");
+//            DropForeignKey("mydatabase.mydatabase_CUSTOMERFINGERPRINT", "CustomerId", "mydatabase.mydatabase_CUSTOMER");
+//            DropForeignKey("mydatabase.mydatabase_ANSWER", "SurveyResponseId", "mydatabase.mydatabase_SURVEYRESPONSE");
+//            DropForeignKey("mydatabase.mydatabase_SURVEYRESPONSE", "SurveyId", "mydatabase.mydatabase_SURVEY");
+//            DropForeignKey("mydatabase.mydatabase_SURVEYRESPONSE", "CustomerId", "mydatabase.mydatabase_CUSTOMER");
+//            DropForeignKey("mydatabase.mydatabase_SERVICE", "ServiceTypeId", "mydatabase.mydatabase_SERVICETYPE");
+//            DropForeignKey("mydatabase.mydatabase_SERVICE", "CustomerId", "mydatabase.mydatabase_CUSTOMER");
+//            DropForeignKey("mydatabase.mydatabase_NUMBER", "NumberTypeId", "mydatabase.mydatabase_NUMBERTYPE");
+//            DropForeignKey("mydatabase.mydatabase_NUMBER", "CustomerId", "mydatabase.mydatabase_CUSTOMER");
+//            DropForeignKey("mydatabase.mydatabase_CUSTOMERHOBBY", "HobbyTypeId", "mydatabase.mydatabase_HOBBYTYPE");
+//            DropForeignKey("mydatabase.mydatabase_CUSTOMERHOBBY", "CustomerId", "mydatabase.mydatabase_CUSTOMER");
+//            DropForeignKey("mydatabase.mydatabase_ANSWER", "QuestionId", "mydatabase.mydatabase_QUESTION");
+//            DropForeignKey("mydatabase.mydatabase_SURVEYQUESTION", "SurveyId", "mydatabase.mydatabase_SURVEY");
+//            DropForeignKey("mydatabase.mydatabase_SURVEY", "CreatorId", "mydatabase.mydatabase_USER");
+//            DropForeignKey("mydatabase.mydatabase_USERROLES", "Role_Id", "mydatabase.mydatabase_ROLE");
+//            DropForeignKey("mydatabase.mydatabase_USERROLES", "User_Id", "mydatabase.mydatabase_USER");
+//            DropForeignKey("mydatabase.mydatabase_ROLEPRIVILEGES", "Privilege_Id", "mydatabase.mydatabase_PRIVILEGE");
+//            DropForeignKey("mydatabase.mydatabase_ROLEPRIVILEGES", "Role_Id", "mydatabase.mydatabase_ROLE");
+//            DropForeignKey("mydatabase.mydatabase_SURVEYQUESTION", "QuestionId", "mydatabase.mydatabase_QUESTION");
+//            DropForeignKey("mydatabase.mydatabase_QUESTION", "ParentQuestionId", "mydatabase.mydatabase_QUESTION");
+//            DropForeignKey("mydatabase.mydatabase_QUESTION", "ParentOptionId", "mydatabase.mydatabase_OPTION");
+//            DropForeignKey("mydatabase.mydatabase_OPTION", "Question_Id", "mydatabase.mydatabase_QUESTION");
+//            DropForeignKey("mydatabase.mydatabase_QUESTION", "Option_Id", "mydatabase.mydatabase_OPTION");
+//            DropForeignKey("mydatabase.mydatabase_OPTION", "ParentQuestionId", "mydatabase.mydatabase_QUESTION");
+//            DropIndex("mydatabase.mydatabase_USERROLES", new[] { "Role_Id" });
+//            DropIndex("mydatabase.mydatabase_USERROLES", new[] { "User_Id" });
+//            DropIndex("mydatabase.mydatabase_ROLEPRIVILEGES", new[] { "Privilege_Id" });
+//            DropIndex("mydatabase.mydatabase_ROLEPRIVILEGES", new[] { "Role_Id" });
+//            DropIndex("mydatabase.mydatabase_USERFINGERPRINT", new[] { "FingerPrintClassId" });
+//            DropIndex("mydatabase.mydatabase_USERFINGERPRINT", new[] { "UserId" });
+//            DropIndex("mydatabase.mydatabase_CUSTOMERFINGERPRINT", new[] { "FingerPrintClassId" });
+//            DropIndex("mydatabase.mydatabase_CUSTOMERFINGERPRINT", new[] { "CustomerId" });
+//            DropIndex("mydatabase.mydatabase_SERVICE", new[] { "ServiceTypeId" });
+//            DropIndex("mydatabase.mydatabase_SERVICE", new[] { "CustomerId" });
+//            DropIndex("mydatabase.mydatabase_NUMBER", new[] { "NumberTypeId" });
+//            DropIndex("mydatabase.mydatabase_NUMBER", new[] { "CustomerId" });
+//            DropIndex("mydatabase.mydatabase_CUSTOMERHOBBY", new[] { "HobbyTypeId" });
+//            DropIndex("mydatabase.mydatabase_CUSTOMERHOBBY", new[] { "CustomerId" });
+//            DropIndex("mydatabase.mydatabase_SURVEYRESPONSE", new[] { "SurveyId" });
+//            DropIndex("mydatabase.mydatabase_SURVEYRESPONSE", new[] { "CustomerId" });
+//            DropIndex("mydatabase.mydatabase_ROLE", new[] { "Name" });
+//            DropIndex("mydatabase.mydatabase_USER", new[] { "Alias" });
+//            DropIndex("mydatabase.mydatabase_USER", new[] { "HRId" });
+//            DropIndex("mydatabase.mydatabase_SURVEY", new[] { "CreatorId" });
+//            DropIndex("mydatabase.mydatabase_SURVEY", new[] { "Name" });
+//            DropIndex("mydatabase.mydatabase_SURVEYQUESTION", new[] { "QuestionId" });
+//            DropIndex("mydatabase.mydatabase_SURVEYQUESTION", new[] { "SurveyId" });
+//            DropIndex("mydatabase.mydatabase_OPTION", new[] { "Question_Id" });
+//            DropIndex("mydatabase.mydatabase_OPTION", new[] { "ParentQuestionId" });
+//            DropIndex("mydatabase.mydatabase_QUESTION", new[] { "Option_Id" });
+//            DropIndex("mydatabase.mydatabase_QUESTION", new[] { "ParentOptionId" });
+//            DropIndex("mydatabase.mydatabase_QUESTION", new[] { "ParentQuestionId" });
+//            DropIndex("mydatabase.mydatabase_ANSWER", new[] { "QuestionId" });
+//            DropIndex("mydatabase.mydatabase_ANSWER", new[] { "SurveyResponseId" });
+//            DropTable("mydatabase.mydatabase_USERROLES");
+//            DropTable("mydatabase.mydatabase_ROLEPRIVILEGES");
+//            DropTable("mydatabase.mydatabase_USERFINGERPRINT");
+//            DropTable("mydatabase.mydatabase_FINGERPRINTCLASS");
+//            DropTable("mydatabase.mydatabase_CUSTOMERFINGERPRINT");
+//            DropTable("mydatabase.mydatabase_SERVICETYPE");
+//            DropTable("mydatabase.mydatabase_SERVICE");
+//            DropTable("mydatabase.mydatabase_NUMBERTYPE");
+//            DropTable("mydatabase.mydatabase_NUMBER");
+//            DropTable("mydatabase.mydatabase_HOBBYTYPE");
+//            DropTable("mydatabase.mydatabase_CUSTOMERHOBBY");
+//            DropTable("mydatabase.mydatabase_CUSTOMER");
+//            DropTable("mydatabase.mydatabase_SURVEYRESPONSE");
+//            DropTable("mydatabase.mydatabase_PRIVILEGE");
+//            DropTable("mydatabase.mydatabase_ROLE");
+//            DropTable("mydatabase.mydatabase_USER");
+//            DropTable("mydatabase.mydatabase_SURVEY");
+//            DropTable("mydatabase.mydatabase_SURVEYQUESTION");
+//            DropTable("mydatabase.mydatabase_OPTION");
+//            DropTable("mydatabase.mydatabase_QUESTION");
+//            DropTable("mydatabase.mydatabase_ANSWER");
 //        }
 //    }
 //}

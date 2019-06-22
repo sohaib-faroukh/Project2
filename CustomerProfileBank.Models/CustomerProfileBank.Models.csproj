@@ -67,6 +67,14 @@
     <Compile Include="Migrations\201906212313565_initial-22-6-2019.Designer.cs">
       <DependentUpon>201906212313565_initial-22-6-2019.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201906220846140_fbM.cs" />
+    <Compile Include="Migrations\201906220846140_fbM.Designer.cs">
+      <DependentUpon>201906220846140_fbM.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906220907396_FB.cs" />
+    <Compile Include="Migrations\201906220907396_FB.Designer.cs">
+      <DependentUpon>201906220907396_FB.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Customer.cs" />
     <Compile Include="Models\CustomerFingerPrint.cs" />
@@ -119,6 +127,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201906212313565_initial-22-6-2019.resx">
       <DependentUpon>201906212313565_initial-22-6-2019.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906220846140_fbM.resx">
+      <DependentUpon>201906220846140_fbM.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906220907396_FB.resx">
+      <DependentUpon>201906220907396_FB.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
