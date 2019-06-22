@@ -10,34 +10,78 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using CustomerProfileBank.Models.Context;
 using CustomerProfileBank.Models.Models;
+using System.Web.Http.Cors;
+using CustomerProfileBank.Models.Repositories;
 
 namespace Project2.WebAPIs.Survey_Management
 {
+    [EnableCors("*", "*", "*")]
     public class SurveysManagementController : ApiController
     {
-        private DataBaseContext db = new DataBaseContext();
+        SurveyRepo sRepo = new SurveyRepo();
+        private List<dynamic> errorsList = new List<dynamic>();
 
-        // GET: api/SurveysManagement
-        public IQueryable<Survey> GetSurveys()
+        [HttpGet]
+        [Route("api/Surveys")]
+        public IHttpActionResult GetSurveys()
         {
-            return db.Surveys;
+            var res = sRepo.GetAll().Select(ele => new
+            {
+                ele.Id,
+                ele.Name,
+                ele.FromDate,
+                ele.ToDate,
+                ele.Description,
+                ele.Status,
+                ele.CreatorId,
+                ele.CreationDate,
+                ele.ValidiatyMonthlyPeriod,
+                CreatorName = ele.Creator.FirstName + " " + ele.Creator.LastName,
+                Questions = ele.Questions.Select(ques => new
+                {
+                    ques.Question.Id,
+                    ques.Question.Text,
+                    ques.Order,
+                    ques.Question.Status,
+                    ques.IsMandatory,
+                })
+            }).ToList();
+            return Json(res);
         }
 
-        // GET: api/SurveysManagement/5
-        [ResponseType(typeof(Survey))]
+
+        [HttpGet]
+        [Route("api/Surveys/{id}")]
         public IHttpActionResult GetSurvey(int id)
         {
-            Survey survey = db.Surveys.Find(id);
-            if (survey == null)
+            var ele = sRepo.FindById(id);
+            var res = new
             {
-                return NotFound();
-            }
-
-            return Ok(survey);
+                ele.Id,
+                ele.Name,
+                ele.FromDate,
+                ele.ToDate,
+                ele.Description,
+                ele.Status,
+                ele.CreatorId,
+                ele.CreationDate,
+                ele.ValidiatyMonthlyPeriod,
+                CreatorName = ele.Creator.FirstName + " " + ele.Creator.LastName,
+                Questions = ele.Questions.Select(ques => new
+                {
+                    ques.Question.Id,
+                    ques.Question.Text,
+                    ques.Order,
+                    ques.Question.Status,
+                    ques.IsMandatory,
+                })
+            };
+            return Json(res);
         }
 
-        // PUT: api/SurveysManagement/5
-        [ResponseType(typeof(void))]
+
+        [HttpPut]
+        [Route("api/Surveys/{id}")]
         public IHttpActionResult PutSurvey(int id, Survey survey)
         {
             if (!ModelState.IsValid)
@@ -50,29 +94,24 @@ namespace Project2.WebAPIs.Survey_Management
                 return BadRequest();
             }
 
-            db.Entry(survey).State = EntityState.Modified;
+            //db.Entry(survey).State = EntityState.Modified;
 
             try
             {
-                db.SaveChanges();
+                //db.SaveChanges();
             }
-            catch (DbUpdateConcurrencyException)
+            catch (Exception ex)
             {
-                if (!SurveyExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                throw;
             }
 
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/SurveysManagement
-        [ResponseType(typeof(Survey))]
+
+
+        [HttpPost]
+        [Route("api/Surveys")]
         public IHttpActionResult PostSurvey(Survey survey)
         {
             if (!ModelState.IsValid)
@@ -80,40 +119,29 @@ namespace Project2.WebAPIs.Survey_Management
                 return BadRequest(ModelState);
             }
 
-            db.Surveys.Add(survey);
-            db.SaveChanges();
+            //db.Surveys.Add(survey);
+            //db.SaveChanges();
 
             return CreatedAtRoute("DefaultApi", new { id = survey.Id }, survey);
         }
 
-        // DELETE: api/SurveysManagement/5
-        [ResponseType(typeof(Survey))]
+
+
+        [HttpDelete]
+        [Route("api/Surveys/{id}")]
         public IHttpActionResult DeleteSurvey(int id)
         {
-            Survey survey = db.Surveys.Find(id);
-            if (survey == null)
-            {
-                return NotFound();
-            }
+            //Survey survey = db.Surveys.Find(id);
+            //if (survey == null)
+            //{
+            //    return NotFound();
+            //}
 
-            db.Surveys.Remove(survey);
-            db.SaveChanges();
+            //db.Surveys.Remove(survey);
+            //db.SaveChanges();
 
-            return Ok(survey);
+            return Ok();
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
-
-        private bool SurveyExists(int id)
-        {
-            return db.Surveys.Count(e => e.Id == id) > 0;
-        }
     }
 }

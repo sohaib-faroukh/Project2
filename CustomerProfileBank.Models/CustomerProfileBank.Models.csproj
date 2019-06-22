@@ -76,6 +76,7 @@
       <DependentUpon>201906220907396_FB.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Customer.cs" />
     <Compile Include="Models\CustomerFingerPrint.cs" />
     <Compile Include="Models\CustomerHobby.cs" />
@@ -119,6 +120,9 @@
     <Compile Include="Repositories\SurveyResponseRepo.cs" />
     <Compile Include="Repositories\UserFingerPrintRepo.cs" />
     <Compile Include="Repositories\UserRepo.cs" />
+    <Compile Include="ViewModels\OptionVM.cs" />
+    <Compile Include="ViewModels\QuestionVM.cs" />
+    <Compile Include="ViewModels\SurveyVM.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

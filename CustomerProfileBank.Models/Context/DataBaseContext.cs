@@ -48,6 +48,8 @@ namespace CustomerProfileBank.Models.Context
         public DbSet<SurveyResponse> SurveyResponses { get; set; }
         public DbSet<Answer> Answers { get; set; }
         public DbSet<Option> Options { get; set; }
+        public DbSet<Category> Categories { get; set; }
+
         
         //FingerPrint
         public DbSet<CustomerFingerPrint> CustomerFingerPrints { get; set; }
@@ -75,6 +77,8 @@ namespace CustomerProfileBank.Models.Context
             {
                 pr.ToTable(ConfigurationManager.AppSettings["DefaultSchema"] + "_ROLEPRIVILEGES");
             });
+
+            
 
         }
         #endregion
