@@ -1,0 +1,79 @@
+<form>
+  <div class="row">
+    {{currentRole | json}}
+    <hr>
+    {{valuesChanged}}
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="Name" type="text" name="Name" required [ngModel]="currentRole.Name"
+          (ngModelChange)="currentRole.Name = $event;onValueChange()" #nameModel="ngModel">
+        <mat-error *ngIf="nameModel.invalid && (nameModel.dirty || nameModel.touched)">
+          <span [hidden]="!nameModel.errors.required">Name is <strong>required</strong></span>
+        </mat-error>
+
+      </mat-form-field>
+
+    </div>
+    <div class="col-md-6">
+
+      <mat-form-field class="example-full-width">
+        <textarea matInput placeholder="Description" name="Description" required [ngModel]="currentRole.Description"
+          (ngModelChange)="currentRole.Description = $event;onValueChange()" #descriptionModel="ngModel"></textarea>
+        <mat-error *ngIf="descriptionModel.invalid && (descriptionModel.dirty || descriptionModel.touched)">
+          <span [hidden]="!descriptionModel.errors.required">Description is <strong>required</strong></span>
+        </mat-error>
+
+      </mat-form-field>
+
+    </div>
+
+  </div>
+  <div class="row">
+
+    <div class="col-md-6">
+      <mat-form-field class="example-full-width">
+        <mat-label>Users</mat-label>
+
+
+
+        <mat-select [value]="currentRole.Users" (valueChange)="currentRole.Users=$event;onValueChange()" multiple
+          [compareWith]="selectCompareFun">
+
+          <form class="mat-filter">
+            <div>
+              <input name="searchSelect1" #filetrInput1 class="mat-filter-input" matInput placeholder="Search by alias">
+            </div>
+          </form>
+          <mat-option *ngFor="let item of Users | keyValuefilter:'Alias':filetrInput1.value" [value]="item">
+            {{item.Alias}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="col-md-6">
+      <mat-form-field class="example-full-width">
+        <mat-label>Privileges</mat-label>
+
+
+
+        <mat-select 
+        [value]="currentRole.Privileges" (valueChange)="currentRole.Privileges=$event;onValueChange()"
+        multiple [compareWith]="selectCompareFun">
+
+          <form class="mat-filter">
+            <div>
+              <input name="searchSelect2" #filetrInput2 class="mat-filter-input" matInput placeholder="Search">
+            </div>
+          </form>
+          <mat-option *ngFor="let item of Privileges | keyValuefilter:'Name':filetrInput2.value" [value]="item">
+            {{item?.title}} -  {{item.Name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+</form>

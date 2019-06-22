@@ -1,0 +1,82 @@
+.example-form {
+    min-width: 150px;
+    max-width: 500px;
+    width: 100%;
+  }
+  
+  .example-full-width {
+    width: 100%;
+  }
+  
+  
+  
+  
+  .mat-filter {
+    position: inherit;
+    top: 0;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: grey;
+    z-index: 100;
+    font-size: inherit;
+    box-shadow: none;
+    border-radius: 0;
+    padding: 16px 16px 16px 16px;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+  }
+  
+  .mat-filter-input {
+    position: inherit;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    outline: none;
+    border: 0;
+    background-color: unset;
+    color: gray;
+    width: 100%;
+  }
+  
+  .spinner {
+    position: absolute;
+    right: 16px;
+    top: calc(50% - 8px);
+  }
+  
+  .noResultsMessage {
+      margin-top: 10px;
+      font-family: Roboto,"Helvetica Neue",sans-serif;
+      font-size: 16px;
+  }
+  
+  
+  .a-action {
+    color: #f53a58 !important;
+    text-decoration: underline !important;
+    margin-left: 1%;
+    cursor: pointer;
+  }
+  
+  .a-action:hover {
+    size: 200% !important;
+    color: #005cffbf !important;
+  }
+  
+  .img-action {
+    margin-left: 5%;
+    margin-right: 15%;
+    opacity: 0.6;
+    width: 20px !important;
+    height: 20px !important;
+    cursor: pointer;
+  }
+  
+  .img-action:hover {
+    opacity: 1;
+    /** default is 1, scale it to 1.5 */
+    transform: scale(1.2, 1.2);
+  
+      
+  }
+  
