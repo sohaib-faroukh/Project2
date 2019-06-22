@@ -3,7 +3,7 @@ namespace CustomerProfileBank.Models.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class initial2262019 : DbMigration
+    public partial class sohaibinitial : DbMigration
     {
         public override void Up()
         {
@@ -28,19 +28,34 @@ namespace CustomerProfileBank.Models.Migrations
                     {
                         Id = c.Decimal(nullable: false, precision: 10, scale: 0, identity: true),
                         Text = c.String(nullable: false, maxLength: 250),
+                        Type = c.String(nullable: false, maxLength: 100),
+                        Status = c.String(nullable: false, maxLength: 100),
                         ParentQuestionId = c.Decimal(nullable: false, precision: 10, scale: 0),
                         ParentOptionId = c.Decimal(nullable: false, precision: 10, scale: 0),
-                        Type = c.String(),
-                        Status = c.String(),
+                        CategoryId = c.Decimal(nullable: false, precision: 10, scale: 0),
                         Option_Id = c.Decimal(precision: 10, scale: 0),
                     })
                 .PrimaryKey(t => t.Id)
+                .ForeignKey("SOHAIB.SOHAIB_CATEGORY", t => t.CategoryId, cascadeDelete: true)
                 .ForeignKey("SOHAIB.SOHAIB_OPTION", t => t.Option_Id)
                 .ForeignKey("SOHAIB.SOHAIB_OPTION", t => t.ParentOptionId, cascadeDelete: true)
                 .ForeignKey("SOHAIB.SOHAIB_QUESTION", t => t.ParentQuestionId)
                 .Index(t => t.ParentQuestionId)
                 .Index(t => t.ParentOptionId)
+                .Index(t => t.CategoryId)
                 .Index(t => t.Option_Id);
+            
+            CreateTable(
+                "SOHAIB.SOHAIB_CATEGORY",
+                c => new
+                    {
+                        Id = c.Decimal(nullable: false, precision: 10, scale: 0, identity: true),
+                        Name = c.String(nullable: false, maxLength: 100),
+                        Description = c.String(maxLength: 250),
+                        ParentCategoryId = c.Decimal(nullable: false, precision: 10, scale: 0),
+                    })
+                .PrimaryKey(t => t.Id)
+                .Index(t => t.Name, unique: true);
             
             CreateTable(
                 "SOHAIB.SOHAIB_OPTION",
@@ -81,12 +96,12 @@ namespace CustomerProfileBank.Models.Migrations
                     {
                         Id = c.Decimal(nullable: false, precision: 10, scale: 0, identity: true),
                         Name = c.String(nullable: false, maxLength: 100),
-                        Description = c.String(maxLength: 100),
-                        creationDate = c.DateTime(nullable: false),
+                        Description = c.String(maxLength: 250),
+                        CreationDate = c.DateTime(nullable: false),
                         ValidiatyMonthlyPeriod = c.Decimal(nullable: false, precision: 10, scale: 0),
                         FromDate = c.DateTime(),
                         ToDate = c.DateTime(),
-                        Status = c.String(),
+                        Status = c.String(nullable: false, maxLength: 100),
                         CreatorId = c.Decimal(nullable: false, precision: 10, scale: 0),
                     })
                 .PrimaryKey(t => t.Id)
@@ -327,6 +342,7 @@ namespace CustomerProfileBank.Models.Migrations
             DropForeignKey("SOHAIB.SOHAIB_OPTION", "Question_Id", "SOHAIB.SOHAIB_QUESTION");
             DropForeignKey("SOHAIB.SOHAIB_QUESTION", "Option_Id", "SOHAIB.SOHAIB_OPTION");
             DropForeignKey("SOHAIB.SOHAIB_OPTION", "ParentQuestionId", "SOHAIB.SOHAIB_QUESTION");
+            DropForeignKey("SOHAIB.SOHAIB_QUESTION", "CategoryId", "SOHAIB.SOHAIB_CATEGORY");
             DropIndex("SOHAIB.SOHAIB_USERROLES", new[] { "Role_Id" });
             DropIndex("SOHAIB.SOHAIB_USERROLES", new[] { "User_Id" });
             DropIndex("SOHAIB.SOHAIB_ROLEPRIVILEGES", new[] { "Privilege_Id" });
@@ -352,7 +368,9 @@ namespace CustomerProfileBank.Models.Migrations
             DropIndex("SOHAIB.SOHAIB_SURVEYQUESTION", new[] { "SurveyId" });
             DropIndex("SOHAIB.SOHAIB_OPTION", new[] { "Question_Id" });
             DropIndex("SOHAIB.SOHAIB_OPTION", new[] { "ParentQuestionId" });
+            DropIndex("SOHAIB.SOHAIB_CATEGORY", new[] { "Name" });
             DropIndex("SOHAIB.SOHAIB_QUESTION", new[] { "Option_Id" });
+            DropIndex("SOHAIB.SOHAIB_QUESTION", new[] { "CategoryId" });
             DropIndex("SOHAIB.SOHAIB_QUESTION", new[] { "ParentOptionId" });
             DropIndex("SOHAIB.SOHAIB_QUESTION", new[] { "ParentQuestionId" });
             DropIndex("SOHAIB.SOHAIB_ANSWER", new[] { "QuestionId" });
@@ -376,6 +394,7 @@ namespace CustomerProfileBank.Models.Migrations
             DropTable("SOHAIB.SOHAIB_SURVEY");
             DropTable("SOHAIB.SOHAIB_SURVEYQUESTION");
             DropTable("SOHAIB.SOHAIB_OPTION");
+            DropTable("SOHAIB.SOHAIB_CATEGORY");
             DropTable("SOHAIB.SOHAIB_QUESTION");
             DropTable("SOHAIB.SOHAIB_ANSWER");
         }

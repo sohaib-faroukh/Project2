@@ -23,30 +23,14 @@ namespace CustomerProfileBank.Models.Models
         // question text which will show when ask the question
         [Required]
         [MaxLength(100)]
-        public string Type
-        {
-            get { return Type; }
-            set
-            {
-                this.Type = this.Type?.Trim().ToUpper();
-            }
-        }
+        public string Type { get; set; }
 
 
 
         // question current status "active,inactive,pendding,..."
         [Required]
         [MaxLength(100)]
-        public string Status
-        {
-            get { return Status; }
-            set
-            {
-                this.Status = this.Status?.Trim().ToUpper();
-            }
-        }
-
-
+        public string Status { get; set; }
 
 
         // foregin key on parentQuestion 
@@ -78,7 +62,7 @@ namespace CustomerProfileBank.Models.Models
 
         public virtual ICollection<Option> Options { get; set; }
 
-
+            
 
         public Question() { }
 
