@@ -19,68 +19,34 @@ namespace CustomerProfileBank.Models.Models
         [MaxLength(100)]
         public string Name { get; set; }
 
-      
-        
+
+
         // sentence represent what this survey for and what's
         [MaxLength(250)]
         public string Description { get; set; }
 
 
-       
-        
+
+
         // creation survey time
         public DateTime CreationDate { get; set; }
 
-      
 
-        
+
+
         // how many months this survey will stil valid
         public int ValidiatyMonthlyPeriod { get; set; }
 
 
-       
-        
+
+
         // survey avtive period 
         // FromDate = null if the survey status is inactive
         // toDate = null if ToDate = null
         // toDate = null that means the survey always active until dynamicly deactivate it 
 
-        public DateTime? FromDate
-        {
-            get { return FromDate; }
-            set
-            {
-                if (this.Status != null && this.Status.Trim().ToLower() == "inactive")
-                {
-                    this.FromDate = null;
-                }
-                else
-                {
-                    this.FromDate = this.FromDate;
-                }
-            }
-        }
-        public DateTime? ToDate
-        {
-
-            get { return ToDate; }
-            set
-            {
-                if (this.ToDate != null)
-                {
-
-
-                    if (this.FromDate == null)
-                    {
-                        this.ToDate = null;
-                    }
-                    else
-                    {
-                        this.ToDate = this.ToDate;
-                    }
-                }
-            }
-        }
+        public DateTime? FromDate { get; set; }
+        public DateTime? ToDate { get; set; }
 
 
 
@@ -89,21 +55,8 @@ namespace CustomerProfileBank.Models.Models
         // survey current status "active,inactive,pendding,..."
         [Required]
         [MaxLength(100)]
-        public string Status
-        {
-            get { return Status; }
-            set
-            {
-                if (this.Status != null)
-                {
-                    this.Status = this.Status.Trim().ToUpper();
-                }
-                else
-                {
-                    throw new Exception("Status can't be null");
-                }
-            }
-        }
+        public string Status { get; set; }
+        
 
 
 
@@ -115,8 +68,8 @@ namespace CustomerProfileBank.Models.Models
         public virtual User Creator { get; set; }
 
 
-        
-        
+
+
         // survey has one or several questions
         public virtual ICollection<SurveyQuestion> Questions { get; set; }
 

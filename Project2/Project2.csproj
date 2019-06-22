@@ -265,6 +265,8 @@
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="WebAPIs\Finger Print\FingerPrintController.cs" />
+    <Compile Include="WebAPIs\Survey Management\SurveysManagementController.cs" />
     <Compile Include="WebAPIs\User Role Management\RolesController.cs" />
     <Compile Include="WebAPIs\User Role Management\UsersController.cs" />
   </ItemGroup>

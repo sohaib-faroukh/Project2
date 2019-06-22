@@ -7,13 +7,13 @@ namespace CustomerProfileBank.Models.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class initial2262019 : IMigrationMetadata
+    public sealed partial class sohaibinitial : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(initial2262019));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(sohaibinitial));
         
         string IMigrationMetadata.Id
         {
-            get { return "201906212313565_initial-22-6-2019"; }
+            get { return "201906222152208_sohaib-initial"; }
         }
         
         string IMigrationMetadata.Source

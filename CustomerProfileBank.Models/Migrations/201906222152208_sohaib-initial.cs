@@ -3,12 +3,12 @@ namespace CustomerProfileBank.Models.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class FB : DbMigration
+    public partial class sohaibinitial : DbMigration
     {
         public override void Up()
         {
             CreateTable(
-                "MYDATABASE.MYDATABASE_ANSWER",
+                "SOHAIB.SOHAIB_ANSWER",
                 c => new
                     {
                         Id = c.Decimal(nullable: false, precision: 10, scale: 0, identity: true),
@@ -17,33 +17,48 @@ namespace CustomerProfileBank.Models.Migrations
                         QuestionId = c.Decimal(nullable: false, precision: 10, scale: 0),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("MYDATABASE.MYDATABASE_QUESTION", t => t.QuestionId, cascadeDelete: true)
-                .ForeignKey("MYDATABASE.MYDATABASE_SURVEYRESPONSE", t => t.SurveyResponseId, cascadeDelete: true)
+                .ForeignKey("SOHAIB.SOHAIB_QUESTION", t => t.QuestionId, cascadeDelete: true)
+                .ForeignKey("SOHAIB.SOHAIB_SURVEYRESPONSE", t => t.SurveyResponseId, cascadeDelete: true)
                 .Index(t => t.SurveyResponseId)
                 .Index(t => t.QuestionId);
             
             CreateTable(
-                "MYDATABASE.MYDATABASE_QUESTION",
+                "SOHAIB.SOHAIB_QUESTION",
                 c => new
                     {
                         Id = c.Decimal(nullable: false, precision: 10, scale: 0, identity: true),
                         Text = c.String(nullable: false, maxLength: 250),
+                        Type = c.String(nullable: false, maxLength: 100),
+                        Status = c.String(nullable: false, maxLength: 100),
                         ParentQuestionId = c.Decimal(nullable: false, precision: 10, scale: 0),
                         ParentOptionId = c.Decimal(nullable: false, precision: 10, scale: 0),
-                        Type = c.String(),
-                        Status = c.String(),
+                        CategoryId = c.Decimal(nullable: false, precision: 10, scale: 0),
                         Option_Id = c.Decimal(precision: 10, scale: 0),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("MYDATABASE.MYDATABASE_OPTION", t => t.Option_Id)
-                .ForeignKey("MYDATABASE.MYDATABASE_OPTION", t => t.ParentOptionId, cascadeDelete: true)
-                .ForeignKey("MYDATABASE.MYDATABASE_QUESTION", t => t.ParentQuestionId)
+                .ForeignKey("SOHAIB.SOHAIB_CATEGORY", t => t.CategoryId, cascadeDelete: true)
+                .ForeignKey("SOHAIB.SOHAIB_OPTION", t => t.Option_Id)
+                .ForeignKey("SOHAIB.SOHAIB_OPTION", t => t.ParentOptionId, cascadeDelete: true)
+                .ForeignKey("SOHAIB.SOHAIB_QUESTION", t => t.ParentQuestionId)
                 .Index(t => t.ParentQuestionId)
                 .Index(t => t.ParentOptionId)
+                .Index(t => t.CategoryId)
                 .Index(t => t.Option_Id);
             
             CreateTable(
-                "MYDATABASE.MYDATABASE_OPTION",
+                "SOHAIB.SOHAIB_CATEGORY",
+                c => new
+                    {
+                        Id = c.Decimal(nullable: false, precision: 10, scale: 0, identity: true),
+                        Name = c.String(nullable: false, maxLength: 100),
+                        Description = c.String(maxLength: 250),
+                        ParentCategoryId = c.Decimal(nullable: false, precision: 10, scale: 0),
+                    })
+                .PrimaryKey(t => t.Id)
+                .Index(t => t.Name, unique: true);
+            
+            CreateTable(
+                "SOHAIB.SOHAIB_OPTION",
                 c => new
                     {
                         Id = c.Decimal(nullable: false, precision: 10, scale: 0, identity: true),
@@ -54,13 +69,13 @@ namespace CustomerProfileBank.Models.Migrations
                         Question_Id = c.Decimal(precision: 10, scale: 0),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("MYDATABASE.MYDATABASE_QUESTION", t => t.ParentQuestionId, cascadeDelete: true)
-                .ForeignKey("MYDATABASE.MYDATABASE_QUESTION", t => t.Question_Id)
+                .ForeignKey("SOHAIB.SOHAIB_QUESTION", t => t.ParentQuestionId, cascadeDelete: true)
+                .ForeignKey("SOHAIB.SOHAIB_QUESTION", t => t.Question_Id)
                 .Index(t => t.ParentQuestionId)
                 .Index(t => t.Question_Id);
             
             CreateTable(
-                "MYDATABASE.MYDATABASE_SURVEYQUESTION",
+                "SOHAIB.SOHAIB_SURVEYQUESTION",
                 c => new
                     {
                         Id = c.Decimal(nullable: false, precision: 10, scale: 0, identity: true),
@@ -70,32 +85,32 @@ namespace CustomerProfileBank.Models.Migrations
                         QuestionId = c.Decimal(nullable: false, precision: 10, scale: 0),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("MYDATABASE.MYDATABASE_QUESTION", t => t.QuestionId, cascadeDelete: true)
-                .ForeignKey("MYDATABASE.MYDATABASE_SURVEY", t => t.SurveyId, cascadeDelete: true)
+                .ForeignKey("SOHAIB.SOHAIB_QUESTION", t => t.QuestionId, cascadeDelete: true)
+                .ForeignKey("SOHAIB.SOHAIB_SURVEY", t => t.SurveyId, cascadeDelete: true)
                 .Index(t => t.SurveyId)
                 .Index(t => t.QuestionId);
             
             CreateTable(
-                "MYDATABASE.MYDATABASE_SURVEY",
+                "SOHAIB.SOHAIB_SURVEY",
                 c => new
                     {
                         Id = c.Decimal(nullable: false, precision: 10, scale: 0, identity: true),
                         Name = c.String(nullable: false, maxLength: 100),
-                        Description = c.String(maxLength: 100),
-                        creationDate = c.DateTime(nullable: false),
+                        Description = c.String(maxLength: 250),
+                        CreationDate = c.DateTime(nullable: false),
                         ValidiatyMonthlyPeriod = c.Decimal(nullable: false, precision: 10, scale: 0),
                         FromDate = c.DateTime(),
                         ToDate = c.DateTime(),
-                        Status = c.String(),
+                        Status = c.String(nullable: false, maxLength: 100),
                         CreatorId = c.Decimal(nullable: false, precision: 10, scale: 0),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("MYDATABASE.MYDATABASE_USER", t => t.CreatorId, cascadeDelete: true)
+                .ForeignKey("SOHAIB.SOHAIB_USER", t => t.CreatorId, cascadeDelete: true)
                 .Index(t => t.Name, unique: true)
                 .Index(t => t.CreatorId);
             
             CreateTable(
-                "MYDATABASE.MYDATABASE_USER",
+                "SOHAIB.SOHAIB_USER",
                 c => new
                     {
                         Id = c.Decimal(nullable: false, precision: 10, scale: 0, identity: true),
@@ -112,7 +127,7 @@ namespace CustomerProfileBank.Models.Migrations
                 .Index(t => t.Alias, unique: true);
             
             CreateTable(
-                "MYDATABASE.MYDATABASE_ROLE",
+                "SOHAIB.SOHAIB_ROLE",
                 c => new
                     {
                         Id = c.Decimal(nullable: false, precision: 10, scale: 0, identity: true),
@@ -124,7 +139,7 @@ namespace CustomerProfileBank.Models.Migrations
                 .Index(t => t.Name, unique: true);
             
             CreateTable(
-                "MYDATABASE.MYDATABASE_PRIVILEGE",
+                "SOHAIB.SOHAIB_PRIVILEGE",
                 c => new
                     {
                         Id = c.Decimal(nullable: false, precision: 10, scale: 0, identity: true),
@@ -134,7 +149,7 @@ namespace CustomerProfileBank.Models.Migrations
                 .PrimaryKey(t => t.Id);
             
             CreateTable(
-                "MYDATABASE.MYDATABASE_SURVEYRESPONSE",
+                "SOHAIB.SOHAIB_SURVEYRESPONSE",
                 c => new
                     {
                         Id = c.Decimal(nullable: false, precision: 10, scale: 0, identity: true),
@@ -143,13 +158,13 @@ namespace CustomerProfileBank.Models.Migrations
                         SurveyId = c.Decimal(nullable: false, precision: 10, scale: 0),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("MYDATABASE.MYDATABASE_CUSTOMER", t => t.CustomerId, cascadeDelete: true)
-                .ForeignKey("MYDATABASE.MYDATABASE_SURVEY", t => t.SurveyId, cascadeDelete: true)
+                .ForeignKey("SOHAIB.SOHAIB_CUSTOMER", t => t.CustomerId, cascadeDelete: true)
+                .ForeignKey("SOHAIB.SOHAIB_SURVEY", t => t.SurveyId, cascadeDelete: true)
                 .Index(t => t.CustomerId)
                 .Index(t => t.SurveyId);
             
             CreateTable(
-                "MYDATABASE.MYDATABASE_CUSTOMER",
+                "SOHAIB.SOHAIB_CUSTOMER",
                 c => new
                     {
                         Id = c.Decimal(nullable: false, precision: 10, scale: 0, identity: true),
@@ -162,7 +177,7 @@ namespace CustomerProfileBank.Models.Migrations
                 .PrimaryKey(t => t.Id);
             
             CreateTable(
-                "MYDATABASE.MYDATABASE_CUSTOMERHOBBY",
+                "SOHAIB.SOHAIB_CUSTOMERHOBBY",
                 c => new
                     {
                         Id = c.Decimal(nullable: false, precision: 10, scale: 0, identity: true),
@@ -170,13 +185,13 @@ namespace CustomerProfileBank.Models.Migrations
                         HobbyTypeId = c.Decimal(nullable: false, precision: 10, scale: 0),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("MYDATABASE.MYDATABASE_CUSTOMER", t => t.CustomerId, cascadeDelete: true)
-                .ForeignKey("MYDATABASE.MYDATABASE_HOBBYTYPE", t => t.HobbyTypeId, cascadeDelete: true)
+                .ForeignKey("SOHAIB.SOHAIB_CUSTOMER", t => t.CustomerId, cascadeDelete: true)
+                .ForeignKey("SOHAIB.SOHAIB_HOBBYTYPE", t => t.HobbyTypeId, cascadeDelete: true)
                 .Index(t => t.CustomerId)
                 .Index(t => t.HobbyTypeId);
             
             CreateTable(
-                "MYDATABASE.MYDATABASE_HOBBYTYPE",
+                "SOHAIB.SOHAIB_HOBBYTYPE",
                 c => new
                     {
                         Id = c.Decimal(nullable: false, precision: 10, scale: 0, identity: true),
@@ -185,7 +200,7 @@ namespace CustomerProfileBank.Models.Migrations
                 .PrimaryKey(t => t.Id);
             
             CreateTable(
-                "MYDATABASE.MYDATABASE_NUMBER",
+                "SOHAIB.SOHAIB_NUMBER",
                 c => new
                     {
                         Id = c.Decimal(nullable: false, precision: 10, scale: 0, identity: true),
@@ -194,13 +209,13 @@ namespace CustomerProfileBank.Models.Migrations
                         NumberTypeId = c.Decimal(nullable: false, precision: 10, scale: 0),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("MYDATABASE.MYDATABASE_CUSTOMER", t => t.CustomerId, cascadeDelete: true)
-                .ForeignKey("MYDATABASE.MYDATABASE_NUMBERTYPE", t => t.NumberTypeId, cascadeDelete: true)
+                .ForeignKey("SOHAIB.SOHAIB_CUSTOMER", t => t.CustomerId, cascadeDelete: true)
+                .ForeignKey("SOHAIB.SOHAIB_NUMBERTYPE", t => t.NumberTypeId, cascadeDelete: true)
                 .Index(t => t.CustomerId)
                 .Index(t => t.NumberTypeId);
             
             CreateTable(
-                "MYDATABASE.MYDATABASE_NUMBERTYPE",
+                "SOHAIB.SOHAIB_NUMBERTYPE",
                 c => new
                     {
                         Id = c.Decimal(nullable: false, precision: 10, scale: 0, identity: true),
@@ -209,7 +224,7 @@ namespace CustomerProfileBank.Models.Migrations
                 .PrimaryKey(t => t.Id);
             
             CreateTable(
-                "MYDATABASE.MYDATABASE_SERVICE",
+                "SOHAIB.SOHAIB_SERVICE",
                 c => new
                     {
                         Id = c.Decimal(nullable: false, precision: 10, scale: 0, identity: true),
@@ -218,13 +233,13 @@ namespace CustomerProfileBank.Models.Migrations
                         ServiceTypeId = c.Decimal(nullable: false, precision: 10, scale: 0),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("MYDATABASE.MYDATABASE_CUSTOMER", t => t.CustomerId, cascadeDelete: true)
-                .ForeignKey("MYDATABASE.MYDATABASE_SERVICETYPE", t => t.ServiceTypeId, cascadeDelete: true)
+                .ForeignKey("SOHAIB.SOHAIB_CUSTOMER", t => t.CustomerId, cascadeDelete: true)
+                .ForeignKey("SOHAIB.SOHAIB_SERVICETYPE", t => t.ServiceTypeId, cascadeDelete: true)
                 .Index(t => t.CustomerId)
                 .Index(t => t.ServiceTypeId);
             
             CreateTable(
-                "MYDATABASE.MYDATABASE_SERVICETYPE",
+                "SOHAIB.SOHAIB_SERVICETYPE",
                 c => new
                     {
                         Id = c.Decimal(nullable: false, precision: 10, scale: 0, identity: true),
@@ -233,7 +248,7 @@ namespace CustomerProfileBank.Models.Migrations
                 .PrimaryKey(t => t.Id);
             
             CreateTable(
-                "MYDATABASE.MYDATABASE_CUSTOMERFINGERPRINT",
+                "SOHAIB.SOHAIB_CUSTOMERFINGERPRINT",
                 c => new
                     {
                         Id = c.Decimal(nullable: false, precision: 10, scale: 0, identity: true),
@@ -242,13 +257,13 @@ namespace CustomerProfileBank.Models.Migrations
                         FingerPrintClassId = c.Decimal(nullable: false, precision: 10, scale: 0),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("MYDATABASE.MYDATABASE_CUSTOMER", t => t.CustomerId, cascadeDelete: true)
-                .ForeignKey("MYDATABASE.MYDATABASE_FINGERPRINTCLASS", t => t.FingerPrintClassId, cascadeDelete: true)
+                .ForeignKey("SOHAIB.SOHAIB_CUSTOMER", t => t.CustomerId, cascadeDelete: true)
+                .ForeignKey("SOHAIB.SOHAIB_FINGERPRINTCLASS", t => t.FingerPrintClassId, cascadeDelete: true)
                 .Index(t => t.CustomerId)
                 .Index(t => t.FingerPrintClassId);
             
             CreateTable(
-                "MYDATABASE.MYDATABASE_FINGERPRINTCLASS",
+                "SOHAIB.SOHAIB_FINGERPRINTCLASS",
                 c => new
                     {
                         Id = c.Decimal(nullable: false, precision: 10, scale: 0, identity: true),
@@ -257,7 +272,7 @@ namespace CustomerProfileBank.Models.Migrations
                 .PrimaryKey(t => t.Id);
             
             CreateTable(
-                "MYDATABASE.MYDATABASE_USERFINGERPRINT",
+                "SOHAIB.SOHAIB_USERFINGERPRINT",
                 c => new
                     {
                         Id = c.Decimal(nullable: false, precision: 10, scale: 0, identity: true),
@@ -266,34 +281,34 @@ namespace CustomerProfileBank.Models.Migrations
                         FingerPrintClassId = c.Decimal(nullable: false, precision: 10, scale: 0),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("MYDATABASE.MYDATABASE_FINGERPRINTCLASS", t => t.FingerPrintClassId, cascadeDelete: true)
-                .ForeignKey("MYDATABASE.MYDATABASE_USER", t => t.UserId, cascadeDelete: true)
+                .ForeignKey("SOHAIB.SOHAIB_FINGERPRINTCLASS", t => t.FingerPrintClassId, cascadeDelete: true)
+                .ForeignKey("SOHAIB.SOHAIB_USER", t => t.UserId, cascadeDelete: true)
                 .Index(t => t.UserId)
                 .Index(t => t.FingerPrintClassId);
             
             CreateTable(
-                "MYDATABASE.MYDATABASE_ROLEPRIVILEGES",
+                "SOHAIB.SOHAIB_ROLEPRIVILEGES",
                 c => new
                     {
                         Role_Id = c.Decimal(nullable: false, precision: 10, scale: 0),
                         Privilege_Id = c.Decimal(nullable: false, precision: 10, scale: 0),
                     })
                 .PrimaryKey(t => new { t.Role_Id, t.Privilege_Id })
-                .ForeignKey("MYDATABASE.MYDATABASE_ROLE", t => t.Role_Id, cascadeDelete: true)
-                .ForeignKey("MYDATABASE.MYDATABASE_PRIVILEGE", t => t.Privilege_Id, cascadeDelete: true)
+                .ForeignKey("SOHAIB.SOHAIB_ROLE", t => t.Role_Id, cascadeDelete: true)
+                .ForeignKey("SOHAIB.SOHAIB_PRIVILEGE", t => t.Privilege_Id, cascadeDelete: true)
                 .Index(t => t.Role_Id)
                 .Index(t => t.Privilege_Id);
             
             CreateTable(
-                "MYDATABASE.MYDATABASE_USERROLES",
+                "SOHAIB.SOHAIB_USERROLES",
                 c => new
                     {
                         User_Id = c.Decimal(nullable: false, precision: 10, scale: 0),
                         Role_Id = c.Decimal(nullable: false, precision: 10, scale: 0),
                     })
                 .PrimaryKey(t => new { t.User_Id, t.Role_Id })
-                .ForeignKey("MYDATABASE.MYDATABASE_USER", t => t.User_Id, cascadeDelete: true)
-                .ForeignKey("MYDATABASE.MYDATABASE_ROLE", t => t.Role_Id, cascadeDelete: true)
+                .ForeignKey("SOHAIB.SOHAIB_USER", t => t.User_Id, cascadeDelete: true)
+                .ForeignKey("SOHAIB.SOHAIB_ROLE", t => t.Role_Id, cascadeDelete: true)
                 .Index(t => t.User_Id)
                 .Index(t => t.Role_Id);
             
@@ -301,83 +316,87 @@ namespace CustomerProfileBank.Models.Migrations
         
         public override void Down()
         {
-            DropForeignKey("MYDATABASE.MYDATABASE_USERFINGERPRINT", "UserId", "MYDATABASE.MYDATABASE_USER");
-            DropForeignKey("MYDATABASE.MYDATABASE_USERFINGERPRINT", "FingerPrintClassId", "MYDATABASE.MYDATABASE_FINGERPRINTCLASS");
-            DropForeignKey("MYDATABASE.MYDATABASE_CUSTOMERFINGERPRINT", "FingerPrintClassId", "MYDATABASE.MYDATABASE_FINGERPRINTCLASS");
-            DropForeignKey("MYDATABASE.MYDATABASE_CUSTOMERFINGERPRINT", "CustomerId", "MYDATABASE.MYDATABASE_CUSTOMER");
-            DropForeignKey("MYDATABASE.MYDATABASE_ANSWER", "SurveyResponseId", "MYDATABASE.MYDATABASE_SURVEYRESPONSE");
-            DropForeignKey("MYDATABASE.MYDATABASE_SURVEYRESPONSE", "SurveyId", "MYDATABASE.MYDATABASE_SURVEY");
-            DropForeignKey("MYDATABASE.MYDATABASE_SURVEYRESPONSE", "CustomerId", "MYDATABASE.MYDATABASE_CUSTOMER");
-            DropForeignKey("MYDATABASE.MYDATABASE_SERVICE", "ServiceTypeId", "MYDATABASE.MYDATABASE_SERVICETYPE");
-            DropForeignKey("MYDATABASE.MYDATABASE_SERVICE", "CustomerId", "MYDATABASE.MYDATABASE_CUSTOMER");
-            DropForeignKey("MYDATABASE.MYDATABASE_NUMBER", "NumberTypeId", "MYDATABASE.MYDATABASE_NUMBERTYPE");
-            DropForeignKey("MYDATABASE.MYDATABASE_NUMBER", "CustomerId", "MYDATABASE.MYDATABASE_CUSTOMER");
-            DropForeignKey("MYDATABASE.MYDATABASE_CUSTOMERHOBBY", "HobbyTypeId", "MYDATABASE.MYDATABASE_HOBBYTYPE");
-            DropForeignKey("MYDATABASE.MYDATABASE_CUSTOMERHOBBY", "CustomerId", "MYDATABASE.MYDATABASE_CUSTOMER");
-            DropForeignKey("MYDATABASE.MYDATABASE_ANSWER", "QuestionId", "MYDATABASE.MYDATABASE_QUESTION");
-            DropForeignKey("MYDATABASE.MYDATABASE_SURVEYQUESTION", "SurveyId", "MYDATABASE.MYDATABASE_SURVEY");
-            DropForeignKey("MYDATABASE.MYDATABASE_SURVEY", "CreatorId", "MYDATABASE.MYDATABASE_USER");
-            DropForeignKey("MYDATABASE.MYDATABASE_USERROLES", "Role_Id", "MYDATABASE.MYDATABASE_ROLE");
-            DropForeignKey("MYDATABASE.MYDATABASE_USERROLES", "User_Id", "MYDATABASE.MYDATABASE_USER");
-            DropForeignKey("MYDATABASE.MYDATABASE_ROLEPRIVILEGES", "Privilege_Id", "MYDATABASE.MYDATABASE_PRIVILEGE");
-            DropForeignKey("MYDATABASE.MYDATABASE_ROLEPRIVILEGES", "Role_Id", "MYDATABASE.MYDATABASE_ROLE");
-            DropForeignKey("MYDATABASE.MYDATABASE_SURVEYQUESTION", "QuestionId", "MYDATABASE.MYDATABASE_QUESTION");
-            DropForeignKey("MYDATABASE.MYDATABASE_QUESTION", "ParentQuestionId", "MYDATABASE.MYDATABASE_QUESTION");
-            DropForeignKey("MYDATABASE.MYDATABASE_QUESTION", "ParentOptionId", "MYDATABASE.MYDATABASE_OPTION");
-            DropForeignKey("MYDATABASE.MYDATABASE_OPTION", "Question_Id", "MYDATABASE.MYDATABASE_QUESTION");
-            DropForeignKey("MYDATABASE.MYDATABASE_QUESTION", "Option_Id", "MYDATABASE.MYDATABASE_OPTION");
-            DropForeignKey("MYDATABASE.MYDATABASE_OPTION", "ParentQuestionId", "MYDATABASE.MYDATABASE_QUESTION");
-            DropIndex("MYDATABASE.MYDATABASE_USERROLES", new[] { "Role_Id" });
-            DropIndex("MYDATABASE.MYDATABASE_USERROLES", new[] { "User_Id" });
-            DropIndex("MYDATABASE.MYDATABASE_ROLEPRIVILEGES", new[] { "Privilege_Id" });
-            DropIndex("MYDATABASE.MYDATABASE_ROLEPRIVILEGES", new[] { "Role_Id" });
-            DropIndex("MYDATABASE.MYDATABASE_USERFINGERPRINT", new[] { "FingerPrintClassId" });
-            DropIndex("MYDATABASE.MYDATABASE_USERFINGERPRINT", new[] { "UserId" });
-            DropIndex("MYDATABASE.MYDATABASE_CUSTOMERFINGERPRINT", new[] { "FingerPrintClassId" });
-            DropIndex("MYDATABASE.MYDATABASE_CUSTOMERFINGERPRINT", new[] { "CustomerId" });
-            DropIndex("MYDATABASE.MYDATABASE_SERVICE", new[] { "ServiceTypeId" });
-            DropIndex("MYDATABASE.MYDATABASE_SERVICE", new[] { "CustomerId" });
-            DropIndex("MYDATABASE.MYDATABASE_NUMBER", new[] { "NumberTypeId" });
-            DropIndex("MYDATABASE.MYDATABASE_NUMBER", new[] { "CustomerId" });
-            DropIndex("MYDATABASE.MYDATABASE_CUSTOMERHOBBY", new[] { "HobbyTypeId" });
-            DropIndex("MYDATABASE.MYDATABASE_CUSTOMERHOBBY", new[] { "CustomerId" });
-            DropIndex("MYDATABASE.MYDATABASE_SURVEYRESPONSE", new[] { "SurveyId" });
-            DropIndex("MYDATABASE.MYDATABASE_SURVEYRESPONSE", new[] { "CustomerId" });
-            DropIndex("MYDATABASE.MYDATABASE_ROLE", new[] { "Name" });
-            DropIndex("MYDATABASE.MYDATABASE_USER", new[] { "Alias" });
-            DropIndex("MYDATABASE.MYDATABASE_USER", new[] { "HRId" });
-            DropIndex("MYDATABASE.MYDATABASE_SURVEY", new[] { "CreatorId" });
-            DropIndex("MYDATABASE.MYDATABASE_SURVEY", new[] { "Name" });
-            DropIndex("MYDATABASE.MYDATABASE_SURVEYQUESTION", new[] { "QuestionId" });
-            DropIndex("MYDATABASE.MYDATABASE_SURVEYQUESTION", new[] { "SurveyId" });
-            DropIndex("MYDATABASE.MYDATABASE_OPTION", new[] { "Question_Id" });
-            DropIndex("MYDATABASE.MYDATABASE_OPTION", new[] { "ParentQuestionId" });
-            DropIndex("MYDATABASE.MYDATABASE_QUESTION", new[] { "Option_Id" });
-            DropIndex("MYDATABASE.MYDATABASE_QUESTION", new[] { "ParentOptionId" });
-            DropIndex("MYDATABASE.MYDATABASE_QUESTION", new[] { "ParentQuestionId" });
-            DropIndex("MYDATABASE.MYDATABASE_ANSWER", new[] { "QuestionId" });
-            DropIndex("MYDATABASE.MYDATABASE_ANSWER", new[] { "SurveyResponseId" });
-            DropTable("MYDATABASE.MYDATABASE_USERROLES");
-            DropTable("MYDATABASE.MYDATABASE_ROLEPRIVILEGES");
-            DropTable("MYDATABASE.MYDATABASE_USERFINGERPRINT");
-            DropTable("MYDATABASE.MYDATABASE_FINGERPRINTCLASS");
-            DropTable("MYDATABASE.MYDATABASE_CUSTOMERFINGERPRINT");
-            DropTable("MYDATABASE.MYDATABASE_SERVICETYPE");
-            DropTable("MYDATABASE.MYDATABASE_SERVICE");
-            DropTable("MYDATABASE.MYDATABASE_NUMBERTYPE");
-            DropTable("MYDATABASE.MYDATABASE_NUMBER");
-            DropTable("MYDATABASE.MYDATABASE_HOBBYTYPE");
-            DropTable("MYDATABASE.MYDATABASE_CUSTOMERHOBBY");
-            DropTable("MYDATABASE.MYDATABASE_CUSTOMER");
-            DropTable("MYDATABASE.MYDATABASE_SURVEYRESPONSE");
-            DropTable("MYDATABASE.MYDATABASE_PRIVILEGE");
-            DropTable("MYDATABASE.MYDATABASE_ROLE");
-            DropTable("MYDATABASE.MYDATABASE_USER");
-            DropTable("MYDATABASE.MYDATABASE_SURVEY");
-            DropTable("MYDATABASE.MYDATABASE_SURVEYQUESTION");
-            DropTable("MYDATABASE.MYDATABASE_OPTION");
-            DropTable("MYDATABASE.MYDATABASE_QUESTION");
-            DropTable("MYDATABASE.MYDATABASE_ANSWER");
+            DropForeignKey("SOHAIB.SOHAIB_USERFINGERPRINT", "UserId", "SOHAIB.SOHAIB_USER");
+            DropForeignKey("SOHAIB.SOHAIB_USERFINGERPRINT", "FingerPrintClassId", "SOHAIB.SOHAIB_FINGERPRINTCLASS");
+            DropForeignKey("SOHAIB.SOHAIB_CUSTOMERFINGERPRINT", "FingerPrintClassId", "SOHAIB.SOHAIB_FINGERPRINTCLASS");
+            DropForeignKey("SOHAIB.SOHAIB_CUSTOMERFINGERPRINT", "CustomerId", "SOHAIB.SOHAIB_CUSTOMER");
+            DropForeignKey("SOHAIB.SOHAIB_ANSWER", "SurveyResponseId", "SOHAIB.SOHAIB_SURVEYRESPONSE");
+            DropForeignKey("SOHAIB.SOHAIB_SURVEYRESPONSE", "SurveyId", "SOHAIB.SOHAIB_SURVEY");
+            DropForeignKey("SOHAIB.SOHAIB_SURVEYRESPONSE", "CustomerId", "SOHAIB.SOHAIB_CUSTOMER");
+            DropForeignKey("SOHAIB.SOHAIB_SERVICE", "ServiceTypeId", "SOHAIB.SOHAIB_SERVICETYPE");
+            DropForeignKey("SOHAIB.SOHAIB_SERVICE", "CustomerId", "SOHAIB.SOHAIB_CUSTOMER");
+            DropForeignKey("SOHAIB.SOHAIB_NUMBER", "NumberTypeId", "SOHAIB.SOHAIB_NUMBERTYPE");
+            DropForeignKey("SOHAIB.SOHAIB_NUMBER", "CustomerId", "SOHAIB.SOHAIB_CUSTOMER");
+            DropForeignKey("SOHAIB.SOHAIB_CUSTOMERHOBBY", "HobbyTypeId", "SOHAIB.SOHAIB_HOBBYTYPE");
+            DropForeignKey("SOHAIB.SOHAIB_CUSTOMERHOBBY", "CustomerId", "SOHAIB.SOHAIB_CUSTOMER");
+            DropForeignKey("SOHAIB.SOHAIB_ANSWER", "QuestionId", "SOHAIB.SOHAIB_QUESTION");
+            DropForeignKey("SOHAIB.SOHAIB_SURVEYQUESTION", "SurveyId", "SOHAIB.SOHAIB_SURVEY");
+            DropForeignKey("SOHAIB.SOHAIB_SURVEY", "CreatorId", "SOHAIB.SOHAIB_USER");
+            DropForeignKey("SOHAIB.SOHAIB_USERROLES", "Role_Id", "SOHAIB.SOHAIB_ROLE");
+            DropForeignKey("SOHAIB.SOHAIB_USERROLES", "User_Id", "SOHAIB.SOHAIB_USER");
+            DropForeignKey("SOHAIB.SOHAIB_ROLEPRIVILEGES", "Privilege_Id", "SOHAIB.SOHAIB_PRIVILEGE");
+            DropForeignKey("SOHAIB.SOHAIB_ROLEPRIVILEGES", "Role_Id", "SOHAIB.SOHAIB_ROLE");
+            DropForeignKey("SOHAIB.SOHAIB_SURVEYQUESTION", "QuestionId", "SOHAIB.SOHAIB_QUESTION");
+            DropForeignKey("SOHAIB.SOHAIB_QUESTION", "ParentQuestionId", "SOHAIB.SOHAIB_QUESTION");
+            DropForeignKey("SOHAIB.SOHAIB_QUESTION", "ParentOptionId", "SOHAIB.SOHAIB_OPTION");
+            DropForeignKey("SOHAIB.SOHAIB_OPTION", "Question_Id", "SOHAIB.SOHAIB_QUESTION");
+            DropForeignKey("SOHAIB.SOHAIB_QUESTION", "Option_Id", "SOHAIB.SOHAIB_OPTION");
+            DropForeignKey("SOHAIB.SOHAIB_OPTION", "ParentQuestionId", "SOHAIB.SOHAIB_QUESTION");
+            DropForeignKey("SOHAIB.SOHAIB_QUESTION", "CategoryId", "SOHAIB.SOHAIB_CATEGORY");
+            DropIndex("SOHAIB.SOHAIB_USERROLES", new[] { "Role_Id" });
+            DropIndex("SOHAIB.SOHAIB_USERROLES", new[] { "User_Id" });
+            DropIndex("SOHAIB.SOHAIB_ROLEPRIVILEGES", new[] { "Privilege_Id" });
+            DropIndex("SOHAIB.SOHAIB_ROLEPRIVILEGES", new[] { "Role_Id" });
+            DropIndex("SOHAIB.SOHAIB_USERFINGERPRINT", new[] { "FingerPrintClassId" });
+            DropIndex("SOHAIB.SOHAIB_USERFINGERPRINT", new[] { "UserId" });
+            DropIndex("SOHAIB.SOHAIB_CUSTOMERFINGERPRINT", new[] { "FingerPrintClassId" });
+            DropIndex("SOHAIB.SOHAIB_CUSTOMERFINGERPRINT", new[] { "CustomerId" });
+            DropIndex("SOHAIB.SOHAIB_SERVICE", new[] { "ServiceTypeId" });
+            DropIndex("SOHAIB.SOHAIB_SERVICE", new[] { "CustomerId" });
+            DropIndex("SOHAIB.SOHAIB_NUMBER", new[] { "NumberTypeId" });
+            DropIndex("SOHAIB.SOHAIB_NUMBER", new[] { "CustomerId" });
+            DropIndex("SOHAIB.SOHAIB_CUSTOMERHOBBY", new[] { "HobbyTypeId" });
+            DropIndex("SOHAIB.SOHAIB_CUSTOMERHOBBY", new[] { "CustomerId" });
+            DropIndex("SOHAIB.SOHAIB_SURVEYRESPONSE", new[] { "SurveyId" });
+            DropIndex("SOHAIB.SOHAIB_SURVEYRESPONSE", new[] { "CustomerId" });
+            DropIndex("SOHAIB.SOHAIB_ROLE", new[] { "Name" });
+            DropIndex("SOHAIB.SOHAIB_USER", new[] { "Alias" });
+            DropIndex("SOHAIB.SOHAIB_USER", new[] { "HRId" });
+            DropIndex("SOHAIB.SOHAIB_SURVEY", new[] { "CreatorId" });
+            DropIndex("SOHAIB.SOHAIB_SURVEY", new[] { "Name" });
+            DropIndex("SOHAIB.SOHAIB_SURVEYQUESTION", new[] { "QuestionId" });
+            DropIndex("SOHAIB.SOHAIB_SURVEYQUESTION", new[] { "SurveyId" });
+            DropIndex("SOHAIB.SOHAIB_OPTION", new[] { "Question_Id" });
+            DropIndex("SOHAIB.SOHAIB_OPTION", new[] { "ParentQuestionId" });
+            DropIndex("SOHAIB.SOHAIB_CATEGORY", new[] { "Name" });
+            DropIndex("SOHAIB.SOHAIB_QUESTION", new[] { "Option_Id" });
+            DropIndex("SOHAIB.SOHAIB_QUESTION", new[] { "CategoryId" });
+            DropIndex("SOHAIB.SOHAIB_QUESTION", new[] { "ParentOptionId" });
+            DropIndex("SOHAIB.SOHAIB_QUESTION", new[] { "ParentQuestionId" });
+            DropIndex("SOHAIB.SOHAIB_ANSWER", new[] { "QuestionId" });
+            DropIndex("SOHAIB.SOHAIB_ANSWER", new[] { "SurveyResponseId" });
+            DropTable("SOHAIB.SOHAIB_USERROLES");
+            DropTable("SOHAIB.SOHAIB_ROLEPRIVILEGES");
+            DropTable("SOHAIB.SOHAIB_USERFINGERPRINT");
+            DropTable("SOHAIB.SOHAIB_FINGERPRINTCLASS");
+            DropTable("SOHAIB.SOHAIB_CUSTOMERFINGERPRINT");
+            DropTable("SOHAIB.SOHAIB_SERVICETYPE");
+            DropTable("SOHAIB.SOHAIB_SERVICE");
+            DropTable("SOHAIB.SOHAIB_NUMBERTYPE");
+            DropTable("SOHAIB.SOHAIB_NUMBER");
+            DropTable("SOHAIB.SOHAIB_HOBBYTYPE");
+            DropTable("SOHAIB.SOHAIB_CUSTOMERHOBBY");
+            DropTable("SOHAIB.SOHAIB_CUSTOMER");
+            DropTable("SOHAIB.SOHAIB_SURVEYRESPONSE");
+            DropTable("SOHAIB.SOHAIB_PRIVILEGE");
+            DropTable("SOHAIB.SOHAIB_ROLE");
+            DropTable("SOHAIB.SOHAIB_USER");
+            DropTable("SOHAIB.SOHAIB_SURVEY");
+            DropTable("SOHAIB.SOHAIB_SURVEYQUESTION");
+            DropTable("SOHAIB.SOHAIB_OPTION");
+            DropTable("SOHAIB.SOHAIB_CATEGORY");
+            DropTable("SOHAIB.SOHAIB_QUESTION");
+            DropTable("SOHAIB.SOHAIB_ANSWER");
         }
     }
 }
