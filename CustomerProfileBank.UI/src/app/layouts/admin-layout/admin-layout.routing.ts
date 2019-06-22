@@ -13,6 +13,7 @@ import { AddEditUserComponent } from 'src/app/User Role Management/users/add-edi
 import { AuthGuard } from 'src/app/Guards/auth.guard';
 import { UsersService, EditUsersResolverService } from 'src/app/User Role Management/users/users.service';
 import { RolesService, PrivilegesResolver, EditRoleResolverService } from 'src/app/User Role Management/roles/roles.service';
+import { SurveyComponent } from 'src/app/survey/survey.component';
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard', component: DashboardComponent },
@@ -20,6 +21,17 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'tables', component: TablesComponent },
     { path: 'icons', component: IconsComponent },
     { path: 'maps', component: MapsComponent },
+
+    {
+        path: 'survey',
+        // component: SurveyComponent,
+        // children: [
+        //     {
+        //         path: '',
+                loadChildren: 'src/app/survey/survey.module#SurveyModule'
+        //     }
+        // ]
+    },
     {
         path: 'users', component: UsersComponent, children: [
             {
@@ -31,15 +43,15 @@ export const AdminLayoutRoutes: Routes = [
                 path: ':action', component: AddEditUserComponent,
                 canActivate: [AuthGuard],
                 canDeactivate: [AuthGuard],
-                resolve: { Roles : RolesService}
+                resolve: { Roles: RolesService }
             },
             {
                 path: ':action/:id', component: AddEditUserComponent,
                 canActivate: [AuthGuard],
                 canDeactivate: [AuthGuard],
-                resolve: {User:EditUsersResolverService , Roles : RolesService}
+                resolve: { User: EditUsersResolverService, Roles: RolesService }
             },
-           
+
         ]
     },
     {
@@ -47,21 +59,21 @@ export const AdminLayoutRoutes: Routes = [
             {
                 path: '', component: BrowseRolesComponent,
                 canActivate: [AuthGuard],
-                resolve: { Roles : RolesService }
+                resolve: { Roles: RolesService }
             },
             {
                 path: ':action', component: AddEditRoleComponent,
                 canActivate: [AuthGuard],
                 canDeactivate: [AuthGuard],
-                resolve: { Users: UsersService , Privileges : PrivilegesResolver}
+                resolve: { Users: UsersService, Privileges: PrivilegesResolver }
             },
             {
                 path: ':action/:id', component: AddEditRoleComponent,
                 canActivate: [AuthGuard],
                 canDeactivate: [AuthGuard],
-                resolve: {Role :EditRoleResolverService , Users : UsersService , Privileges : PrivilegesResolver}
+                resolve: { Role: EditRoleResolverService, Users: UsersService, Privileges: PrivilegesResolver }
             },
-           
+
         ]
     },
 ];
