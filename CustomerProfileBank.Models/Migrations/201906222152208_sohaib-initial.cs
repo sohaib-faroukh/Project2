@@ -3,7 +3,7 @@ namespace CustomerProfileBank.Models.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class initial2562019 : DbMigration
+    public partial class sohaibinitial : DbMigration
     {
         public override void Up()
         {
@@ -168,11 +168,11 @@ namespace CustomerProfileBank.Models.Migrations
                 c => new
                     {
                         Id = c.Decimal(nullable: false, precision: 10, scale: 0, identity: true),
-                        FirstName = c.String(nullable: false, maxLength: 150),
-                        LastName = c.String(nullable: false, maxLength: 150),
-                        Address = c.String(nullable: false, maxLength: 150),
-                        ISPN = c.String(maxLength: 150),
-                        Status = c.String(nullable: false, maxLength: 150),
+                        FirstName = c.String(),
+                        LastName = c.String(),
+                        Address = c.String(),
+                        ISPN = c.String(),
+                        Status = c.Decimal(nullable: false, precision: 10, scale: 0),
                     })
                 .PrimaryKey(t => t.Id);
             
@@ -181,38 +181,36 @@ namespace CustomerProfileBank.Models.Migrations
                 c => new
                     {
                         Id = c.Decimal(nullable: false, precision: 10, scale: 0, identity: true),
-                        HobbyTypeId = c.Decimal(nullable: false, precision: 10, scale: 0),
                         CustomerId = c.Decimal(nullable: false, precision: 10, scale: 0),
+                        HobbyTypeId = c.Decimal(nullable: false, precision: 10, scale: 0),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("SOHAIB.SOHAIB_CUSTOMER", t => t.CustomerId, cascadeDelete: true)
                 .ForeignKey("SOHAIB.SOHAIB_HOBBYTYPE", t => t.HobbyTypeId, cascadeDelete: true)
-                .Index(t => t.HobbyTypeId)
-                .Index(t => t.CustomerId);
+                .Index(t => t.CustomerId)
+                .Index(t => t.HobbyTypeId);
             
             CreateTable(
                 "SOHAIB.SOHAIB_HOBBYTYPE",
                 c => new
                     {
                         Id = c.Decimal(nullable: false, precision: 10, scale: 0, identity: true),
-                        Name = c.String(nullable: false, maxLength: 150),
+                        Name = c.String(),
                     })
-                .PrimaryKey(t => t.Id)
-                .Index(t => t.Name, unique: true);
+                .PrimaryKey(t => t.Id);
             
             CreateTable(
                 "SOHAIB.SOHAIB_NUMBER",
                 c => new
                     {
                         Id = c.Decimal(nullable: false, precision: 10, scale: 0, identity: true),
-                        PhoneNumber = c.String(nullable: false, maxLength: 50),
+                        PhoneNumber = c.Decimal(nullable: false, precision: 10, scale: 0),
                         CustomerId = c.Decimal(nullable: false, precision: 10, scale: 0),
                         NumberTypeId = c.Decimal(nullable: false, precision: 10, scale: 0),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("SOHAIB.SOHAIB_CUSTOMER", t => t.CustomerId, cascadeDelete: true)
                 .ForeignKey("SOHAIB.SOHAIB_NUMBERTYPE", t => t.NumberTypeId, cascadeDelete: true)
-                .Index(t => t.PhoneNumber, unique: true)
                 .Index(t => t.CustomerId)
                 .Index(t => t.NumberTypeId);
             
@@ -221,25 +219,22 @@ namespace CustomerProfileBank.Models.Migrations
                 c => new
                     {
                         Id = c.Decimal(nullable: false, precision: 10, scale: 0, identity: true),
-                        Name = c.String(nullable: false, maxLength: 150),
+                        Name = c.String(),
                     })
-                .PrimaryKey(t => t.Id)
-                .Index(t => t.Name, unique: true);
+                .PrimaryKey(t => t.Id);
             
             CreateTable(
                 "SOHAIB.SOHAIB_SERVICE",
                 c => new
                     {
                         Id = c.Decimal(nullable: false, precision: 10, scale: 0, identity: true),
-                        Name = c.String(nullable: false, maxLength: 150),
-                        Status = c.String(nullable: false, maxLength: 150),
+                        IsActive = c.Decimal(nullable: false, precision: 10, scale: 0),
                         CustomerId = c.Decimal(nullable: false, precision: 10, scale: 0),
                         ServiceTypeId = c.Decimal(nullable: false, precision: 10, scale: 0),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("SOHAIB.SOHAIB_CUSTOMER", t => t.CustomerId, cascadeDelete: true)
                 .ForeignKey("SOHAIB.SOHAIB_SERVICETYPE", t => t.ServiceTypeId, cascadeDelete: true)
-                .Index(t => t.Name, unique: true)
                 .Index(t => t.CustomerId)
                 .Index(t => t.ServiceTypeId);
             
@@ -248,17 +243,16 @@ namespace CustomerProfileBank.Models.Migrations
                 c => new
                     {
                         Id = c.Decimal(nullable: false, precision: 10, scale: 0, identity: true),
-                        Name = c.String(nullable: false, maxLength: 150),
+                        Name = c.String(),
                     })
-                .PrimaryKey(t => t.Id)
-                .Index(t => t.Name, unique: true);
+                .PrimaryKey(t => t.Id);
             
             CreateTable(
                 "SOHAIB.SOHAIB_CUSTOMERFINGERPRINT",
                 c => new
                     {
                         Id = c.Decimal(nullable: false, precision: 10, scale: 0, identity: true),
-                        FingerPrint = c.String(nullable: false, maxLength: 150),
+                        FingerPrint = c.String(),
                         CustomerId = c.Decimal(nullable: false, precision: 10, scale: 0),
                         FingerPrintClassId = c.Decimal(nullable: false, precision: 10, scale: 0),
                     })
@@ -273,17 +267,16 @@ namespace CustomerProfileBank.Models.Migrations
                 c => new
                     {
                         Id = c.Decimal(nullable: false, precision: 10, scale: 0, identity: true),
-                        Name = c.String(nullable: false, maxLength: 150),
+                        Name = c.String(),
                     })
-                .PrimaryKey(t => t.Id)
-                .Index(t => t.Name, unique: true);
+                .PrimaryKey(t => t.Id);
             
             CreateTable(
                 "SOHAIB.SOHAIB_USERFINGERPRINT",
                 c => new
                     {
                         Id = c.Decimal(nullable: false, precision: 10, scale: 0, identity: true),
-                        FingerPrint = c.String(nullable: false, maxLength: 150),
+                        FingerPrint = c.String(),
                         UserId = c.Decimal(nullable: false, precision: 10, scale: 0),
                         FingerPrintClassId = c.Decimal(nullable: false, precision: 10, scale: 0),
                     })
@@ -356,20 +349,14 @@ namespace CustomerProfileBank.Models.Migrations
             DropIndex("SOHAIB.SOHAIB_ROLEPRIVILEGES", new[] { "Role_Id" });
             DropIndex("SOHAIB.SOHAIB_USERFINGERPRINT", new[] { "FingerPrintClassId" });
             DropIndex("SOHAIB.SOHAIB_USERFINGERPRINT", new[] { "UserId" });
-            DropIndex("SOHAIB.SOHAIB_FINGERPRINTCLASS", new[] { "Name" });
             DropIndex("SOHAIB.SOHAIB_CUSTOMERFINGERPRINT", new[] { "FingerPrintClassId" });
             DropIndex("SOHAIB.SOHAIB_CUSTOMERFINGERPRINT", new[] { "CustomerId" });
-            DropIndex("SOHAIB.SOHAIB_SERVICETYPE", new[] { "Name" });
             DropIndex("SOHAIB.SOHAIB_SERVICE", new[] { "ServiceTypeId" });
             DropIndex("SOHAIB.SOHAIB_SERVICE", new[] { "CustomerId" });
-            DropIndex("SOHAIB.SOHAIB_SERVICE", new[] { "Name" });
-            DropIndex("SOHAIB.SOHAIB_NUMBERTYPE", new[] { "Name" });
             DropIndex("SOHAIB.SOHAIB_NUMBER", new[] { "NumberTypeId" });
             DropIndex("SOHAIB.SOHAIB_NUMBER", new[] { "CustomerId" });
-            DropIndex("SOHAIB.SOHAIB_NUMBER", new[] { "PhoneNumber" });
-            DropIndex("SOHAIB.SOHAIB_HOBBYTYPE", new[] { "Name" });
-            DropIndex("SOHAIB.SOHAIB_CUSTOMERHOBBY", new[] { "CustomerId" });
             DropIndex("SOHAIB.SOHAIB_CUSTOMERHOBBY", new[] { "HobbyTypeId" });
+            DropIndex("SOHAIB.SOHAIB_CUSTOMERHOBBY", new[] { "CustomerId" });
             DropIndex("SOHAIB.SOHAIB_SURVEYRESPONSE", new[] { "SurveyId" });
             DropIndex("SOHAIB.SOHAIB_SURVEYRESPONSE", new[] { "CustomerId" });
             DropIndex("SOHAIB.SOHAIB_ROLE", new[] { "Name" });

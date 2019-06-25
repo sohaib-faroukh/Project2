@@ -15,8 +15,6 @@ import { ComponentsModule } from './components/components.module';
 import { AuthGuard } from './guards/auth.guard';
 import { ConfigService, API_BASE_URL, ConfigFactory } from './config/config.service';
 import { HttpModule } from '@angular/http';
-import { InsertCustomerComponent } from './insert-customer/insert-customer.component';
-import { InsertCustomerService } from './insert-customer/insert-customer.service';
 // import {
 //   DxDataGridModule,
 //   DxBulletModule,
@@ -43,10 +41,8 @@ import { InsertCustomerService } from './insert-customer/insert-customer.service
     AppComponent,
     AdminLayoutComponent,
     AuthLayoutComponent,
-    InsertCustomerComponent,
   ],
   providers: [
-    InsertCustomerService,
     ConfigService,
     {provide :'CONFIG.JSON',useValue:'assets/config.json'},
     {provide :'BASE-API-VARIABLE',useValue:'API_URL'},
