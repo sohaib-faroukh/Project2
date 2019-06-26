@@ -42,6 +42,8 @@ namespace Project2.WebAPIs.Survey_Management
                     ques.Question.Id,
                     ques.Question.Text,
                     ques.Order,
+                    CategoryId = ques.Question.CategoryId,
+                    ques.Question.Category.Name,
                     ques.Question.Status,
                     ques.IsMandatory,
                 })
