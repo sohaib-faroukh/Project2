@@ -63,6 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Context\DataBaseContext.cs" />
+    <Compile Include="Helpers\Helper.cs" />
     <Compile Include="Migrations\201906251936186_initial-25-6-2019.cs" />
     <Compile Include="Migrations\201906251936186_initial-25-6-2019.Designer.cs">
       <DependentUpon>201906251936186_initial-25-6-2019.cs</DependentUpon>
@@ -112,6 +113,7 @@
     <Compile Include="Repositories\SurveyResponseRepo.cs" />
     <Compile Include="Repositories\UserFingerPrintRepo.cs" />
     <Compile Include="Repositories\UserRepo.cs" />
+    <Compile Include="ViewModels\CustomerVM.cs" />
     <Compile Include="ViewModels\OptionVM.cs" />
     <Compile Include="ViewModels\QuestionVM.cs" />
     <Compile Include="ViewModels\SurveyVM.cs" />
