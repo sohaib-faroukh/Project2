@@ -15,8 +15,11 @@ import { ComponentsModule } from './components/components.module';
 import { AuthGuard } from './guards/auth.guard';
 import { ConfigService, API_BASE_URL, ConfigFactory } from './config/config.service';
 import { HttpModule } from '@angular/http';
-import { InsertCustomerComponent } from './insert-customer/insert-customer.component';
-import { InsertCustomerService } from './insert-customer/insert-customer.service';
+import { InsertCustomerComponent } from './Customer Management/insert-customer/insert-customer.component';
+import { InsertCustomerService } from './Customer Management/insert-customer/insert-customer.service';
+import { CustomersComponent } from './Customer Management/customers/customers.component';
+import { AddEditCustomerComponent } from './Customer Management/customers/add-edit-customer/add-edit-customer.component';
+import { BrowseCustomersComponent } from './Customer Management/customers/browse-customers/browse-customers.component';
 // import {
 //   DxDataGridModule,
 //   DxBulletModule,
@@ -44,6 +47,7 @@ import { InsertCustomerService } from './insert-customer/insert-customer.service
     AdminLayoutComponent,
     AuthLayoutComponent,
     InsertCustomerComponent,
+
   ],
   providers: [
     InsertCustomerService,
