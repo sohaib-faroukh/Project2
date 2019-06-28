@@ -1,8 +1,8 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { showNotification } from '../additional/functions';
-import { API_BASE_URL } from '../config/config.service';
 import { InsertCustomerService } from './insert-customer.service';
+import { API_BASE_URL } from 'src/app/config/config.service';
+import { showNotification } from 'src/app/additional/functions';
 
 @Component({
   selector: 'app-insert-customer',

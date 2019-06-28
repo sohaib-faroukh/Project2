@@ -14,6 +14,9 @@ import { AuthGuard } from 'src/app/Guards/auth.guard';
 import { UsersService, EditUsersResolverService } from 'src/app/User Role Management/users/users.service';
 import { RolesService, PrivilegesResolver, EditRoleResolverService } from 'src/app/User Role Management/roles/roles.service';
 import { SurveyComponent } from 'src/app/survey/survey.component';
+import { CustomersComponent } from 'src/app/Customer Management/customers/customers.component';
+import { BrowseCustomersComponent } from 'src/app/Customer Management/customers/browse-customers/browse-customers.component';
+import { AddEditCustomerComponent } from 'src/app/Customer Management/customers/add-edit-customer/add-edit-customer.component';
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard', component: DashboardComponent },
@@ -28,10 +31,33 @@ export const AdminLayoutRoutes: Routes = [
         // children: [
         //     {
         //         path: '',
-                loadChildren: 'src/app/survey/survey.module#SurveyModule'
+        loadChildren: 'src/app/survey/survey.module#SurveyModule'
         //     }
         // ]
     },
+
+
+    {
+        path: 'customers', component: CustomersComponent, children: [
+            {
+                path: '', component: BrowseCustomersComponent,
+                // canActivate: [AuthGuard],
+                // resolve: { Users: UsersService }
+            },
+            {
+                path: ':action', component: AddEditCustomerComponent,
+                // canActivate: [AuthGuard],
+                // resolve: { Users: UsersService }
+            },
+            {
+                path: ':action/:id', component:AddEditCustomerComponent,
+                // canActivate: [AuthGuard],
+                // resolve: { Users: UsersService }
+            },
+        ]
+    },
+
+
     {
         path: 'users', component: UsersComponent, children: [
             {

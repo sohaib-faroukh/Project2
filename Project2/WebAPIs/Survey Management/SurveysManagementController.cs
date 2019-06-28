@@ -23,7 +23,7 @@ namespace Project2.WebAPIs.Survey_Management
 
         [HttpGet]
         [Route("api/Surveys")]
-        public IHttpActionResult GetSurveys()
+        public IHttpActionResult getAll()
         {
             var res = sRepo.GetAll().Select(ele => new
             {
@@ -54,7 +54,7 @@ namespace Project2.WebAPIs.Survey_Management
 
         [HttpGet]
         [Route("api/Surveys/{id}")]
-        public IHttpActionResult GetSurvey(int id)
+        public IHttpActionResult getById(int id)
         {
             var ele = sRepo.FindById(id);
             var res = new
@@ -82,56 +82,129 @@ namespace Project2.WebAPIs.Survey_Management
         }
 
 
+        /*
+         * - Fix put 
+         */
+
+
         [HttpPut]
-        [Route("api/Surveys/{id}")]
-        public IHttpActionResult PutSurvey(int id, Survey survey)
+        [Route("api/Surveys/put/{id}")]
+        public IHttpActionResult put(int id, Survey newSurvey)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (id != survey.Id)
-            {
-                return BadRequest();
-            }
-
-            //db.Entry(survey).State = EntityState.Modified;
+            bool valid = false;
 
             try
             {
-                //db.SaveChanges();
+                Survey toUpdateSurvey = sRepo.FindById(id);
+                if (toUpdateSurvey == null)
+                {
+                    throw new Exception("Can't find the selected survey");
+                }
+
+                /* if there are any deffirent Survey have the same new name */
+                var toCheckTheNameIsUniqe = sRepo.FindBy(a => a.Id != id && a.Name.Trim().ToUpper() == newSurvey.Name.Trim().ToUpper());
+
+                /* new Survey name isn't uniqe */
+                if (toCheckTheNameIsUniqe != null)
+                {
+                    throw new Exception("new survey name is duplicated");
+                }
+
+                newSurvey.Id = id;
+
+                /* check if the new object valid oppsite the configuration */
+                Validate(newSurvey, "editSurvey");
+
+
+                Survey updatedSurvey = null;
+                valid = ModelState.IsValidField("editSurvey");
+                if (valid)
+                {
+                    /* Add new Survey using Reository Add method passing the new Survey object */
+                    updatedSurvey = sRepo.Edit(toUpdateSurvey, newSurvey);
+
+                }
+
+                /* Check if the Survey updated */
+                if (updatedSurvey == null)
+                {
+                    throw new Exception("Can't update the survey information");
+                }
+                /* select the proprties of the addedCustomer to return */
+                var result = updatedSurvey;
+
+                return Json(result);
+
             }
             catch (Exception ex)
             {
-                throw;
+                if (valid)
+                    return BadRequest(ex.Message);
+                else
+                    return BadRequest(ModelState);
             }
-
-            return StatusCode(HttpStatusCode.NoContent);
         }
 
 
+        /*
+         * - Fix post 
+         */
 
         [HttpPost]
-        [Route("api/Surveys")]
-        public IHttpActionResult PostSurvey(Survey survey)
+        [Route("api/Surveys/post")]
+        public IHttpActionResult post(Survey newSurvey)
         {
-            if (!ModelState.IsValid)
+            bool valid = false;
+            Survey toAddSurvey = new Survey();
+
+            try
             {
-                return BadRequest(ModelState);
+                /* copy new survey data */
+                toAddSurvey = newSurvey;
+
+                /* Survey Creator define */
+                if (newSurvey.CreatorId != 0)
+                {
+                    User Creator = new UserRepo().FindById(newSurvey.CreatorId);
+                    if (Creator != null)
+                    {
+                        toAddSurvey.Creator = Creator;
+                    }
+                }
+
+                /* make the current machine data is the creation date */
+                toAddSurvey.CreationDate = DateTime.Now;
+
+                List<Question> Questions = new List<Question>();
+                QuestionRepo quesRepo = new QuestionRepo();
+
+                if (newSurvey.Questions != null && newSurvey.Questions.Count > 0)
+                {
+                    foreach (var ques in newSurvey.Questions)
+                    {
+                        SurveyQuestion new_ = new SurveyQuestion();
+                        new_ = ques;
+
+
+                    }
+                }
+
+                return Json(new { });
             }
-
-            //db.Surveys.Add(survey);
-            //db.SaveChanges();
-
-            return CreatedAtRoute("DefaultApi", new { id = survey.Id }, survey);
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
 
+        /*
+         * - Fix delete 
+         */
 
         [HttpDelete]
         [Route("api/Surveys/{id}")]
-        public IHttpActionResult DeleteSurvey(int id)
+        public IHttpActionResult delete(int id)
         {
             //Survey survey = db.Surveys.Find(id);
             //if (survey == null)

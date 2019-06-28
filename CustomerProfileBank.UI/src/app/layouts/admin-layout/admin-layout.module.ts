@@ -29,6 +29,10 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatProgressSpinnerModule, MatIconModule } from '@angular/material';
 import { KeyValuePipe } from 'src/app/pipes/keyValueFilter.pipe';
+import { CustomersComponent } from 'src/app/Customer Management/customers/customers.component';
+import { AddEditCustomerComponent } from 'src/app/Customer Management/customers/add-edit-customer/add-edit-customer.component';
+import { BrowseCustomersComponent } from 'src/app/Customer Management/customers/browse-customers/browse-customers.component';
+import { CustomersService } from 'src/app/Customer Management/customers/customers.service';
 // import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 // import { ToastrModule } from 'ngx-toastr';
 
@@ -62,12 +66,16 @@ import { KeyValuePipe } from 'src/app/pipes/keyValueFilter.pipe';
     BrowseRolesComponent,
     AddEditRoleComponent,
     AddEditUserComponent,
+    CustomersComponent,
+    AddEditCustomerComponent,
+    BrowseCustomersComponent,
     KeyValuePipe,
   ],
 
   providers: [
     UsersService,
     RolesService,
+    CustomersService,
     // AuthGuard 
   ]
 })

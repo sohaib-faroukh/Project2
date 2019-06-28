@@ -5,7 +5,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
-import { InsertCustomerComponent } from './insert-customer/insert-customer.component';
+import { InsertCustomerComponent } from './Customer Management/insert-customer/insert-customer.component';
 const routes: Routes = [
   {
     path: '',

@@ -15,6 +15,10 @@ namespace Project2.WebAPIs.Customer_Profile_Mangement
     {
         CustomerRepo Repo = new CustomerRepo();
 
+        /*
+        * - TODO : this below list represent the last tasks related the following API
+        * 1 - validate if user Authorized to this process
+        */
 
         [HttpGet]
         [Route(template: "api/customers")]
@@ -65,6 +69,10 @@ namespace Project2.WebAPIs.Customer_Profile_Mangement
 
         }
 
+        /*
+        * - TODO : this below list represent the last tasks related the following API
+        * 1 - validate if user Authorized to this process
+        */
         [HttpGet]
         [Route(template: "api/customers/{Id}")]
         public IHttpActionResult getById(int Id)
@@ -112,9 +120,13 @@ namespace Project2.WebAPIs.Customer_Profile_Mangement
             }
         }
 
-
+        /*
+        * - TODO : this below list represent the last tasks related the following API
+        * 1 - validate if the customer need to post the configurations depends on the relations with other tables (i.e : Numbers,...)
+        * 2 - validate if user Authorized to this process
+        */
         [HttpPost]
-        [Route(template: "api/customers")]
+        [Route(template: "api/customers/post")]
         public IHttpActionResult post(CustomerVM Customer)
         {
 
@@ -193,9 +205,15 @@ namespace Project2.WebAPIs.Customer_Profile_Mangement
 
         }
 
+        /*
+         * - TODO : this below list represent the last tasks related the following API
+         * 1 - validate if the customer need to update the configurations depends on the relations with other tables (i.e : Numbers,...)
+         * 2 - validate if user Authorized to this process
+         */
+
         [HttpPut]
-        [Route(template: "api/customers/{id}")]
-        public IHttpActionResult put(int id,CustomerVM _Customer)
+        [Route(template: "api/customers/put/{id}")]
+        public IHttpActionResult put(int id, CustomerVM _Customer)
         {
 
             bool valid = false;
@@ -228,14 +246,81 @@ namespace Project2.WebAPIs.Customer_Profile_Mangement
                 if (valid)
                 {
                     /* Add new Customer using Reository Add method passing the new Customer object */
-                    updatedCustomer = Repo.Edit(toUpdateCustomer,newCustomerData);
+                    updatedCustomer = Repo.Edit(toUpdateCustomer, newCustomerData);
+                }
+
+
+                /* Check if the customer Updated */
+                if (updatedCustomer == null)
+                {
+                    throw new Exception("Can't update the customer information");
+                }
+
+                /* select the proprties of the addedCustomer to return */
+                var result = updatedCustomer;
+
+                return Json(result);
+
+            }
+            catch (Exception ex)
+            {
+                if (valid)
+                    return BadRequest(ex.Message);
+                else
+                    return BadRequest(ModelState);
+            }
+
+
+        }
+
+
+        /*
+         * - TODO : this below list represent the last tasks related the following API
+         * 1 - validate if the customer already deactivated
+         * 2 - validate if user Authorized to this process
+         */
+        [HttpPut]
+        [Route(template: "api/customers/deactivate/{id}")]
+        public IHttpActionResult deactivate(int id)
+        {
+
+            bool valid = false;
+
+            try
+            {
+                Customer toUpdateCustomer = Repo.FindById(id);
+
+                if (toUpdateCustomer == null)
+                {
+                    throw new Exception("Customer not Found");
+                }
+
+                Customer newCustomerData = new Customer();
+
+
+                /* assing these objects using ovloaded operator in CustomerVM class */
+                newCustomerData = toUpdateCustomer;
+
+                /* make the object status "InActive" */
+                newCustomerData.Status = "INACTIVE";
+
+                /* check if the new object valid oppsite the configuration */
+                Validate(newCustomerData, "editCustomer");
+
+
+                Customer updatedCustomer = null;
+                valid = ModelState.IsValidField("editCustomer");
+                if (valid)/* if valid continue update object process */
+                {
+                    /* Add new Customer using Reository Add method passing the new Customer object */
+                    updatedCustomer = Repo.Edit(toUpdateCustomer, newCustomerData);
                 }
 
 
                 /* Check if the customer Added */
                 if (updatedCustomer == null)
                 {
-                    throw new Exception("Can't add the survey");
+                    throw new Exception("Can't deactivate the customer record");
                 }
 
                 /* select the proprties of the addedCustomer to return */

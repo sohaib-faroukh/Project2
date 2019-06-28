@@ -1,7 +1,7 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
-import { ROUTES, RouteInfo } from '../sidebar/sidebar.component';
 import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { Router } from '@angular/router';
+import { RouteInfo, ROUTES } from 'src/app/additional/data';
 
 @Component({
   selector: 'app-navbar',

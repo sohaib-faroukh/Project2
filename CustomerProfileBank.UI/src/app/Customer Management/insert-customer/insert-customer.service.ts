@@ -1,8 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
-import { API_BASE_URL } from '../config/config.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { httpPostHeader } from '../config/config';
+import { API_BASE_URL } from 'src/app/config/config.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +13,7 @@ export class InsertCustomerService {
   constructor(private http:HttpClient,
     @Inject(API_BASE_URL) _apiUrl_: string) {
     this.apiUrl = _apiUrl_;
-  }
+  } 
 
   uploadFileAndNatioNumber(selectedFile:FormData):Observable<any>{
 
