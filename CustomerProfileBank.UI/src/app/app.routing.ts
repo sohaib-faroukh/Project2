@@ -6,6 +6,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
 import { InsertCustomerComponent } from './Customer Management/insert-customer/insert-customer.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { SurveyComponent } from './survey/survey.component';
 const routes: Routes = [
   {
     path: '',
@@ -14,7 +16,7 @@ const routes: Routes = [
   },
   {
     path: 'insertCustomer',
-    component:InsertCustomerComponent
+    component: InsertCustomerComponent
 
   },
   {
@@ -26,6 +28,16 @@ const routes: Routes = [
         loadChildren: './layouts/admin-layout/admin-layout.module#AdminLayoutModule'
       }
     ]
+  },
+  {
+    path: 'surveys',
+    component: SurveyComponent,
+    children: [
+      {
+        path: '',
+        loadChildren: './survey/survey.module#SurveyModule'
+      }
+    ]
   }, {
     path: '',
     component: AuthLayoutComponent,
@@ -35,10 +47,14 @@ const routes: Routes = [
         loadChildren: './layouts/auth-layout/auth-layout.module#AuthLayoutModule'
       }
     ]
-  }, {
+  },
+
+  {
     path: '**',
-    redirectTo: 'dashboard'
-  }
+    redirectTo: 'pageNotFound'
+  },
+  { path: 'pageNotFound', component: PageNotFoundComponent }
+
 ];
 
 @NgModule({

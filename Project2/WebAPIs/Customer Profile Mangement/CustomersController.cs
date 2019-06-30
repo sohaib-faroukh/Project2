@@ -8,9 +8,12 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace Project2.WebAPIs.Customer_Profile_Mangement
 {
+
+    [EnableCors("*","*","*"/*,SupportsCredentials =false*/)]
     public class CustomersController : ApiController
     {
         CustomerRepo Repo = new CustomerRepo();
@@ -31,7 +34,8 @@ namespace Project2.WebAPIs.Customer_Profile_Mangement
                 var selectResult = Repo.GetAll().Select(ele => new
                 {
                     Id = ele.Id,
-                    Name = ele.FirstName + " " + ele.LastName,
+                    ele.FirstName,
+                    ele.LastName,
                     ISPN = ele.ISPN,
                     Status = ele.Status,
                     Address = ele.Address,
@@ -89,7 +93,8 @@ namespace Project2.WebAPIs.Customer_Profile_Mangement
                 var result = new
                 {
                     Id = ele.Id,
-                    Name = ele.FirstName + " " + ele.LastName,
+                    ele.FirstName,
+                    ele.LastName,
                     ISPN = ele.ISPN,
                     Status = ele.Status,
                     Address = ele.Address,
@@ -166,30 +171,12 @@ namespace Project2.WebAPIs.Customer_Profile_Mangement
                 }
 
                 /* select the proprties of the addedCustomer to return */
-                var result = addedCustomer;
-                //    new {
-                //    Id = addedCustomer.Id,
-                //    Name = addedCustomer?.FirstName + " " + addedCustomer?.LastName,
-                //    ISPN = addedCustomer?.ISPN,
-                //    Status = addedCustomer?.Status,
-                //    Address = addedCustomer?.Address,
+                var result = Repo.FindById(addedCustomer.Id);
+                if (result == null)
+                {
+                    throw new Exception("Can't post Customer");
+                }
 
-                //    Numbers = addedCustomer.Numbers.Select(num => new
-                //    {
-                //        num.Id,
-                //        num.PhoneNumber,
-                //    }).ToList(),
-
-
-                //    Services = addedCustomer.Services.Select(srv => new
-                //    {
-                //        srv.Id,
-                //        srv.Name,
-                //        srv.Status,
-                //        ServiceTypeName = srv.ServiceType.Name,
-                //    }).ToList(),
-
-                //};
 
                 return Json(result);
 
@@ -211,6 +198,15 @@ namespace Project2.WebAPIs.Customer_Profile_Mangement
          * 2 - validate if user Authorized to this process
          */
 
+
+
+
+        /// <summary>
+        /// update customer information API
+        /// </summary>
+        /// <param name="id">the customer id</param>
+        /// <param name="_Customer">the new customer information object</param>
+        /// <returns></returns>
         [HttpPut]
         [Route(template: "api/customers/put/{id}")]
         public IHttpActionResult put(int id, CustomerVM _Customer)
@@ -243,11 +239,14 @@ namespace Project2.WebAPIs.Customer_Profile_Mangement
 
                 Customer updatedCustomer = null;
                 valid = ModelState.IsValidField("editCustomer");
-                if (valid)
+                if (!valid)
                 {
                     /* Add new Customer using Reository Add method passing the new Customer object */
-                    updatedCustomer = Repo.Edit(toUpdateCustomer, newCustomerData);
+                    throw new Exception("Can't update beacause invalid data");
+              
                 }
+
+                updatedCustomer = Repo.Edit(toUpdateCustomer, newCustomerData);
 
 
                 /* Check if the customer Updated */
@@ -257,8 +256,11 @@ namespace Project2.WebAPIs.Customer_Profile_Mangement
                 }
 
                 /* select the proprties of the addedCustomer to return */
-                var result = updatedCustomer;
-
+                var result = Repo.FindById(updatedCustomer.Id);
+                if (result == null)
+                {
+                    throw new Exception("Can't post Customer");
+                }
                 return Json(result);
 
             }
@@ -276,8 +278,7 @@ namespace Project2.WebAPIs.Customer_Profile_Mangement
 
         /*
          * - TODO : this below list represent the last tasks related the following API
-         * 1 - validate if the customer already deactivated
-         * 2 - validate if user Authorized to this process
+         * 1 - validate if user Authorized to this process
          */
         [HttpPut]
         [Route(template: "api/customers/deactivate/{id}")]
@@ -294,6 +295,12 @@ namespace Project2.WebAPIs.Customer_Profile_Mangement
                 {
                     throw new Exception("Customer not Found");
                 }
+
+                if (toUpdateCustomer.Status.Trim().ToUpper().Equals("INACTIVE"))
+                {
+                    throw new Exception("Customer is already deactivated");
+                }
+
 
                 Customer newCustomerData = new Customer();
 
@@ -331,10 +338,7 @@ namespace Project2.WebAPIs.Customer_Profile_Mangement
             }
             catch (Exception ex)
             {
-                if (valid)
-                    return BadRequest(ex.Message);
-                else
-                    return BadRequest(ModelState);
+                return BadRequest(ex.Message);
             }
 
 

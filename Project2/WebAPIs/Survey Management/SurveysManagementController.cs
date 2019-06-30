@@ -203,19 +203,53 @@ namespace Project2.WebAPIs.Survey_Management
          */
 
         [HttpDelete]
-        [Route("api/Surveys/{id}")]
+        [Route("api/Surveys/delete/{id}")]
         public IHttpActionResult delete(int id)
         {
-            //Survey survey = db.Surveys.Find(id);
-            //if (survey == null)
-            //{
-            //    return NotFound();
-            //}
 
-            //db.Surveys.Remove(survey);
-            //db.SaveChanges();
+            try
+            {
+                var res = sRepo.FindById(id);
+                if (res == null)
+                {
+                    throw new Exception("Can't find the survey");
+                }
 
-            return Ok();
+                if (!isAnswered(id))
+                {
+                    throw new Exception("the proccess failed because Can't remove the answered surveys");
+                }
+
+                var dRes = sRepo.Delete(id);
+                if (dRes == false)
+                {
+                    throw new Exception();
+                }
+                return Json(res);
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
+
+        public bool isAnswered(int id)
+        {
+            if (sRepo.FindById(id) == null)
+            {
+                throw new Exception("Can't found the survey");
+            }
+
+            SurveyResponseRepo SRRepo = new SurveyResponseRepo();
+            var result = SRRepo.FindBy(ele => ele.SurveyId == id);
+
+            if (result != null)
+            {
+                return true;
+            }
+            return false;
         }
 
     }

@@ -4,7 +4,7 @@ import { Role } from 'src/app/models/Role';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Privilege } from 'src/app/models/Privilege';
 import { RolesService } from '../roles.service';
-import { catchConnectionError, onValueChange } from 'src/app/additional/functions';
+import { catchConnectionError, onValueChange, showNotification } from 'src/app/additional/functions';
 import { isArray, isObject } from 'util';
 
 @Component({
@@ -30,7 +30,7 @@ export class AddEditRoleComponent implements OnInit {
     let RouteData = this.route.snapshot.data;
 
     if (RouteData["Users"]) {
-      
+
       debugger;
 
       this.Users = RouteData["Users"];
@@ -64,7 +64,7 @@ export class AddEditRoleComponent implements OnInit {
 
 
   onValueChange() {
-    this.valuesChanged=onValueChange(this.currentRole,this.currentRoleCopy);
+    this.valuesChanged = onValueChange(this.currentRole, this.currentRoleCopy);
   }
 
   // to use for compare tow objects by id property for Select HTML element 
@@ -77,9 +77,11 @@ export class AddEditRoleComponent implements OnInit {
   onSubmit() {
     switch (this.compoState) {
       case state.add: {
+        this.post();
         break;
       }
       case state.edit: {
+        this.put();
         break;
       }
     }
@@ -90,14 +92,20 @@ export class AddEditRoleComponent implements OnInit {
   post() {
     this.srv.post(this.currentRole).subscribe(
       res => {
+        this.valuesChanged = false;
+        this.router.navigate(['/roles']);
         if (res) {
+          showNotification("Added succesfully", "bottom", "center", "success");
           console.log("POSTED : " + JSON.stringify(res));
         }
         else {
+          showNotification("Didn't POSTED , no result returned", "bottom", "center", "danger");
           console.log("%c Didn't POST , no result", 'color:red');
         }
       },
       err => {
+
+        showNotification("Error : " + JSON.stringify(err), "bottom", "center", "danger");
         catchConnectionError(err);
       }
     )
@@ -109,14 +117,19 @@ export class AddEditRoleComponent implements OnInit {
   put() {
     this.srv.put(this.currentRole).subscribe(
       res => {
+        this.valuesChanged = false;
+        this.router.navigate(['/roles']);
         if (res) {
+          showNotification("Updated succesfully", "bottom", "center", "success");
           console.log("UPDATED : " + JSON.stringify(res));
         }
         else {
+          showNotification("Didn't UPDATED , no result returned", "bottom", "center", "danger");
           console.log("%c Didn't UPDATE , no result", 'color:red');
         }
       },
       err => {
+        showNotification("Error : " + JSON.stringify(err), "bottom", "center", "danger");
         catchConnectionError(err);
       }
     )

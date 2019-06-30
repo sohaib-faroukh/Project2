@@ -1,3 +1,47 @@
-<p>
-  survey works!
-</p>
+<div [class.backVis]="ShowLoadingIndicator==true">
+
+  <!-- Sidenav -->
+
+  <app-sidebar></app-sidebar>
+  <div class="main-content">
+    <app-navbar></app-navbar>
+    <div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+
+      <div class="container-fluid">
+        <div class="header-body">
+          <div class="col-md-12">
+            <div class="card card-stats">
+              <div class="card-body">
+                <router-outlet></router-outlet>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- <div class="container-fluid"> -->
+    <app-footer></app-footer>
+    <!-- </div> -->
+  </div>
+</div>
+
+<div class="loader" [hidden]="ShowLoadingIndicator==false"></div>

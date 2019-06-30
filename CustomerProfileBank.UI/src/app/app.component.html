@@ -1,1 +1,10 @@
-<router-outlet></router-outlet>
+<div [class.backVis]="ShowLoadingIndicator==true">
+    <router-outlet></router-outlet>
+
+</div>
+
+<div>
+
+    <div class="loader" [hidden]="!ShowLoadingIndicator==true"></div>
+
+</div>

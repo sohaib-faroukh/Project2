@@ -25,7 +25,7 @@ export class UsersService implements Resolve<User[] | User>{
     console.log("getAllUsers(): ");
     console.log(url);
 
-    return this.http.get<User[]>(url, { headers: httpGetHeader });
+    return this.http.get<User[]>(url, httpGetHeader );
   }
 
   getUserById(id: number | string): Observable<User> {
@@ -35,7 +35,7 @@ export class UsersService implements Resolve<User[] | User>{
     console.log("getUserById(_id: number | string) : ");
     console.log(url);
 
-    return this.http.get<User>(url, { headers: httpGetHeader })
+    return this.http.get<User>(url, httpGetHeader )
   
   }
 
@@ -46,9 +46,9 @@ export class UsersService implements Resolve<User[] | User>{
     let url = `${this.apiUrl}/Users`;
 
     console.log("post(item: User):");
-    console.log(url,JSON.stringify(item),JSON.stringify( { headers: httpPutHeader }));
+    console.log(url,JSON.stringify(item),JSON.stringify( httpPutHeader ));
 
-    return this.http.post<User>(url, JSON.stringify(item), { headers: httpPostHeader })
+    return this.http.post<User>(url, JSON.stringify(item),  httpPostHeader )
       .pipe(
         debounceTime(150),
       );
@@ -62,9 +62,9 @@ export class UsersService implements Resolve<User[] | User>{
     let url = `${this.apiUrl}/Users/${item.Id}`;
 
     console.log("put(item: User):");
-    console.log(url,JSON.stringify(item),JSON.stringify( { headers: httpPutHeader }));
+    console.log(url,JSON.stringify(item),JSON.stringify( httpPutHeader));
 
-    return this.http.put<User>(url, JSON.stringify(item), { headers: httpPutHeader })
+    return this.http.put<User>(url, JSON.stringify(item),  httpPutHeader)
 
       .pipe(
         debounceTime(150),
@@ -80,9 +80,9 @@ export class UsersService implements Resolve<User[] | User>{
     let url = `${this.apiUrl}/Users/${+id}`;
     
     console.log("deactivate(id: number):");
-    console.log(url,JSON.stringify( { headers: httpPutHeader }));
+    console.log(url,JSON.stringify(  httpPutHeader ));
 
-    return this.http.delete<User>(url , { headers: httpGetHeader });
+    return this.http.delete<User>(url , httpGetHeader );
 
   }
   

@@ -20,6 +20,9 @@ import { InsertCustomerService } from './Customer Management/insert-customer/ins
 import { CustomersComponent } from './Customer Management/customers/customers.component';
 import { AddEditCustomerComponent } from './Customer Management/customers/add-edit-customer/add-edit-customer.component';
 import { BrowseCustomersComponent } from './Customer Management/customers/browse-customers/browse-customers.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { SurveyComponent } from './survey/survey.component';
+
 // import {
 //   DxDataGridModule,
 //   DxBulletModule,
@@ -45,8 +48,10 @@ import { BrowseCustomersComponent } from './Customer Management/customers/browse
   declarations: [
     AppComponent,
     AdminLayoutComponent,
+    SurveyComponent,
     AuthLayoutComponent,
     InsertCustomerComponent,
+    PageNotFoundComponent,
 
   ],
   providers: [

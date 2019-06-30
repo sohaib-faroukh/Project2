@@ -4,11 +4,12 @@ import { Observable } from 'rxjs';
 import { AddEditUserComponent } from '../User Role Management/users/add-edit-user/add-edit-user.component';
 import { AddEditRoleComponent } from '../User Role Management/roles/add-edit-role/add-edit-role.component';
 import {confirm} from 'devextreme/ui/dialog'
+import { AddEditCustomerComponent } from '../Customer Management/customers/add-edit-customer/add-edit-customer.component';
 @Injectable({
   providedIn: 'root'
 })
 export class AuthGuard implements CanActivate, CanActivateChild, CanLoad,
-  CanDeactivate<AddEditUserComponent | AddEditRoleComponent> {
+  CanDeactivate<AddEditUserComponent | AddEditRoleComponent | AddEditCustomerComponent> {
 
 
   canActivate(
@@ -34,7 +35,7 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad,
     return active;
   }
 
-  async canDeactivate(component: AddEditUserComponent | AddEditRoleComponent, currentRoute: ActivatedRouteSnapshot,
+  async canDeactivate(component: AddEditUserComponent | AddEditRoleComponent| AddEditCustomerComponent, currentRoute: ActivatedRouteSnapshot,
     currentState: RouterStateSnapshot, nextState?: RouterStateSnapshot) {
       
     if(component.valuesChanged==false){

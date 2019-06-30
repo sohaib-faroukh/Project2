@@ -1,21 +1,40 @@
-export class Customer{
-    
-    Id:number;
-    FirstName:string;
-    LastName:string;
-    Address:string;
-    ISPN:string;
-    Status:string;
+import { showNotification } from "../additional/functions";
 
-    Hobbies : any[]=[];
+export class Customer {
 
-    Numbers:string[]=[];
-    Services:any[]=[];
+    Id: number;
+    FirstName: string;
+    LastName: string;
+    Address: string;
+    City: string;
+    ISPN: string;
+    Status: string;
 
-    constructor(){
-        this.Status="ACTIVE";
-        this.Hobbies =[];
-        this.Numbers=[];
-        this.Services=[];
+    Description: string;
+
+    Hobbies: any[] = [];
+
+    Numbers: string[] = [];
+    Services: any[] = [];
+
+    constructor(public error?: string) {
+        if (!error) {
+
+
+            this.Status = "ACTIVE";
+            this.LastName = "";
+            this.FirstName = "";
+            this.Address = "";
+            this.City = "";
+            this.Description = "";
+
+            this.Hobbies = [];
+            this.Numbers = [];
+            this.Services = [];
+        }
+        else{
+            showNotification(error,"bottom","center","danger");
+            
+        }
     }
 }

@@ -1,0 +1,317 @@
+<div class="main-content" style=" margin-top:-10px">
+  <div class="container-fluid">
+
+    <!-- Users Table Section -->
+    <div class="row">
+      <div class="col-md-12  ">
+
+        <div class="card">
+
+          <!-- Title and Table Card Header  -->
+          <div class="card-header card-header-danger">
+            <!-- <div class="col-md-4"> -->
+
+            <h4 class="card-title ">Add Survey section</h4>
+
+            <!-- </div> -->
+
+          </div>
+          <!--  End of Card Header  -->
+
+          <!--  Card Body contain the Users Table    -->
+
+          <div class="card-body">
+            <!-- Add New Role Button -->
+
+
+            <div class="row">
+              <div class="col-md-2">
+                <i style="cursor: pointer;" (click)="navigateToSurveies()"> <img style="cursor: pointer;" height="50"
+                    width="50" src="assets/img/control-icons/back.png"> </i>
+              </div>
+
+            </div>
+
+            <!-- stepper -->
+            <!-- <div class="md-stepper-horizontal orange">
+              <div class="md-step " [class.active]="stepIndex==0">
+                <div class="md-step-circle"><span>1</span></div>
+                <div class="md-step-title">Survey information</div>
+                <div class="md-step-bar-left"></div>
+                <div class="md-step-bar-right"></div>
+              </div>
+
+              <div class="md-step active" [class.active]="stepIndex==1">
+                <div class="md-step-circle"><span>2</span></div>
+                <div class="md-step-title">Questoins imports</div>
+                <div class="md-step-bar-left"></div>
+                <div class="md-step-bar-right"></div>
+              </div>
+
+              <div class="md-step active" [class.active]="stepIndex==2">
+                <div class="md-step-circle"><span>3</span></div>
+                <div class="md-step-title">Questoins Order</div>
+                <div class="md-step-bar-left"></div>
+                <div class="md-step-bar-right"></div>
+              </div>
+
+            </div> -->
+
+            <form #creatForm="ngForm">
+
+              {{Survey | json}}
+              <!-- *ngIf="stepIndex==0" -->
+              <form #addSurveyStep1="ngForm">
+
+
+                <!-- <div class="row">
+                  <div class="col-md-1">
+
+                    <mat-form-field>
+                      <mat-select [ngModel]="Survey.LanguageCode" (ngModelChange)="selectLanguage($event)"
+                        name="language" placeholder="Language" required>
+                        <mat-option *ngFor="let item of Languages" [value]="item.Code">{{item.Title}}</mat-option>
+                      </mat-select>
+                      <mat-error>
+                        <span class="text-danger">
+                          - Language is required
+                        </span>
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                </div> -->
+
+                <div class="row">
+
+                  <div class="col-md-6">
+
+                    <mat-form-field class="example-full-width">
+                      <input matInput placeholder="Survey Name" type="text" [ngModel]="Survey.Name"
+                        (ngModelChange)="Survey.Name = $event;thereIsChange=true" name="name" required
+                        [pattern]="Pattern" #surveyName="ngModel"
+                        [class.is-invalid]="surveyName.invalid && surveyName.touched">
+
+                      <mat-error>
+                        <span class="text-danger">
+                          - Survey name is required
+                        </span>
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <!-- <div class="col-md-6">
+                    <mat-form-field class="example-full-width">
+                      <mat-select placeholder="Priority" [(ngModel)]="Survey.Priority" #prioSelect="ngModel"
+                        required name="priority">
+                        <mat-option *ngFor="let item of priorities" [value]="item.Name ? item.Name : item">
+                          {{ item.Name ? item.Name : item }}
+                        </mat-option>
+                      </mat-select>
+                      <mat-error *ngIf="prioSelect.invalid">You must make a selection</mat-error>
+                    </mat-form-field>
+                  </div> -->
+
+                </div>
+
+
+                <div class="row">
+
+                  <div class="col-md-6">
+
+                    <mat-form-field class="example-full-width">
+                      <input matInput [matDatepicker]="fromtDate" [matDatepickerFilter]="FromDateFilter"
+                        placeholder="From Date" type="text" [ngModel]="Survey.FromDate"
+                        (ngModelChange)="Survey.FromDate=changeDateValue($event);thereIsChange=true"
+                        name="surveyFromDate" required #surveyFromDate="ngModel"
+                        [class.is-invalid]="surveyFromDate.invalid && surveyFromDate.touched">
+                      <button mat-button *ngIf="Survey.FromDate" matSuffix mat-icon-button aria-label="Clear"
+                        (click)="Survey.FromDate = null ">
+                        <mat-icon>close</mat-icon>
+                      </button>
+                      <mat-datepicker-toggle matSuffix [for]="fromtDate"></mat-datepicker-toggle>
+                      <mat-datepicker #fromtDate></mat-datepicker>
+
+                      <mat-error>
+
+
+
+                        <span class="text-danger">
+                          - Survey name is required
+                        </span>
+
+
+
+                        <span class="text-danger" *ngIf="errorCode==1 || errorCode==3">
+                          <br> - Can Not add user due to duplicated HR ID
+                        </span>
+
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+
+                  <div class="col-md-6">
+
+                    <mat-form-field class="example-full-width">
+                      <input matInput [matDatepicker]="ToDate" placeholder="To Date" type="text"
+                        [ngModel]="Survey.ToDate"
+                        (ngModelChange)="Survey.ToDate=changeDateValue($event);thereIsChange=true" name="ToDate"
+                        required #toDate="ngModel" [class.is-invalid]="toDate.invalid && toDate.touched">
+                      <button mat-button *ngIf="Survey.ToDate" matSuffix mat-icon-button aria-label="Clear"
+                        (click)="Survey.ToDate = null ">
+                        <mat-icon>close</mat-icon>
+                      </button>
+                      <mat-datepicker-toggle matSuffix [for]="ToDate"></mat-datepicker-toggle>
+                      <mat-datepicker #ToDate></mat-datepicker>
+
+                      <mat-error>
+
+
+
+                        <span class="text-danger">
+                          - Survey name is required
+                        </span>
+
+
+
+                        <span class="text-danger" *ngIf="errorCode==1 || errorCode==3">
+                          <br> - Can Not add user due to duplicated HR ID
+                        </span>
+
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+
+
+                </div>
+
+
+                <div class="row">
+
+
+
+
+                </div>
+
+
+
+
+
+                <hr>
+                <div class="row">
+
+                  <div class="col-md-1"> <label class="text-right pull-right"
+                      style="margin-left: 40px;margin-top: 5px;">
+                      <h4> Active :</h4>
+                    </label></div>
+
+
+
+                </div>
+
+
+                <hr>
+
+                <div class="row">
+
+                  <div class="col-md-4">
+
+                    <!-- [disabled]="addSurveyStep1.invalid"-->
+                    <button class=" btn btn-danger pull-right" mat-button (click)="stepper('next')">Next</button>
+                  </div>
+
+
+                </div>
+
+
+              </form>
+
+
+
+
+
+
+              <!-- ************************************************************************************************************************************************************ -->
+
+              <form #addSurveyStep2="ngForm" *ngIf="stepIndex==1">
+
+
+
+
+                <!-- Implementation -->
+                <h4 style="color:#369BB8">Please select questions form the grid below ...</h4>
+
+
+                <!-- <app-tree-list [data]="Questions" [checkedIds]="checkedIds" [selectedQuestions]="selectedQuestionsToTree"
+                  (outputData)="onQuestionSelectionChange($event)"></app-tree-list> -->
+
+
+
+                <div class="row">
+                  <div class="col-md-1">
+                    <button mat-button type="submit" class=" btn btn-danger pull-right"
+                      (click)="stepper('prev')">Pervios</button>
+                  </div>
+
+
+
+                  <div class="col-md-1">
+
+                    <!-- [disabled]="!isValid()" getSelected() -->
+                    <button matTooltip="Select one question at least" class=" btn btn-danger pull-right" mat-button
+                      (click)="getSelected();stepper('next');">Next</button>
+                    <!-- [disabled]=" !Survey.Questions || Survey.Questions.length==0" -->
+                  </div>
+
+                </div>
+              </form>
+
+
+              <form #orderQuestionsStep2="ngForm" *ngIf="stepIndex==2">
+                <pre>{{selectedQuestions | json }}</pre>
+                <div class="row">
+                  <button (click)="test(list.items)">click</button>
+                  <div class="list-container">
+                    <!-- [dataSource]="Survey.Questions" -->
+                    <dx-list #list [dataSource]="selectedParentRowData" [height]="400" [allowItemReordering]="true"
+                      [searchEnabled]="true" searchExpr="Text" searchMode="contains">
+                      <div *dxTemplate="let data of 'item'">
+                        <div>{{"#ID : "+data.Id+"   Text : "+data.Text }}</div>
+                      </div>
+                    </dx-list>
+                    <!--  (onItemReordered)="reOrderQuestion($event)" -->
+                  </div>
+                  <div class="options">
+                    <div class="caption">Options</div>
+                    <div class="option">
+                      <span>Search mode</span>
+                      <dx-select-box #searchMode [items]="['contains', 'startsWith']" [(value)]="list.searchMode">
+                      </dx-select-box>
+                    </div>
+                  </div>
+                </div>
+
+
+                <div class="row">
+                  <div class="col-md-1">
+                    <button mat-button type="submit" class=" btn btn-danger pull-right"
+                      (click)="stepper('prev')">Pervios</button>
+                  </div>
+
+                  <div class="col-md-1">
+
+
+                    <button mat-button type="submit" class=" btn btn-danger pull-right"
+                      (click)="getSortedQuestions(list.items);onPostSubmit()">Submit</button>
+                  </div>
+                </div>
+
+              </form>
+
+            </form>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

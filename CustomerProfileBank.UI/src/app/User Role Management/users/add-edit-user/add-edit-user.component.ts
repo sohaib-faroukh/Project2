@@ -136,6 +136,7 @@ export class AddEditUserComponent implements OnInit {
         }
       },
       err => {
+        showNotification("Error : "+JSON.stringify(err), "bottom", "center", "danger");
         catchConnectionError(err);
       }
     )
