@@ -52,7 +52,7 @@ import { CustomersService } from 'src/app/Customer Management/customers/customer
     MatInputModule,
     MatSelectModule,
     MatProgressSpinnerModule,
-    MatIconModule
+    MatIconModule,
   ],
   declarations: [
     DashboardComponent,
@@ -70,6 +70,7 @@ import { CustomersService } from 'src/app/Customer Management/customers/customer
     AddEditCustomerComponent,
     BrowseCustomersComponent,
     KeyValuePipe,
+    // PageNotFoundComponent
   ],
 
   providers: [

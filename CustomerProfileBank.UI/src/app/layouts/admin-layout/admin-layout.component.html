@@ -1,4 +1,4 @@
-<div [class.backVis]="ShowLoadingIndicator==true">
+<div>
 
   <!-- Sidenav -->
 
@@ -10,9 +10,7 @@
 
     <router-outlet></router-outlet>
     <!-- <div class="container-fluid"> -->
-      <app-footer></app-footer>
+    <app-footer></app-footer>
     <!-- </div> -->
   </div>
 </div>
-
-<div class="loader" *ngIf="ShowLoadingIndicator==true"></div>

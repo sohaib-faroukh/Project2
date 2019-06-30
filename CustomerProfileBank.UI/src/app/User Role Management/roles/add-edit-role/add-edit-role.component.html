@@ -1,9 +1,9 @@
-<form>
-  <div class="row">
+<form  #submitForm="ngForm" (ngSubmit)="onSubmit()">
+  <!-- <div class="row">
     {{currentRole | json}}
     <hr>
     {{valuesChanged}}
-  </div>
+  </div> -->
   <div class="row">
     <div class="col-md-6">
 
@@ -76,4 +76,10 @@
       </mat-form-field>
     </div>
   </div>
+
+  <div class="row">
+    <button type="submit" class="btn btn-lg btn-success" [disabled]="submitForm.invalid">Save</button>
+    <!--  (click)="onSubmit()" -->
+  </div>
+
 </form>

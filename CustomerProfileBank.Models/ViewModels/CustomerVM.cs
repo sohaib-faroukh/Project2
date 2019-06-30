@@ -38,7 +38,6 @@ namespace CustomerProfileBank.Models.ViewModels
 
             if (Helper.isAllCharsDigits(ISPN))
             { this.ISPN = ISPN; }
-            else { throw new Exception("Invalid ISPN"); };
 
 
             this.Status = Status?.Trim().ToUpper();
@@ -67,7 +66,9 @@ namespace CustomerProfileBank.Models.ViewModels
             result.FirstName = value?.FirstName?.Trim();
             result.LastName = value?.LastName?.Trim();
             result.Address = value?.Address?.Trim();
-            result.Status = value?.Status?.Trim().ToUpper();
+            result.Hobbies= value?.Hobbies;
+            result.Services = value?.Services;
+            result.Numbers = value?.Numbers;
 
             if (value.ISPN != null && Helper.isAllCharsDigits(value.ISPN))
             {

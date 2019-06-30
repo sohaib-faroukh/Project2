@@ -1,0 +1,44 @@
+<div class="row">
+  <button class="btn btn-lg btn-success" (click)="navigate('add')">Add Survey</button>
+</div>
+<div class="demo-container">
+
+  <dx-data-grid id="gridContainer" [dataSource]="Surveys" [remoteOperations]="false" [allowColumnReordering]="true"
+    [rowAlternationEnabled]="true" [showBorders]="true">
+
+    <dxo-paging [pageSize]="10"></dxo-paging>
+    <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 25, 50, 100]"></dxo-pager>
+    <dxo-search-panel [visible]="true" [highlightCaseSensitive]="true"></dxo-search-panel>
+    <dxo-group-panel [visible]="true"></dxo-group-panel>
+    <dxo-grouping [autoExpandAll]="false"></dxo-grouping>
+
+    <dxo-filter-row [visible]="true" applyFilter="Immediately"></dxo-filter-row>
+    <dxo-header-filter [visible]="true"></dxo-header-filter>
+
+
+    <dxi-column dataField="Id" caption="#" [width]="100" [allowFiltering]="false" alignment="center"
+      [allowSorting]="false" cellTemplate="actionColumnData">
+    </dxi-column>
+    <div *dxTemplate="let data of 'actionColumnData'">
+      <a class="a-action" (click)="navigate('edit',data.value)" routerLinkActive="active">
+        <img class="img-action" src="assets/img/icons/actions/edit.png">
+        <!-- Edit -->
+      </a>
+
+      <a class="a-action" (click)="delete(data.value)" routerLinkActive="active">
+        <img class="img-action" src="assets/img/icons/actions/delete.png" width="20" height="20">
+
+        <!-- delete -->
+      </a>
+
+    </div>
+ 
+    <dxi-column dataField="Id" caption="ID" dataType="number" alignment="center" [width]="50"></dxi-column>
+    <dxi-column dataField="Name" caption="Name" dataType="string" alignment="center"></dxi-column>
+    <dxi-column dataField="Status" caption="Status" dataType="string" alignment="center"></dxi-column> 
+
+   <dxi-column dataField="Description" caption="Description" dataType="string" alignment="center"></dxi-column>
+   
+ 
+  </dx-data-grid>
+</div>

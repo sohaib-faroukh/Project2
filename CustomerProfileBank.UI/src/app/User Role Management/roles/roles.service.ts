@@ -26,7 +26,7 @@ export class RolesService implements Resolve<Role[]>{
     let url = `${this.apiUrl}/Roles`;
     console.log("getAllRoles() : ");
     console.log(url);
-    return this.http.get<Role[]>(url, { headers: httpGetHeader });
+    return this.http.get<Role[]>(url, httpGetHeader );
   }
 
   getAllPrivileges(): Observable<Privilege[]> {
@@ -35,14 +35,14 @@ export class RolesService implements Resolve<Role[]>{
     console.log("getAllPrivileges() : ");
     console.log(url);
 
-    return this.http.get<Privilege[]>(url, { headers: httpGetHeader });
+    return this.http.get<Privilege[]>(url,  httpGetHeader );
   }
 
   getRoleById(id: number | string): Observable<Role> {
     let url = `${this.apiUrl}/Roles/${+id}`;
     console.log("getRoleById(id: number | string):");
     console.log(url);
-    return this.http.get<Role>(url, { headers: httpGetHeader });
+    return this.http.get<Role>(url,  httpGetHeader );
   }
 
   post(item: Role): Observable<Role> {
@@ -50,7 +50,7 @@ export class RolesService implements Resolve<Role[]>{
     console.log("post(role: Role):");
     console.log(url);
 
-    return this.http.post<Role>(url, JSON.stringify(item), { headers: httpPostHeader });
+    return this.http.post<Role>(url, JSON.stringify(item), httpPostHeader );
   }
 
 
@@ -61,7 +61,7 @@ export class RolesService implements Resolve<Role[]>{
     console.log("put(item: Role):");
     console.log(url);
 
-    return this.http.post<Role>(url, JSON.stringify(item), { headers: httpPutHeader });
+    return this.http.put<Role>(url, JSON.stringify(item),  httpPutHeader );
 
   }
 
@@ -71,7 +71,7 @@ export class RolesService implements Resolve<Role[]>{
     console.log("deactivate(id: number | string):");
     console.log(url);
 
-    return this.http.delete<Role>(url, { headers: httpGetHeader });
+    return this.http.delete<Role>(url,  httpGetHeader );
   }
 
   resolve() {

@@ -1,44 +1,58 @@
-<div class="row">
-    <button class="btn btn-lg" (click)="navigate('add')">Add User</button>
-</div>
-<div class="demo-container">
+<div class="card card-stats">
 
-    <dx-data-grid id="gridContainer" [dataSource]="Users" [remoteOperations]="false" [allowColumnReordering]="true"
-        [rowAlternationEnabled]="true" [showBorders]="true">
-
-        <dxo-paging [pageSize]="10"></dxo-paging>
-        <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 25, 50, 100]"></dxo-pager>
-        <dxo-search-panel [visible]="true" [highlightCaseSensitive]="true"></dxo-search-panel>
-        <dxo-group-panel [visible]="true"></dxo-group-panel>
-        <dxo-grouping [autoExpandAll]="false"></dxo-grouping>
-
-        <dxo-filter-row [visible]="true" applyFilter="Immediately"></dxo-filter-row>
-        <dxo-header-filter [visible]="true"></dxo-header-filter>
-
-
-        <dxi-column dataField="Id" caption="#" [width]="100" [allowFiltering]="false" alignment="center"
-        [allowSorting]="false" cellTemplate="actionColumnData">
-        </dxi-column>
-        <div *dxTemplate="let data of 'actionColumnData'">
-            <a class="a-action" (click)="navigate('edit',data.value)" routerLinkActive="active">
-                <img class="img-action" src="assets/img/icons/actions/edit.png" >
-                <!-- Edit -->
-            </a>
-
-             <a class="a-action" (click)="deactivate(data.value)" routerLinkActive="active"> 
-                <img class="img-action" src="assets/img/icons/actions/delete.png" width="20" height="20">
-
-                <!-- delete -->
-              </a>
-
+    <div class="card-body">
+        <div class="row">
+            <button class="btn btn-lg btn-success" (click)="navigate('add')">Add Customer Profile</button>
         </div>
+        <div class="demo-container">
 
-        <dxi-column dataField="Id" caption="ID" dataType="number" alignment="center" [width]="50"></dxi-column>
-        <dxi-column dataField="FirstName" caption="First Name" dataType="string" alignment="center"></dxi-column>
-        <dxi-column dataField="LastName" caption="Last Name" dataType="string" alignment="center"></dxi-column>
-        <dxi-column dataField="Alias" caption="Alias" dataType="string" alignment="center"></dxi-column>
-        <dxi-column dataField="Status" caption="Status" dataType="string" alignment="center"></dxi-column>
-        <dxi-column dataField="CreationDate" caption="Creation Date" alignment="center" dataType="datetime" format="MM/dd/yyyy hh:mm:ss a" ></dxi-column>
-        <dxi-column dataField="DeactivationDate" caption="Deactivation Date" alignment="center" dataType="datetime" format="MM/dd/yyyy hh:mm:ss a" ></dxi-column>
-    </dx-data-grid>
+            <dx-data-grid id="gridContainer" [dataSource]="Customers" [remoteOperations]="false"
+                [allowColumnReordering]="true" [rowAlternationEnabled]="true" [showBorders]="true">
+
+                <dxo-paging [pageSize]="5"></dxo-paging>
+                <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[5,10, 25, 50, 100]"></dxo-pager>
+                <dxo-search-panel [visible]="true" [highlightCaseSensitive]="true"></dxo-search-panel>
+                <dxo-group-panel [visible]="true"></dxo-group-panel>
+                <dxo-grouping [autoExpandAll]="false"></dxo-grouping>
+
+                <dxo-filter-row [visible]="true" applyFilter="Immediately"></dxo-filter-row>
+                <dxo-header-filter [visible]="true"></dxo-header-filter>
+
+                <dxi-column caption="" [width]="100" [allowFiltering]="false" alignment="center" [allowSorting]="false"
+                    cellTemplate="actionColumnData">
+                </dxi-column>
+                <div *dxTemplate="let _data of 'actionColumnData'">
+
+                    <a class="a-action"
+                        *ngIf="IsAutharized('Deactivate Customer') && _data.data.Status?.trim().toUpperCase() == 'ACTIVE'"
+                        (click)="navigate('edit',_data.data.Id)" routerLinkActive="active">
+                        <img class="img-action" src="assets/img/icons/actions/edit.png">
+                    </a>
+
+                    <a class="a-action"
+                        *ngIf="IsAutharized('Deactivate Customer') && _data.data.Status?.trim().toUpperCase() == 'ACTIVE'"
+                        (click)="deactivate(_data.data.Id)" routerLinkActive="active">
+                        <img class="img-action" src="assets/img/icons/actions/delete.png" width="20" height="20">
+
+                    </a>
+
+                </div>
+
+                <dxi-column dataField="Id" caption="ID" dataType="number" alignment="center" [width]="50"></dxi-column>
+
+                <dxi-column caption="Name" dataType="string" alignment="center" [width]="150" cellTemplate="Name">
+                </dxi-column>
+
+                <div *dxTemplate="let _data of 'Name'">
+                    {{_data.data.FirstName+" "+_data.data.LastName}}
+                </div>
+
+                <dxi-column dataField="ISPN" caption="ISPN" dataType="string" alignment="center" [width]="150">
+                </dxi-column>
+                <dxi-column dataField="Status" caption="Status" dataType="string" alignment="center"></dxi-column>
+                <dxi-column dataField="Address" caption="Address" dataType="string" alignment="center"></dxi-column>
+
+            </dx-data-grid>
+        </div>
+    </div>
 </div>

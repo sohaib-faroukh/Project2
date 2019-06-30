@@ -17,6 +17,8 @@ import { SurveyComponent } from 'src/app/survey/survey.component';
 import { CustomersComponent } from 'src/app/Customer Management/customers/customers.component';
 import { BrowseCustomersComponent } from 'src/app/Customer Management/customers/browse-customers/browse-customers.component';
 import { AddEditCustomerComponent } from 'src/app/Customer Management/customers/add-edit-customer/add-edit-customer.component';
+import { CustomersService, EditCustomerResolverService } from 'src/app/Customer Management/customers/customers.service';
+import { PageNotFoundComponent } from 'src/app/page-not-found/page-not-found.component';
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard', component: DashboardComponent },
@@ -41,18 +43,20 @@ export const AdminLayoutRoutes: Routes = [
         path: 'customers', component: CustomersComponent, children: [
             {
                 path: '', component: BrowseCustomersComponent,
-                // canActivate: [AuthGuard],
-                // resolve: { Users: UsersService }
+                canActivate: [AuthGuard],
+                resolve: { Customers: CustomersService }
             },
             {
                 path: ':action', component: AddEditCustomerComponent,
-                // canActivate: [AuthGuard],
+                canActivate: [AuthGuard],
+                canDeactivate: [AuthGuard],
                 // resolve: { Users: UsersService }
             },
             {
-                path: ':action/:id', component:AddEditCustomerComponent,
-                // canActivate: [AuthGuard],
-                // resolve: { Users: UsersService }
+                path: ':action/:id', component: AddEditCustomerComponent,
+                canActivate: [AuthGuard],
+                canDeactivate: [AuthGuard],
+                resolve: { Customer: EditCustomerResolverService }
             },
         ]
     },
@@ -102,4 +106,5 @@ export const AdminLayoutRoutes: Routes = [
 
         ]
     },
+    {path:'**',redirectTo:'pageNotFound',pathMatch:'full'},
 ];
