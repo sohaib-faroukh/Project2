@@ -12,20 +12,20 @@ import { Resolve, ActivatedRouteSnapshot } from '@angular/router';
 })
 export class SurveyService {
 
-  apiUrl:string=null;
-  
-  constructor(private http: HttpClient,@Inject(API_BASE_URL)_apiUrl_ :string) { 
-    this.apiUrl=_apiUrl_;
+  apiUrl: string = null;
+
+  constructor(private http: HttpClient, @Inject(API_BASE_URL) _apiUrl_: string) {
+    this.apiUrl = _apiUrl_;
   }
 
   getAll(): Observable<Survey[]> {
-    
+
     let url = `${this.apiUrl}/Surveys`;
 
     console.log("getAll(): ");
     console.log(url);
 
-    return this.http.get<Survey[]>(url, httpGetHeader );
+    return this.http.get<Survey[]>(url, httpGetHeader);
   }
 
   getById(id: number | string): Observable<Survey> {
@@ -35,8 +35,8 @@ export class SurveyService {
     console.log("getById(_id: number | string) : ");
     console.log(url);
 
-    return this.http.get<Survey>(url, httpGetHeader )
-  
+    return this.http.get<Survey>(url, httpGetHeader)
+
   }
 
 
@@ -46,9 +46,9 @@ export class SurveyService {
     let url = `${this.apiUrl}/Surveys/post`;
 
     console.log("post(item: Survey):");
-    console.log(url,JSON.stringify(item),JSON.stringify( httpPutHeader ));
+    console.log(url, JSON.stringify(item), JSON.stringify(httpPutHeader));
 
-    return this.http.post<Survey>(url, JSON.stringify(item),  httpPostHeader )
+    return this.http.post<Survey>(url, JSON.stringify(item), httpPostHeader)
       .pipe(
         debounceTime(150),
       );
@@ -62,9 +62,9 @@ export class SurveyService {
     let url = `${this.apiUrl}/Surveys/put/${item.Id}`;
 
     console.log("put(item: Survey):");
-    console.log(url,JSON.stringify(item),JSON.stringify( httpPutHeader));
+    console.log(url, JSON.stringify(item), JSON.stringify(httpPutHeader));
 
-    return this.http.put<Survey>(url, JSON.stringify(item),  httpPutHeader)
+    return this.http.put<Survey>(url, JSON.stringify(item), httpPutHeader)
 
       .pipe(
         debounceTime(150),
@@ -78,14 +78,14 @@ export class SurveyService {
   deactivate(id: number): Observable<any> {
 
     let url = `${this.apiUrl}/Surveys/deactivate/${+id}`;
-    
-    console.log("deactivate(id: number):");
-    console.log(url,JSON.stringify(  httpPutHeader ));
 
-    return this.http.delete<Survey>(url , httpGetHeader );
+    console.log("deactivate(id: number):");
+    console.log(url, JSON.stringify(httpPutHeader));
+
+    return this.http.delete<Survey>(url, httpGetHeader);
 
   }
-  
+
 
 
   delete(id: number | string): Observable<Survey> {
@@ -95,8 +95,18 @@ export class SurveyService {
     console.log("delete(_id: number | string) : ");
     console.log(url);
 
-    return this.http.delete<Survey>(url, httpGetHeader )
-  
+    return this.http.delete<Survey>(url, httpGetHeader)
+
+  }
+
+  getSurveyToRespond(NationalNumber: string | number) {
+    let url = `${this.apiUrl}/Surveys/answer/${+NationalNumber}`;
+
+    console.log("getSurveyToRespond(NationalNumber: number | string) : ");
+    console.log(url);
+
+    return this.http.get<Survey>(url, httpGetHeader)
+
   }
 
   resolve() {
@@ -123,14 +133,43 @@ export class EditSurveysResolverService implements Resolve<Survey>{
 
     if (action.trim().toLowerCase() == "edit" && id && !isNaN(id)) {
       return this.srv.getById(id)
-      
+
+        // enhance requests experiance
+        .pipe(
+          debounceTime(150),
+          distinctUntilChanged(),
+          delay(200)
+        );
+    }
+  }
+
+}
+
+
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ToResponseSurveysResolver implements Resolve<Survey>{
+
+  constructor(private srv: SurveyService, private http: HttpClient) { }
+
+  resolve(route: ActivatedRouteSnapshot) {
+  
+
+    let nationalNumber = +route.params.nationalNumber;
+
+
+    return this.srv.getSurveyToRespond(nationalNumber)
+
       // enhance requests experiance
       .pipe(
         debounceTime(150),
         distinctUntilChanged(),
         delay(200)
       );
-    }
+
   }
 
 }
+

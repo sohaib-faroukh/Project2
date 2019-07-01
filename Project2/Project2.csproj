@@ -268,7 +268,6 @@
     <Compile Include="WebAPIs\Customer Profile Mangement\CustomersController.cs" />
     <Compile Include="WebAPIs\Finger Print\FingerPrintController.cs" />
     <Compile Include="WebAPIs\Survey Management\SurveysManagementController.cs" />
-    <Compile Include="WebAPIs\UploadFBFile\UploadController.cs" />
     <Compile Include="WebAPIs\User Role Management\RolesController.cs" />
     <Compile Include="WebAPIs\User Role Management\UsersController.cs" />
   </ItemGroup>
@@ -347,6 +346,10 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CustomerProfileBank.FingerPrint\CustomerProfileBank.FingerPrint.csproj">
+      <Project>{767E6EB7-B200-4CDF-B4EC-969918D7411D}</Project>
+      <Name>CustomerProfileBank.FingerPrint</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CustomerProfileBank.Models\CustomerProfileBank.Models.csproj">
       <Project>{f3c75793-4f2d-45f1-941d-9d1fd275cf8f}</Project>
       <Name>CustomerProfileBank.Models</Name>

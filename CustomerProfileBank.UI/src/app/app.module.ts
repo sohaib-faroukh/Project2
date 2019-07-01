@@ -22,7 +22,8 @@ import { AddEditCustomerComponent } from './Customer Management/customers/add-ed
 import { BrowseCustomersComponent } from './Customer Management/customers/browse-customers/browse-customers.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { SurveyComponent } from './survey/survey.component';
-
+import { MatRadioModule } from '@angular/material/radio';
+import { MatIconModule, MatProgressSpinnerModule, MatSelectModule, MatInputModule } from '@angular/material';
 // import {
 //   DxDataGridModule,
 //   DxBulletModule,
@@ -34,7 +35,7 @@ import { SurveyComponent } from './survey/survey.component';
     BrowserAnimationsModule,
     FormsModule,
     HttpClientModule,
-
+    MatRadioModule,
     ComponentsModule,
     NgbModule,
     RouterModule,
@@ -42,7 +43,11 @@ import { SurveyComponent } from './survey/survey.component';
     // DxDataGridModule,
     // DxTemplateModule,
     // DxBulletModule
-
+    // BrowserAnimationsModule,
+    MatInputModule,
+    MatSelectModule,
+    MatProgressSpinnerModule,
+    MatIconModule,
     HttpModule
   ],
   declarations: [
@@ -57,11 +62,11 @@ import { SurveyComponent } from './survey/survey.component';
   providers: [
     InsertCustomerService,
     ConfigService,
-    {provide :'CONFIG.JSON',useValue:'assets/config.json'},
-    {provide :'BASE-API-VARIABLE',useValue:'API_URL'},
+    { provide: 'CONFIG.JSON', useValue: 'assets/config.json' },
+    { provide: 'BASE-API-VARIABLE', useValue: 'API_URL' },
     {
       provide: API_BASE_URL, useFactory: ConfigFactory,
-      deps: [ConfigService,'CONFIG.JSON','BASE-API-VARIABLE']
+      deps: [ConfigService, 'CONFIG.JSON', 'BASE-API-VARIABLE']
     }
   ],
   bootstrap: [AppComponent]

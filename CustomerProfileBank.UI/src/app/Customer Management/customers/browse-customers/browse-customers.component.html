@@ -46,8 +46,9 @@
                 <div *dxTemplate="let _data of 'Name'">
                     {{_data.data.FirstName+" "+_data.data.LastName}}
                 </div>
-
                 <dxi-column dataField="ISPN" caption="ISPN" dataType="string" alignment="center" [width]="150">
+                </dxi-column>
+                <dxi-column dataField="NationalNumber" caption="National Number" dataType="string" alignment="center">
                 </dxi-column>
                 <dxi-column dataField="Status" caption="Status" dataType="string" alignment="center"></dxi-column>
                 <dxi-column dataField="Address" caption="Address" dataType="string" alignment="center"></dxi-column>

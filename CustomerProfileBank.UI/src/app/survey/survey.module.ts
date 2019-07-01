@@ -48,8 +48,9 @@ import {
 
 
 
-import { SurveyService } from './survey.service';
+import { SurveyService, ToResponseSurveysResolver } from './survey.service';
 import { CdkTableModule } from '@angular/cdk/table';
+import { ResponsSurveyComponent } from './respons-survey/respons-survey.component';
 
 
 
@@ -57,6 +58,8 @@ export const SurveyRoutes: Routes = [
   // {
   // path: '', component: SurveyComponent, children: [
   { path: '', component: BrowseSurveysComponent, resolve: { Surveys: SurveyService } },
+
+  { path: 'surveyResponse/:nationalNumber', component: ResponsSurveyComponent, resolve: { Survey: ToResponseSurveysResolver } },
 
   { path: ':action', component: AddEditSurveyComponent, resolve: {} },
 
@@ -72,6 +75,7 @@ export const SurveyRoutes: Routes = [
     // SurveyComponent,
     BrowseSurveysComponent,
     AddEditSurveyComponent,
+    ResponsSurveyComponent
   ],
 
   imports: [

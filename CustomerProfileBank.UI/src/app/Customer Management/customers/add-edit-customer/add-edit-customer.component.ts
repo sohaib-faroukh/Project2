@@ -88,7 +88,11 @@ export class AddEditCustomerComponent implements OnInit {
         this.router.navigate(['/customers']);
       },
       err => {
-        showNotification("Error : " + JSON.stringify(err), "bottom", "center", "danger");
+        if (err.error)
+          showNotification("Error : " + err.error.Message, "bottom", "center", "danger");
+        else {
+          showNotification("Error : " + err.statusText, "bottom", "center", "danger");
+        }
         catchConnectionError(err);
       }
     )
@@ -113,7 +117,11 @@ export class AddEditCustomerComponent implements OnInit {
         this.router.navigate(['/customers']);
       },
       err => {
-        showNotification("Can't UPDATED , no result returned", "bottom", "center", "danger");
+        if (err.error)
+          showNotification("Error : " + err.error.Message, "bottom", "center", "danger");
+        else {
+          showNotification("Error : " + err.statusText, "bottom", "center", "danger");
+        }
         catchConnectionError(err);
       }
     )

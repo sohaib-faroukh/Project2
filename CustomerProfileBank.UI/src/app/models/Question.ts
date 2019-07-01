@@ -1,3 +1,5 @@
+import { isArray } from "util";
+
 export class Question {
 
     Id: number;
@@ -14,7 +16,23 @@ export class Question {
 
     public checked: boolean;
 
-    public intLevel:number;
+    public intLevel: number;
 
-    public intParentQuestionId:number;
+    public intParentQuestionId: number;
+
+    answer: any;
+
+    Options: Option[] = [];
+
+
+}
+
+
+export class Option {
+
+    Id: number;
+    IsDefault: boolean;
+    Order: number;
+    Text: string;
+
 }

@@ -2,59 +2,79 @@
 
   <app-navbar></app-navbar>
 
-    <!-- Top navbar -->
-    <div class="container mt--8 pb-5">
-      <div class="row justify-content-center">
-        <div class="col-lg-5 col-md-7">
-          <div class="card bg-secondary shadow border-0">
+  <!-- Top navbar -->
+  <div class="container mt--8 pb-5">
+    <div class="row justify-content-center">
+      <div class="col-lg-5 col-md-7">
+        <div class="card bg-secondary shadow border-0">
 
-            <div class="card-body px-lg-5 py-lg-5">
-              <div class="text-center text-muted mb-4">
-                <small>Or sign in with credentials</small>
-              </div>
-              <form role="form">
-                <div class="form-group mb-3">
-                  <div class="input-group input-group-alternative">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="ni ni-email-83"></i></span>
-                    </div>
-                    <input class="form-control" placeholder="National Number" type="number" [(ngModel)]="NationalNumber"
-                      name="NN">
-                  </div>
-
-                </div>
-
-                <!-- FingerPrint *****************-->
-                <div class="form-group mb-3">
-
-                  <input hidden class="form-control" placeholder="choose file" type="file"
-                    (change)="onFileChange($event)" accept="image/*" #selectFile>
-
-                  <button class="btn btn-primary my-4" (click)="selectFile.click()">Select File</button>
-                  <span>{{selectedFile?.name}}</span>
-
-                </div>
-
-                <div class="form-group mb-3">
-
-                  <button class="btn btn-primary my-4" (click)="onUploadFile()">Upload</button>
-
-
-
-                  <img [src]="imgUrl" height="200" width="200" *ngIf="imgUrl">
-
-                  <!-- </div> -->
-                  <!-- ********************** -->
-                </div>
-
-                <div class="text-center">
-                  <button type="button" class="btn btn-primary my-4">Sign in</button>
-                </div>
-              </form>
+          <div class="card-body px-lg-5 py-lg-5">
+            <div class="text-center text-muted mb-4">
+              <small>Or sign in with credentials</small>
             </div>
-          </div>
+            <form role="form" #singInForm="ngForm">
+              <div class="form-group mb-3">
+                <!-- <div class="input-group input-group-alternative">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="ni ni-email-83"></i></span>
+                  </div>
+                  <input class="form-control" placeholder="National Number" type="number" [(ngModel)]="NationalNumber"
+                    name="NN"> -->
 
+
+                <mat-form-field class="example-full-width">
+                  <input matInput placeholder="National Number" pattern="\d{11}" minlength="11" maxlength="11"
+                    type="text" name="nationalNumber" required [(ngModel)]="NationalNumber" #nationalNumber="ngModel">
+                  <mat-error *ngIf="nationalNumber.invalid && (nationalNumber.dirty || nationalNumber.touched)">
+                    <span [hidden]="!nationalNumber.errors.minlength && !nationalNumber.errors.maxlength">
+                      the National Number you inserted is <strong>invalid</strong> it must be 11 digits</span>
+                    <span [hidden]="!nationalNumber.errors.required">National Number is <strong>required</strong></span>
+                  </mat-error>
+
+                </mat-form-field>
+
+                <!-- </div> -->
+
+              </div>
+
+              <!-- FingerPrint *****************-->
+              <div class="form-group mb-3">
+
+                <input hidden required class="form-control" placeholder="choose file" type="file"
+                  (change)="onFileChange($event)" accept="image/*" [ngModel]="selectedFileName" #selectFile
+                  name="selectedFileName">
+
+                <button class="btn btn-primary my-4" (click)="selectFile.click()">Select File</button>
+                <span>{{selectedFile?.name}}</span>
+
+              </div>
+              <div class="form-group mb-3">
+
+                <mat-radio-group aria-label="Select an option" [(ngModel)]="selectedAlgo" name="Algo">
+                  <mat-radio-button [value]="1">Algorithm 1</mat-radio-button>
+                  <mat-radio-button [value]="2">Algorithm 2</mat-radio-button>
+                </mat-radio-group>
+
+              </div>
+
+              <div class="text-center text-muted mb-4">
+                <span> you selected the Algorithm : {{selectedAlgo}}</span>
+              </div>
+
+              <div class="form-group mb-3">
+
+                <button class="btn btn-primary my-4" (click)="onUploadFile()"
+                  [disabled]="singInForm.invalid">Submit</button>
+              </div>
+              <div class="form-group mb-3">
+
+                <img [src]="imgUrl" height="200" width="200" *ngIf="imgUrl" style="margin-left: 66px;">
+              </div>
+            </form>
+          </div>
         </div>
+
       </div>
     </div>
+  </div>
 </div>

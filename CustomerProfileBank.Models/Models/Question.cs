@@ -34,14 +34,14 @@ namespace CustomerProfileBank.Models.Models
 
 
         // foregin key on parentQuestion 
-        public int ParentQuestionId { get; set; }
+        public int? ParentQuestionId { get; set; }
         [ForeignKey("ParentQuestionId")]
         public virtual Question ParentQuestion { get; set; }
 
 
 
         // foregin key on parentOption 
-        public int ParentOptionId { get; set; }
+        public int? ParentOptionId { get; set; }
         [ForeignKey("ParentOptionId")]
         public virtual Option ParentOption { get; set; }
 

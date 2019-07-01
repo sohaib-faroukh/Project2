@@ -16,9 +16,10 @@ namespace Project2.WebAPIs.Finger_Print
     {
         CompareTwoFingerPrints comparer = new CompareTwoFingerPrints();
         FingerPrintBestMatch bestMatch = new FingerPrintBestMatch();
+
+
         [HttpPost]
         [Route("api/Upload")]
-        [EnableCors("http://localhost:4200", "*", "*")]
         public async Task<IHttpActionResult> UploadFile()
         {
             result result = new result();
@@ -58,20 +59,12 @@ namespace Project2.WebAPIs.Finger_Print
                     images.Add(localFileName);
 
                     //check if the file name is already existed
-                    if (System.IO.File.Exists(filePath))
+                    if (!System.IO.File.Exists(filePath))
                     {
-                        images.Add(filePath);
-                        //remove existed file
-                      //  System.IO.File.Delete(filePath);
-
+                        throw new Exception("Fingerprint doesn't exist in the database");
                     }
-                    else
-                    {
-                        return Ok("Fingerprint doesn't exist in the database");
-                    }
-                    ////add new file
-                    //System.IO.File.Move(localFileName, filePath);
 
+                    images.Add(filePath);
 
                 }
                 var arr = images.ToArray();
@@ -97,7 +90,7 @@ namespace Project2.WebAPIs.Finger_Print
         }
 
         [HttpPost]
-        [EnableCors("http://localhost:4200", "*", "*")]
+        [Route("api/Algo2")]
         public async Task<IHttpActionResult> SecondAlogrithm()
         {
             result result = new result();
@@ -165,6 +158,12 @@ namespace Project2.WebAPIs.Finger_Print
                 }
 
                 bool a  ;
+
+                if (images.Count == 0)
+                {
+                    throw new Exception("Can't find fingerprints between customer files");
+
+                }
                 if (images.Count > 2)
                 {
                    a = bestMatch.match(source, images);

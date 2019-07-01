@@ -13,7 +13,7 @@ using System.Web.Http.Cors;
 namespace Project2.WebAPIs.Customer_Profile_Mangement
 {
 
-    [EnableCors("*","*","*"/*,SupportsCredentials =false*/)]
+    [EnableCors("*", "*", "*"/*,SupportsCredentials =false*/)]
     public class CustomersController : ApiController
     {
         CustomerRepo Repo = new CustomerRepo();
@@ -39,6 +39,7 @@ namespace Project2.WebAPIs.Customer_Profile_Mangement
                     ISPN = ele.ISPN,
                     Status = ele.Status,
                     Address = ele.Address,
+                    NationalNumber=ele.NationalNumber,
 
                     Numbers = ele.Numbers.Select(num => new
                     {
@@ -98,6 +99,7 @@ namespace Project2.WebAPIs.Customer_Profile_Mangement
                     ISPN = ele.ISPN,
                     Status = ele.Status,
                     Address = ele.Address,
+                    NationalNumber = ele.NationalNumber,
 
                     Numbers = ele.Numbers.Select(num => new
                     {
@@ -135,10 +137,11 @@ namespace Project2.WebAPIs.Customer_Profile_Mangement
         public IHttpActionResult post(CustomerVM Customer)
         {
 
-            bool valid = false;
+            bool valid = true;
             try
             {
                 /* validate */
+
 
 
                 Customer newCustomer = new Customer();
@@ -147,6 +150,14 @@ namespace Project2.WebAPIs.Customer_Profile_Mangement
 
                 /* assing these objects using ovloaded operator in CustomerVM class */
                 newCustomer = Customer;
+
+
+                int count = Repo.FindBy(ele => ele.NationalNumber.Equals(newCustomer.NationalNumber)).Count();
+
+                if (count > 0)
+                {
+                    throw new Exception("This National Number is Already Exist");
+                }
 
                 /* set the initial status when add customer for the first time */
                 newCustomer.Status = "ACTIVE";
@@ -162,6 +173,7 @@ namespace Project2.WebAPIs.Customer_Profile_Mangement
                     /* Add new Customer using Reository Add method passing the new Customer object */
                     addedCustomer = Repo.Add(newCustomer);
                 }
+
 
 
                 /* Check if the customer Added */
@@ -243,7 +255,7 @@ namespace Project2.WebAPIs.Customer_Profile_Mangement
                 {
                     /* Add new Customer using Reository Add method passing the new Customer object */
                     throw new Exception("Can't update beacause invalid data");
-              
+
                 }
 
                 updatedCustomer = Repo.Edit(toUpdateCustomer, newCustomerData);

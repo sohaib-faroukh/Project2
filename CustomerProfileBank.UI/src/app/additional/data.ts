@@ -1,20 +1,20 @@
-// export const REQUIREDPATTERN=".*\\S+.*";
-export const REQUIREDPATTERN="^[a-zA-Z1-9].*";
+export const REQUIREDPATTERN=".*\\S+.*";
+// export const REQUIREDPATTERN = "^[a-zA-Z1-9].*";
 
-export const CitiesList=[
-    {Id:1,value:"Damascus"},
-    {Id:1,value:"Daraa"},
-    {Id:1,value:"Swida"},
-    {Id:1,value:"Halab"},
-    {Id:1,value:"Lattakia"},
-    {Id:1,value:"Tartus"},
-    {Id:1,value:"Homs"},
-    {Id:1,value:"Hama"},
-    {Id:1,value:"Deir EL-Zor"},
-    {Id:1,value:"Hasaka"},
-    {Id:1,value:"Damascus Countryside"},
-    {Id:1,value:"Halab Countryside"},
-  
+export const CitiesList = [
+    { Id: 1, value: "Damascus" },
+    { Id: 2, value: "Daraa" },
+    { Id: 3, value: "Swida" },
+    { Id: 4, value: "Halab" },
+    { Id: 5, value: "Lattakia" },
+    { Id: 6, value: "Tartus" },
+    { Id: 7, value: "Homs" },
+    { Id: 8, value: "Hama" },
+    { Id: 9, value: "Deir EL-Zor" },
+    { Id: 10, value: "Hasaka" },
+    { Id: 11, value: "Damascus Countryside" },
+    { Id: 12, value: "Halab Countryside" },
+
 ];
 
 
@@ -29,13 +29,17 @@ export const ROUTES: RouteInfo[] = [
 
         ]
     },
-    
-    { path: '/customers', title: 'Customers', icon: 'ni-single-02 text-info', class: '' },
 
-    { path: '/surveys', title: 'Surveys Management', icon: 'ni-single-02 text-info', class: '' },
+    {
+        path: 'CM', title: 'Customers', icon: 'ni-settings text-orange', class: '', items: [
 
+            { path: '/customers', title: 'Customers Management', icon: 'ni-single-02 text-info', class: '' },
 
-    // { path: '/icons', title: 'Icons', icon: 'ni-planet text-blue', class: '' },
+            { path: '/insertCustomer', title: 'Insert Customer FingerPrint', icon: 'ni-single-02 text-info', class: '' },
+        ]
+    },
+
+    { path: '/survey', title: 'Suveys Management', icon: 'ni-planet text-blue', class: '' },
     // { path: '/maps', title: 'Maps', icon: 'ni-pin-3 text-orange', class: '' },
     // { path: '/user-profile', title: 'User profile', icon: 'ni-single-02 text-yellow', class: '' },
     // { path: '/tables', title: 'Tables', icon: 'ni-bullet-list-67 text-red', class: '' },
