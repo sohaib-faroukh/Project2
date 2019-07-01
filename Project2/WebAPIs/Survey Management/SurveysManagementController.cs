@@ -270,7 +270,15 @@ namespace Project2.WebAPIs.Survey_Management
 
 
                 #region returned result
-                var res = Surveys.Select(ele => new
+                var customer = new
+                {
+                    Customer.Id,
+                    Customer.NationalNumber,
+                    Customer.ISPN,
+                    Customer.FirstName,
+                    Customer.LastName,
+                };
+                var questions = Surveys.Select(ele => new
                 {
                     ele.Id,
                     ele.Name,
@@ -300,7 +308,117 @@ namespace Project2.WebAPIs.Survey_Management
                 }).FirstOrDefault();
                 #endregion
 
-                return Json(res);
+                return Json(new { customer, questions });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("api/Surveys/sendResponse")]
+        public IHttpActionResult submitSurveyResponse(ResponseVM response)
+        {
+            try
+            {
+
+                #region validation
+                Survey Survey = sRepo.FindById(response.SurveyId);
+                Customer Customer = new CustomerRepo().FindById(response.CustomerId);
+
+                if (Survey == null)
+                {
+                    throw new Exception("this Survey isn't exist");
+                }
+
+                if (Customer == null)
+                {
+                    throw new Exception("this Customer isn't exist");
+                }
+
+                var Answers = response?.Answers;
+
+                if (Answers == null || Answers.Count == 0)
+                {
+                    throw new Exception("there are not answers");
+                }
+                #endregion
+
+                SurveyResponse surveyResponse = new SurveyResponse();
+
+                surveyResponse.CustomerId = Customer.Id;
+                surveyResponse.SurveyId = Survey.Id;
+                surveyResponse.RespondDateTime = DateTime.Now;
+
+                SurveyResponseRepo SRR = new SurveyResponseRepo();
+
+                var addedSurveyResponse = SRR.Add(surveyResponse);
+
+                if (addedSurveyResponse == null)
+                {
+                    throw new Exception("can't post the response");
+                }
+
+
+                AnswerRepo AR = new AnswerRepo();
+
+                List<Answer> insertedAnswers = new List<Answer>();
+                List<string> insertedAnswersErrors = new List<string>();
+                foreach (var ans in Answers)
+                {
+                    Answer answer = new Answer();
+                    answer.SurveyResponseId = addedSurveyResponse.Id;
+                    answer.QuestionId = ans.Id;
+
+                    #region extract answer text 
+
+                    Type type = ans.answer.GetType();
+
+                    if (
+                        ans.Type.Trim().ToUpper().Equals("OPEN")
+                        && ans.answer != null
+                        )
+                    {
+                        answer.Text = ans.answer;
+                    }
+                    else if (
+                        ans.Type.Trim().ToUpper().Equals("SINGLESELECT")
+                        && ans.answer != null
+                        )
+                    {
+                        answer.Text = ans.answer.ToString();
+                    }
+                    else if (
+                        ans.Type.Trim().ToUpper().Equals("MULTISELECT")
+                        && ans.answer != null
+                        && ans.answer.Count > 0
+                        )
+                    {
+                        string answerText = "|";
+                        foreach (var c in ans.answer)
+                        {
+                            answerText += c + ";";
+                        }
+                        answerText += "|";
+
+                        answer.Text = answerText;
+                    }
+                    #endregion
+
+                    var tempRes = AR.Add(answer);
+                    if (tempRes != null)
+                    {
+                        insertedAnswers.Add(tempRes);
+                    }
+                    else
+                    {
+                        insertedAnswersErrors.Add("can't post answer with the question id : " + ans.Id);
+                    }
+
+                }
+
+                return Json(new { insertedAnswers, insertedAnswersErrors });
             }
             catch (Exception ex)
             {
@@ -326,6 +444,24 @@ namespace Project2.WebAPIs.Survey_Management
             }
             return false;
         }
+
+    }
+
+
+    public class ResponseVM
+    {
+        public int SurveyId { get; set; }
+        public int CustomerId { get; set; }
+
+        public List<AnswerVM> Answers { get; set; }
+
+    }
+
+    public class AnswerVM
+    {
+        public int Id { get; set; }
+        public string Type { get; set; }
+        public dynamic answer { get; set; }
 
     }
 }

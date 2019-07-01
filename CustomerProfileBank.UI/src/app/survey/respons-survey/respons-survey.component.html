@@ -7,6 +7,10 @@
                     <div class="row align-items-center">
                         <div class="col-8">
                             <h3 class="mb-0"> Questions Section</h3>
+                            <span style="color: #94a2ec;">Dear Customer
+                                <strong style="color: #f53c56;"> {{Customer.FirstName+" "+Customer.LastName}} </strong>
+                                kindly
+                                answer these questions ...</span>
                         </div>
                     </div>
                 </div>
@@ -60,7 +64,7 @@
                                                     #answer="ngModel" (ngModelChange)="answerQuestion(item,$event)"
                                                     [name]="item.Id">
 
-                                                    <mat-option *ngIf="item.IsMandatory" [value]="null">None
+                                                    <mat-option *ngIf="!item.IsMandatory" [value]="null">None
                                                     </mat-option>
 
                                                     <mat-option *ngFor="let option of item.Options" [value]="option.Id">
@@ -108,11 +112,11 @@
 
 
                         <div class="row">
-                            <div class="col-4 text-left">
-                                <small> The submit button will be Enabled as soon as you answer the mandatory questions </small>
-
+                            <div class="col-4 text-left" style="color: #28a745d9;">
+                                <small> The submit button will be Enabled as soon as you answer the mandatory questions
+                                </small>
                             </div>
-                            
+
                             <div class="col-4 text-right">
                                 <button [disabled]="SubmitForm.invalid" type="submit"
                                     class="btn btn-lg btn-primary">Submit</button>
