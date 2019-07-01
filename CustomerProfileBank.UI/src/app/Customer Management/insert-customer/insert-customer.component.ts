@@ -71,14 +71,14 @@ export class InsertCustomerComponent implements OnInit {
         console.log(res);
         showNotification("Uploaded Successfully", "bottom", "center", "success");
 
+        this.Code = res["Code"];
         // For Test always navigate to survey response component
-        this.navigateAccordingToCode(0);
+        this.navigateAccordingToCode(this.Code);
 
       },
       err => {
-        showNotification("Uploading error : " + err.statusText, "bottom", "center", "danger");
-        // For Test always navigate to survey response component
-        this.navigateAccordingToCode(0);
+        showNotification("Error - Uploading Fingerprint error : " + err.statusText, "bottom", "center", "danger");
+        this.navigateAccordingToCode(-1);
       })
 
 
@@ -87,7 +87,18 @@ export class InsertCustomerComponent implements OnInit {
 
 
 
+  /*
+      = 0 : existing customer with existing fingerprint and matching => survey response
+      = 1 : existing customer but no fingerprint in database => store the inserterd fingerprint in this customer profile files
+      = 2 : existing customer existing fingerprint in customer files but no matching => Error page the customer verfication failed  
+      = 3 : customer National number dosn't exist => insert new customer info and store the fingerprint in new customer file => survey response 
+      = 4 : the fingerprint image is bad quality and bad to proccecc
+*/
+
   navigateAccordingToCode(Code: string | number) {
+   
+    Code=4;
+
     switch (Code) {
       case 0: {
         this.router.navigate([`/survey/surveyResponse/${+this.NationalNumber}`]);
@@ -99,19 +110,32 @@ export class InsertCustomerComponent implements OnInit {
         break
       }
       case 2: {
-        this.router.navigate([`/survey/surveyResponse/${+this.NationalNumber}`]);
+
+        showNotification("Can't the inserted fingerprint with this customer fingerprints that already existing in company database ",
+          "bottom", "center", "danger");
+        this.router.navigate([`**`]);
 
         break
       }
       case 3: {
-        this.router.navigate([`/survey/surveyResponse/${+this.NationalNumber}`]);
+        showNotification("the customer National Number isn't existing in company database",
+        "bottom", "center", "warning");
+
+        this.router.navigate([`/customers/add`]);
 
         break
       }
       case 4: {
-        this.router.navigate([`/survey/surveyResponse/${+this.NationalNumber}`]);
+
+        showNotification("the inserted fingerprint is <strong> bad quality </strong> please try again",
+        "bottom", "center", "danger");
+        
+        this.router.navigate([`/insertCustomer`]);
 
         break
+      }
+      default: {
+        this.router.navigate([`**`]);
       }
     }
   }

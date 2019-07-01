@@ -44,6 +44,7 @@ import {
   MatMenuModule,
   MatStepperModule,
   MatDatepickerModule,
+  MatDialogModule,
 } from '@angular/material';
 
 
@@ -51,6 +52,7 @@ import {
 import { SurveyService, ToResponseSurveysResolver } from './survey.service';
 import { CdkTableModule } from '@angular/cdk/table';
 import { ResponsSurveyComponent } from './respons-survey/respons-survey.component';
+import { DialogBoxComponent } from './dialog-box/dialog-box.component';
 
 
 
@@ -58,6 +60,8 @@ export const SurveyRoutes: Routes = [
   // {
   // path: '', component: SurveyComponent, children: [
   { path: '', component: BrowseSurveysComponent, resolve: { Surveys: SurveyService } },
+  
+  { path: 'dialog/:nationalNumber', component: DialogBoxComponent},
 
   { path: 'surveyResponse/:nationalNumber', component: ResponsSurveyComponent, resolve: { Survey: ToResponseSurveysResolver } },
 
@@ -75,7 +79,8 @@ export const SurveyRoutes: Routes = [
     // SurveyComponent,
     BrowseSurveysComponent,
     AddEditSurveyComponent,
-    ResponsSurveyComponent
+    ResponsSurveyComponent,
+    DialogBoxComponent,
   ],
 
   imports: [
@@ -113,7 +118,7 @@ export const SurveyRoutes: Routes = [
     MatListModule,
     MatPaginatorModule,
     MatRadioModule,
-
+    MatDialogModule,
 
 
     MatDatepickerModule,

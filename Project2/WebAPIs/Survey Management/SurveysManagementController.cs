@@ -22,6 +22,10 @@ namespace Project2.WebAPIs.Survey_Management
         SurveyRepo sRepo = new SurveyRepo();
         private List<dynamic> errorsList = new List<dynamic>();
 
+        /// <summary>
+        /// get all surveys configuration
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [Route("api/Surveys")]
         public IHttpActionResult getAll()
@@ -53,6 +57,11 @@ namespace Project2.WebAPIs.Survey_Management
         }
 
 
+        /// <summary>
+        /// return survey configuration 
+        /// </summary>
+        /// <param name="id">survey id</param>
+        /// <returns></returns>
         [HttpGet]
         [Route("api/Surveys/{id}")]
         public IHttpActionResult getById(int id)
@@ -70,24 +79,38 @@ namespace Project2.WebAPIs.Survey_Management
                 ele.CreationDate,
                 ele.ValidiatyMonthlyPeriod,
                 CreatorName = ele.Creator.FirstName + " " + ele.Creator.LastName,
+
                 Questions = ele.Questions.Select(ques => new
                 {
-                    ques.Question.Id,
-                    ques.Question.Text,
-                    ques.Order,
-                    ques.Question.Status,
-                    ques.IsMandatory,
-                })
+                    Id = ques.Question.Id,
+                    IsMandatory = ques.IsMandatory,
+                    Text = ques.Question.Text,
+                    Type = ques.Question.Type,
+                    Order = ques.Order,
+                    Category = ques.Question.Category.Name,
+                    ParentOptionId = ques.Question.ParentOptionId,
+                    ParentQuestionId = ques.Question.ParentQuestionId,
+                    Options = ques.Question.Options.Select(op => new
+                    {
+                        op.Id,
+                        op.IsDefault,
+                        op.Order,
+                        op.Text,
+                    }).OrderBy(op => op.Order).ToList()
+
+                }).OrderBy(ques => ques.Order).ToList()
             };
             return Json(res);
         }
 
 
-        /*
-         * - Fix put 
-         */
 
-
+        /// <summary>
+        /// edit existing survey configuration
+        /// </summary>
+        /// <param name="id">to edit survey id</param>
+        /// <param name="newSurvey">the new configuration</param>
+        /// <returns></returns>
         [HttpPut]
         [Route("api/Surveys/put/{id}")]
         public IHttpActionResult put(int id, Survey newSurvey)
@@ -147,10 +170,13 @@ namespace Project2.WebAPIs.Survey_Management
         }
 
 
-        /*
-         * - Fix post 
-         */
+        
 
+        /// <summary>
+        /// add new survey configuration 
+        /// </summary>
+        /// <param name="newSurvey">new survey instance</param>
+        /// <returns></returns>
         [HttpPost]
         [Route("api/Surveys/post")]
         public IHttpActionResult post(Survey newSurvey)
@@ -199,10 +225,13 @@ namespace Project2.WebAPIs.Survey_Management
         }
 
 
-        /*
-         * - Fix delete 
-         */
+        
 
+        /// <summary>
+        /// delete survey API
+        /// </summary>
+        /// <param name="id">survey id</param>
+        /// <returns></returns>
         [HttpDelete]
         [Route("api/Surveys/delete/{id}")]
         public IHttpActionResult delete(int id)
@@ -238,6 +267,11 @@ namespace Project2.WebAPIs.Survey_Management
 
 
 
+        /// <summary>
+        /// get not responding survey by customer based on his NationalNumber
+        /// </summary>
+        /// <param name="NationalNumber">Customer identity National Number</param>
+        /// <returns></returns>
         [HttpGet]
         [Route("api/Surveys/answer/{NationalNumber}")]
 
@@ -278,7 +312,7 @@ namespace Project2.WebAPIs.Survey_Management
                     Customer.FirstName,
                     Customer.LastName,
                 };
-                var questions = Surveys.Select(ele => new
+                var survey = Surveys.Select(ele => new
                 {
                     ele.Id,
                     ele.Name,
@@ -305,10 +339,10 @@ namespace Project2.WebAPIs.Survey_Management
                         }).OrderBy(op => op.Order).ToList()
 
                     }).OrderBy(ques => ques.Order).ToList()
-                }).FirstOrDefault();
+                }).OrderByDescending(ele=>ele.Questions.Count).FirstOrDefault();
                 #endregion
 
-                return Json(new { customer, questions });
+                return Json(new { customer, survey });
             }
             catch (Exception ex)
             {
@@ -316,6 +350,11 @@ namespace Project2.WebAPIs.Survey_Management
             }
         }
 
+        /// <summary>
+        /// API : submit survey response
+        /// </summary>
+        /// <param name="response"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("api/Surveys/sendResponse")]
         public IHttpActionResult submitSurveyResponse(ResponseVM response)
@@ -428,6 +467,11 @@ namespace Project2.WebAPIs.Survey_Management
 
 
 
+        /// <summary>
+        /// check if the survey with the given id is answerd regardless who answerd and return boolean value
+        /// </summary>
+        /// <param name="id">Survey id</param>
+        /// <returns></returns>
         public bool isAnswered(int id)
         {
             if (sRepo.FindById(id) == null)
@@ -448,6 +492,10 @@ namespace Project2.WebAPIs.Survey_Management
     }
 
 
+
+    /// <summary>
+    /// View Model response class helps to recive the Interface response data
+    /// </summary>
     public class ResponseVM
     {
         public int SurveyId { get; set; }
@@ -457,6 +505,9 @@ namespace Project2.WebAPIs.Survey_Management
 
     }
 
+    /// <summary>
+    /// View Model answer class helps to recive the Interface answer data into response class
+    /// </summary>
     public class AnswerVM
     {
         public int Id { get; set; }

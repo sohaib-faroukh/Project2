@@ -10,7 +10,7 @@
 
           <div class="card-body px-lg-5 py-lg-5">
             <div class="text-center text-muted mb-4">
-              <small>Or sign in with credentials</small>
+              <small>Insert customer credentials</small>
             </div>
             <form role="form" #singInForm="ngForm">
               <div class="form-group mb-3">
@@ -44,10 +44,20 @@
                   (change)="onFileChange($event)" accept="image/*" [ngModel]="selectedFileName" #selectFile
                   name="selectedFileName">
 
-                <button class="btn btn-primary my-4" (click)="selectFile.click()">Select File</button>
+
+                <button mat-button (click)="selectFile.click()">
+
+                  <i>
+                    <img src="assets//img//icons/actions/upload.jpg" height="50" width="50">
+                  </i>
+
+                </button>
+
                 <span>{{selectedFile?.name}}</span>
 
               </div>
+
+              <hr class="my-4">
               <div class="form-group mb-3">
 
                 <mat-radio-group aria-label="Select an option" [(ngModel)]="selectedAlgo" name="Algo">
@@ -56,10 +66,10 @@
                 </mat-radio-group>
 
               </div>
-
+              <!-- 
               <div class="text-center text-muted mb-4">
                 <span> you selected the Algorithm : {{selectedAlgo}}</span>
-              </div>
+              </div> -->
 
               <div class="form-group mb-3">
 
@@ -67,8 +77,9 @@
                   [disabled]="singInForm.invalid">Submit</button>
               </div>
               <div class="form-group mb-3">
-
-                <img [src]="imgUrl" height="200" width="200" *ngIf="imgUrl" style="margin-left: 66px;">
+                <a class="darkbox">
+                  <img [src]="imgUrl" height="200" width="200" *ngIf="imgUrl" style="margin-left: 66px;">
+                </a>
               </div>
             </form>
           </div>
