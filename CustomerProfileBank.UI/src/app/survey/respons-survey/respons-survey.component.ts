@@ -5,6 +5,7 @@ import { Survey } from 'src/app/models/Survey';
 import { Question, Option } from 'src/app/models/Question';
 import { showNotification } from 'src/app/additional/functions';
 import { REQUIREDPATTERN } from 'src/app/additional/data';
+import { Customer } from 'src/app/models/Customer';
 
 @Component({
   selector: 'app-respons-survey',
@@ -15,6 +16,8 @@ export class ResponsSurveyComponent implements OnInit {
 
   public Survey: Survey = new Survey();
 
+  public Customer: Customer = new Customer();
+
   public Questions: Question[] = []
 
   pattern: string = REQUIREDPATTERN;
@@ -24,7 +27,8 @@ export class ResponsSurveyComponent implements OnInit {
   ngOnInit() {
     let res = this.route.snapshot.data["Survey"];
     if (res != null) {
-      this.Survey = res;
+      this.Survey = res["questions"];
+      this.Customer = res["customer"];
 
       if (!this.Survey.Questions || this.Survey.Questions.length == 0) {
         showNotification("Error : No Questions in this Survey", "bottom", "center", "danger")
@@ -66,17 +70,57 @@ export class ResponsSurveyComponent implements OnInit {
 
   onSubmit() {
 
-    showNotification("Submitted Successfully","bottom","center","success");
 
-    let Answers: any;
-    Answers = this.Survey.Questions.map(ele => {
+    let response = new Response();
+    response.CustomerId = this.Customer.Id;
+    response.SurveyId = this.Survey.Id;
+
+    response.Answers = this.Survey.Questions.filter(item =>
+
+      !(
+        item.answer == null
+        || item.answer == undefined
+        || (item.answer && item.answer.length == 0)
+      )
+
+    ).map(ele => {
+
       return { Id: ele.Id, Type: ele.Type, answer: ele.answer }
     });
 
-    console.log("Answers : ---------------------------------------------------------------------------------------");
-    console.log(Answers);
+    console.log("Response : ---------------------------------------------------------------------------------------");
+    console.log(response);
     console.log("-------------------------------------------------------------------------------------------------");
+
+
+
+    this.srv.sendSurveyResponse(response).subscribe(
+      res => {
+        if (res) {
+          showNotification("Submitted Successfully", "bottom", "center", "success");
+        }
+
+        console.log(res);
+
+      },
+      err => {
+        showNotification("Error : " + err.statusText, "bottom", "center", "danger");
+        console.log(err);
+      }
+    );
+
+
 
   }
 
+}
+
+
+
+
+class Response {
+
+  SurveyId: number;
+  CustomerId: number;
+  Answers: any[]
 }

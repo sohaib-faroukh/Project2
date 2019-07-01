@@ -109,6 +109,20 @@ export class SurveyService {
 
   }
 
+
+
+  sendSurveyResponse(response) {
+    let url = `${this.apiUrl}/Surveys/sendResponse`;
+
+    console.log("sendSurveyResponse(response) : ");
+    console.log(url);
+
+    return this.http.post<any>(url, response, httpGetHeader)
+
+  }
+
+
+
   resolve() {
     return this.getAll();
   }
@@ -155,7 +169,7 @@ export class ToResponseSurveysResolver implements Resolve<Survey>{
   constructor(private srv: SurveyService, private http: HttpClient) { }
 
   resolve(route: ActivatedRouteSnapshot) {
-  
+
 
     let nationalNumber = +route.params.nationalNumber;
 

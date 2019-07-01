@@ -107,6 +107,7 @@
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserFingerPrint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\AnswerRepo.cs" />
     <Compile Include="Repositories\CustomerFingerPrintRepo.cs" />
     <Compile Include="Repositories\CustomerHobbyRepo.cs" />
     <Compile Include="Repositories\CustomerRepo.cs" />
@@ -120,7 +121,6 @@
     <Compile Include="Repositories\PrivilegeTypeRepo.cs" />
     <Compile Include="Repositories\QuestionOrderRepo.cs" />
     <Compile Include="Repositories\QuestionRepo.cs" />
-    <Compile Include="Repositories\ResponseRepo.cs" />
     <Compile Include="Repositories\RoleRepo.cs" />
     <Compile Include="Repositories\Role_UserRepo.cs" />
     <Compile Include="Repositories\ServiceRepo.cs" />
