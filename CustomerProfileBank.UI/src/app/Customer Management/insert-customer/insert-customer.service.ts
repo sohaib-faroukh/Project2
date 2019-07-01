@@ -8,18 +8,27 @@ import { API_BASE_URL } from 'src/app/config/config.service';
 })
 export class InsertCustomerService {
 
-  apiUrl: string="";
+  apiUrl: string = "";
 
-  constructor(private http:HttpClient,
+  constructor(private http: HttpClient,
     @Inject(API_BASE_URL) _apiUrl_: string) {
     this.apiUrl = _apiUrl_;
-  } 
+  }
 
-  uploadFileAndNatioNumber(selectedFile:FormData):Observable<any>{
+  uploadFileAndNatioNumber(selectedAlgo: number, selectedFile: FormData): Observable<any> {
 
-    let url = `${this.apiUrl}/Upload`;
-    return this.http.post<any>(url, selectedFile);
-    
+    switch (selectedAlgo) {
+      case 1: {
+        let url = `${this.apiUrl}/Upload`;
+        return this.http.post<any>(url, selectedFile);
+      }
+      case 2: {
+        let url = `${this.apiUrl}/Algo2`;
+        return this.http.post<any>(url, selectedFile);
+
+      }
+    }
+
   }
 
 }

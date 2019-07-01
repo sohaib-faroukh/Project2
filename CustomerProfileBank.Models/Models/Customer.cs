@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,6 +21,13 @@ namespace CustomerProfileBank.Models.Models
         [Required]
         [MaxLength(150)]
         public string LastName { get; set; }
+
+
+        [Required]
+        [MaxLength(150)]
+        [Index(IsUnique =true)]
+        public string NationalNumber { get; set; }
+
 
 
         [Required]

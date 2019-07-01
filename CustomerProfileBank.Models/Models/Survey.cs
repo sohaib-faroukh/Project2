@@ -73,6 +73,8 @@ namespace CustomerProfileBank.Models.Models
         // survey has one or several questions
         public virtual ICollection<SurveyQuestion> Questions { get; set; }
 
+        public virtual ICollection<SurveyResponse> SurveyResponses { get; set; }
+
 
 
         public Survey() { }

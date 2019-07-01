@@ -78,7 +78,9 @@ namespace CustomerProfileBank.Models.Context
                 pr.ToTable(ConfigurationManager.AppSettings["DefaultSchema"] + "_ROLEPRIVILEGES");
             });
 
-            
+            modelBuilder.Entity<Survey>().HasMany(p => p.SurveyResponses).WithRequired(r => r.Survey);
+
+
 
         }
         #endregion

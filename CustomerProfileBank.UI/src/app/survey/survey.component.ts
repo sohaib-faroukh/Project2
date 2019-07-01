@@ -7,28 +7,10 @@ import { Router, NavigationStart,Event, NavigationEnd, NavigationCancel, Navigat
   styleUrls: ['./survey.component.scss']
 })
 export class SurveyComponent implements OnInit {
-  ShowLoadingIndicator: boolean = true;
-
+  
   constructor(
     private router: Router
-  ) {
-    this.router.events.subscribe((_event: Event) => {
-
-      if (_event instanceof NavigationStart) {
-        this.ShowLoadingIndicator = true;
-      }
-      else if (_event instanceof NavigationEnd) {
-        this.ShowLoadingIndicator = false;
-      }
-      if (_event instanceof NavigationCancel) {
-        this.ShowLoadingIndicator = false;
-
-      }
-      if (_event instanceof NavigationError) {
-        this.ShowLoadingIndicator = false;
-      }
-    })
-  }
+  ) {}
 
   ngOnInit() {
   }

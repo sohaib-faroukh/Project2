@@ -24,7 +24,7 @@ namespace CustomerProfileBank.Models.Models
         public string Description { get; set; }
 
 
-        public int ParentCategoryId { get; set; }
+        public int? ParentCategoryId { get; set; }
 
     }
 }

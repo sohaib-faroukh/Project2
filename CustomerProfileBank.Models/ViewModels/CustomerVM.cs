@@ -13,6 +13,7 @@ namespace CustomerProfileBank.Models.ViewModels
         public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public string NationalNumber { get; set; }
         public string Address { get; set; }
         public string ISPN { get; set; }
         public string Status { get; set; }
@@ -31,14 +32,26 @@ namespace CustomerProfileBank.Models.ViewModels
             this.Id = Id;
             this.FirstName = FirstName?.Trim();
             this.LastName = LastName?.Trim();
+
             this.Address = Address?.Trim().ToLower();
             this.Hobbies = Hoppies;
             this.Services = Services;
             this.Numbers = Numbers;
 
-            if (Helper.isAllCharsDigits(ISPN))
-            { this.ISPN = ISPN; }
-
+            if (!Helper.isAllCharsDigits(ISPN))
+            {
+                throw new Exception("Invalid National Number");
+            }else{
+                this.ISPN = ISPN;
+            }
+            
+            if (!Helper.isAllCharsDigits(NationalNumber))
+            {
+                throw new Exception("Invalid National Number");
+            }else
+            {
+                this.NationalNumber = NationalNumber?.Trim();
+            }
 
             this.Status = Status?.Trim().ToUpper();
 
@@ -66,13 +79,34 @@ namespace CustomerProfileBank.Models.ViewModels
             result.FirstName = value?.FirstName?.Trim();
             result.LastName = value?.LastName?.Trim();
             result.Address = value?.Address?.Trim();
-            result.Hobbies= value?.Hobbies;
+            result.Hobbies = value?.Hobbies;
             result.Services = value?.Services;
             result.Numbers = value?.Numbers;
-
-            if (value.ISPN != null && Helper.isAllCharsDigits(value.ISPN))
+            if (value.ISPN != null)
             {
-                result.ISPN = value.ISPN;
+
+
+                if ( !Helper.isAllCharsDigits(value.ISPN))
+                {
+                    throw new Exception("Invalid National Number");
+                }
+                else
+                {
+                    result.ISPN = value.ISPN;
+                }
+            }
+            if (value.NationalNumber != null)
+            {
+
+
+                if ( !Helper.isAllCharsDigits(value.NationalNumber))
+                {
+                    throw new Exception("Invalid National Number");
+                }
+                else
+                {
+                    result.NationalNumber = value.NationalNumber?.Trim();
+                }
             }
             return result;
         }

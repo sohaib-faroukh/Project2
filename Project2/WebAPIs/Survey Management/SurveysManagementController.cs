@@ -12,6 +12,7 @@ using CustomerProfileBank.Models.Context;
 using CustomerProfileBank.Models.Models;
 using System.Web.Http.Cors;
 using CustomerProfileBank.Models.Repositories;
+using CustomerProfileBank.Models.Helpers;
 
 namespace Project2.WebAPIs.Survey_Management
 {
@@ -234,6 +235,80 @@ namespace Project2.WebAPIs.Survey_Management
             }
 
         }
+
+
+
+        [HttpGet]
+        [Route("api/Surveys/answer/{NationalNumber}")]
+
+        public IHttpActionResult getSurveyToRespond(string NationalNumber)
+        {
+            try
+            {
+                if (!Helper.isAllCharsDigits(NationalNumber))
+                {
+                    throw new Exception("Invalid National Number");
+                }
+
+                CustomerRepo CR = new CustomerRepo();
+
+                Customer Customer = CR.Context.Customers
+                    .FirstOrDefault(ele => ele.NationalNumber.Trim() == NationalNumber.Trim() || ele.ISPN.Trim() == NationalNumber.Trim());
+                if (Customer == null)
+                {
+                    throw new Exception("can't find the customer");
+                }
+
+                //get surveys ids that the customer have answered
+
+                List<int> ids = CR.Context.SurveyResponses.Where(ele => ele.Customer.Id == Customer.Id)
+                    .Select(ele => ele.SurveyId).ToList<int>();
+
+                // select sureys that aren't answered by this customer
+
+                List<Survey> Surveys = CR.Context.Surveys.Where(ele => !ids.Contains(ele.Id)).ToList();
+
+
+                #region returned result
+                var res = Surveys.Select(ele => new
+                {
+                    ele.Id,
+                    ele.Name,
+                    ele.Status,
+                    ele.ToDate,
+                    ele.FromDate,
+                    ele.ValidiatyMonthlyPeriod,
+                    Questions = ele.Questions.Select(ques => new
+                    {
+                        Id = ques.Question.Id,
+                        IsMandatory = ques.IsMandatory,
+                        Text = ques.Question.Text,
+                        Type = ques.Question.Type,
+                        Order = ques.Order,
+                        Category = ques.Question.Category.Name,
+                        ParentOptionId = ques.Question.ParentOptionId,
+                        ParentQuestionId = ques.Question.ParentQuestionId,
+                        Options = ques.Question.Options.Select(op => new
+                        {
+                            op.Id,
+                            op.IsDefault,
+                            op.Order,
+                            op.Text,
+                        }).OrderBy(op => op.Order).ToList()
+
+                    }).OrderBy(ques => ques.Order).ToList()
+                }).FirstOrDefault();
+                #endregion
+
+                return Json(res);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+
 
         public bool isAnswered(int id)
         {

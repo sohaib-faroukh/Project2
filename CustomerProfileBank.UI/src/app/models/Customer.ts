@@ -5,6 +5,7 @@ export class Customer {
     Id: number;
     FirstName: string;
     LastName: string;
+    NationalNumber: string;
     Address: string;
     City: string;
     ISPN: string;
@@ -24,6 +25,7 @@ export class Customer {
             this.Status = "ACTIVE";
             this.LastName = "";
             this.FirstName = "";
+            this.NationalNumber = "";
             this.Address = "";
             this.City = "";
             this.Description = "";
