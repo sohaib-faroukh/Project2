@@ -23,12 +23,17 @@
 
 
                 <mat-form-field class="example-full-width">
-                  <input matInput placeholder="National Number" pattern="\d{11}" minlength="11" maxlength="11"
-                    type="text" name="nationalNumber" required [(ngModel)]="NationalNumber" #nationalNumber="ngModel">
+                  <input matInput placeholder="National Number" pattern="\d{11}" minlength="11" maxlength="11" type="text"
+                    name="nationalNumber" required [ngModel]="NationalNumber?.trim()" (ngModelChange)="NationalNumber=$event?.trim()"
+                     #nationalNumber="ngModel">
                   <mat-error *ngIf="nationalNumber.invalid && (nationalNumber.dirty || nationalNumber.touched)">
-                    <span [hidden]="!nationalNumber.errors.minlength && !nationalNumber.errors.maxlength">
+                    <span [hidden]="!nationalNumber.errors.minlength && !nationalNumber.errors.maxlength ">
                       the National Number you inserted is <strong>invalid</strong> it must be 11 digits</span>
                     <span [hidden]="!nationalNumber.errors.required">National Number is <strong>required</strong></span>
+                    
+                    <span [hidden]="!nationalNumber.invalid || nationalNumber.errors.required || nationalNumber.errors.minlength || nationalNumber.errors.maxlength">
+                      National Number is <strong>invalid it's must be just digits</strong></span>
+
                   </mat-error>
 
                 </mat-form-field>
