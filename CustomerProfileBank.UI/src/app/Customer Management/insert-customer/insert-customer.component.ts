@@ -72,6 +72,7 @@ export class InsertCustomerComponent implements OnInit {
         showNotification("Uploaded Successfully", "bottom", "center", "success");
 
         this.Code = res["Code"];
+
         // For Test always navigate to survey response component
         this.navigateAccordingToCode(this.Code);
 
@@ -97,7 +98,7 @@ export class InsertCustomerComponent implements OnInit {
 
   navigateAccordingToCode(Code: string | number) {
    
-    Code=4;
+    // Code=4;
 
     switch (Code) {
       case 0: {
@@ -111,7 +112,7 @@ export class InsertCustomerComponent implements OnInit {
       }
       case 2: {
 
-        showNotification("Can't the inserted fingerprint with this customer fingerprints that already existing in company database ",
+        showNotification("Not Match",
           "bottom", "center", "danger");
         this.router.navigate([`**`]);
 

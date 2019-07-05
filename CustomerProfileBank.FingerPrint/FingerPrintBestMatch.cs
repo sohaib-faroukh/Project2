@@ -36,8 +36,9 @@ namespace CustomerProfileBank.FingerPrint
 
         ////////////////////get file to compare//////////////////
 
-      
-        public bool match(string source,List<string> images)
+        result result = new result();
+        CompareTwoFingerPrints ctF = new CompareTwoFingerPrints();
+        public result match(string source,List<string> images)
         {
 
             // Matching features
@@ -69,7 +70,7 @@ namespace CustomerProfileBank.FingerPrint
 
                
 
-                Thread.Sleep(100);
+                //Thread.Sleep(100);
                 count++;
             }
 
@@ -92,16 +93,19 @@ namespace CustomerProfileBank.FingerPrint
             }
 
             var final = dict.Where(g => g.Value.MatchValue == highest).FirstOrDefault();
-            if(final.Value != null)
+            if(final.Value == null)
             {
-                return true;
+                result.Code = 1;
+                result.Message = "Fingerprint not found";
+                return result;
             }
             else
             {
-                return false;
+               var tr= ctF.match(source,final.Value.FingerUrl);
+                return tr;
             }
 
-            Thread.Sleep(500);
+            //Thread.Sleep(500);
           
         }
 

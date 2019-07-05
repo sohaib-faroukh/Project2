@@ -12,8 +12,9 @@ namespace CustomerProfileBank.FingerPrint
 {
     public class  result
     {
-        public int Matched { get; set; }
-        public string precentage { get; set; }
+        public string accuracy { get; set; }
+        public string Message { get; set; }
+        public int Code { get; set; }
     }
     public class CompareTwoFingerPrints
     {
@@ -55,14 +56,16 @@ namespace CustomerProfileBank.FingerPrint
             var matcher = new PN();
             double similarity = matcher.Match(features1, features2);
             score = similarity.ToString("0.00");
-            result.precentage = score;
-            if(similarity > 80.0)
+            result.accuracy = score;
+            if(similarity > 75.0)
             {
-                result.Matched = 1;
+                result.Code = 0;
+                result.Message = "Matched";
             }
             else
             {
-                result.Matched = 0;
+                result.Code = 2;
+                result.Message = "Not Matched";
             }
 
             return result;

@@ -120,7 +120,7 @@
                     <mat-form-field class="example-full-width">
                       <input matInput [matDatepicker]="fromtDate" [matDatepickerFilter]="FromDateFilter"
                         placeholder="From Date" type="text" [ngModel]="Survey.FromDate"
-                        (ngModelChange)="Survey.FromDate=changeDateValue($event);thereIsChange=true"
+                        (ngModelChange)="Survey.FromDate$event;"
                         name="surveyFromDate" required #surveyFromDate="ngModel"
                         [class.is-invalid]="surveyFromDate.invalid && surveyFromDate.touched">
                       <button mat-button *ngIf="Survey.FromDate" matSuffix mat-icon-button aria-label="Clear"
@@ -153,7 +153,7 @@
                     <mat-form-field class="example-full-width">
                       <input matInput [matDatepicker]="ToDate" placeholder="To Date" type="text"
                         [ngModel]="Survey.ToDate"
-                        (ngModelChange)="Survey.ToDate=changeDateValue($event);thereIsChange=true" name="ToDate"
+                        (ngModelChange)="Survey.ToDate=$event" name="ToDate"
                         required #toDate="ngModel" [class.is-invalid]="toDate.invalid && toDate.touched">
                       <button mat-button *ngIf="Survey.ToDate" matSuffix mat-icon-button aria-label="Clear"
                         (click)="Survey.ToDate = null ">
@@ -215,7 +215,7 @@
                   <div class="col-md-4">
 
                     <!-- [disabled]="addSurveyStep1.invalid"-->
-                    <button class=" btn btn-danger pull-right" mat-button (click)="stepper('next')">Next</button>
+                    <!-- <button class=" btn btn-danger pull-right" mat-button (click)="stepper('next')">Next</button> -->
                   </div>
 
 
@@ -247,8 +247,8 @@
 
                 <div class="row">
                   <div class="col-md-1">
-                    <button mat-button type="submit" class=" btn btn-danger pull-right"
-                      (click)="stepper('prev')">Pervios</button>
+                    <!-- <button mat-button type="submit" class=" btn btn-danger pull-right"
+                      (click)="stepper('prev')">Pervios</button> -->
                   </div>
 
 
@@ -256,8 +256,8 @@
                   <div class="col-md-1">
 
                     <!-- [disabled]="!isValid()" getSelected() -->
-                    <button matTooltip="Select one question at least" class=" btn btn-danger pull-right" mat-button
-                      (click)="getSelected();stepper('next');">Next</button>
+                    <!-- <button matTooltip="Select one question at least" class=" btn btn-danger pull-right" mat-button
+                      (click)="getSelected();stepper('next');">Next</button> -->
                     <!-- [disabled]=" !Survey.Questions || Survey.Questions.length==0" -->
                   </div>
 
@@ -292,8 +292,8 @@
 
                 <div class="row">
                   <div class="col-md-1">
-                    <button mat-button type="submit" class=" btn btn-danger pull-right"
-                      (click)="stepper('prev')">Pervios</button>
+                    <!-- <button mat-button type="submit" class=" btn btn-danger pull-right"
+                      (click)="stepper('prev')">Pervios</button> -->
                   </div>
 
                   <div class="col-md-1">
