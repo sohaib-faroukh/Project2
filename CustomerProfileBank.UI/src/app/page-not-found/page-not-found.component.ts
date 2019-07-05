@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-page-not-found',
@@ -8,18 +9,16 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class PageNotFoundComponent implements OnInit {
 
-  constructor(private router:Router,private route:ActivatedRoute) { }
+  constructor(private router: Router, private route: ActivatedRoute) { }
 
-  errorCode:number;
+  Code: number;
 
-  errorMessage:string="";
+  Message: string = "";
+
+  state$: Observable<object>;
+
 
   ngOnInit() {
-
-    let res = this.route.snapshot.paramMap.get('error');
-
-debugger
-
   }
 
 }

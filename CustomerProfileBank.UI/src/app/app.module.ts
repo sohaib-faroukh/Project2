@@ -23,7 +23,7 @@ import { BrowseCustomersComponent } from './Customer Management/customers/browse
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { SurveyComponent } from './survey/survey.component';
 import { MatRadioModule } from '@angular/material/radio';
-import { MatIconModule, MatProgressSpinnerModule, MatSelectModule, MatInputModule } from '@angular/material';
+import { MatIconModule, MatProgressSpinnerModule, MatSelectModule, MatInputModule, MatButtonModule } from '@angular/material';
 // import {
 //   DxDataGridModule,
 //   DxBulletModule,
@@ -40,6 +40,7 @@ import { MatIconModule, MatProgressSpinnerModule, MatSelectModule, MatInputModul
     NgbModule,
     RouterModule,
     AppRoutingModule,
+    MatButtonModule,
     // DxDataGridModule,
     // DxTemplateModule,
     // DxBulletModule

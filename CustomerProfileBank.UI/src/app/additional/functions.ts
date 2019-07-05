@@ -43,7 +43,9 @@ export function showNotification(Message: string, From: string, Align: string, T
       icon_type: 'class',
 
       template:
-        '<div data-notify="container" class="col-xs-11 col-sm-3 alert alert-{0}" role="alert">' +
+
+      
+        '<div data-notify="container" class="col-xs-11 col-sm-6 alert alert-{0}" role="alert">' +
           '<button type="button" aria-hidden="true" class="close" data-notify="dismiss">×</button>' +
           '<span data-notify="icon"></span> ' +
           // '<span data-notify="title">{1}</span> ' +

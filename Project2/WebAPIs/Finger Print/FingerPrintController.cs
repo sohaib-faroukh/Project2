@@ -1,4 +1,6 @@
 ﻿using CustomerProfileBank.FingerPrint;
+using CustomerProfileBank.Models.Helpers;
+using CustomerProfileBank.Models.Repositories;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -16,7 +18,7 @@ namespace Project2.WebAPIs.Finger_Print
     {
         CompareTwoFingerPrints comparer = new CompareTwoFingerPrints();
         FingerPrintBestMatch bestMatch = new FingerPrintBestMatch();
-
+        CustomerRepo cRepo = new CustomerRepo();
 
         [HttpPost]
         [Route("api/Upload")]
@@ -38,7 +40,19 @@ namespace Project2.WebAPIs.Finger_Print
                     .ReadAsMultipartAsync(provider);
 
                 string ISPN = provider.FormData.Get(0);
+                if (ISPN == null || ISPN.Trim() == "" || !Helper.isAllCharsDigits(ISPN))
+                {
+                    throw new Exception("Invalid National Number");
+                }
 
+                var customer = cRepo.FindBy(ele => ele.ISPN.Trim() == ISPN.Trim() || ele.NationalNumber.Trim() == ISPN.Trim()).FirstOrDefault();
+                if (customer == null)
+                {
+                    result.Code = 3;
+                    result.Message = "Customer doesn't exist";
+                    return Ok(result);
+                }
+                var source = "";
                 //iterate each file in the request (in case multiple file uploaded)
                 foreach (var file in provider.FileData)
                 {
@@ -55,22 +69,40 @@ namespace Project2.WebAPIs.Finger_Print
 
                     //set up the destination path
                     var filePath = Path.Combine(root, ISPN);
+                     source = localFileName;
 
-                    images.Add(localFileName);
-
-                    //check if the file name is already existed
-                    if (!System.IO.File.Exists(filePath))
+                    // Process the list of files found in the directory.
+                    string[] fileEntries = Directory.GetFiles(root);
+                    foreach (string fileName in fileEntries)
                     {
-                        throw new Exception("Fingerprint doesn't exist in the database");
+                        if (fileName.Contains(name))
+                        {
+                            images.Add(fileName);
+                        }
                     }
 
-                    images.Add(filePath);
+
+                    if (images.Count == 0)
+                    {
+                        result.Code = 1;
+                        result.Message = "Fingerprint not found";
+                    }
+                    
+                   // images.Add(localFileName);
+
+                    ////check if the file name is already existed
+                    //if (!System.IO.File.Exists(filePath))
+                    //{
+                    //    throw new Exception("Fingerprint doesn't exist in the database");
+                    //}
+
+                    //images.Add(filePath);
 
                 }
                 var arr = images.ToArray();
-                if(arr.Length == 2)
+                if(arr.Length > 0)
                 {
-                     result = comparer.match(arr[0], arr[1]);
+                     result = comparer.match(source, arr[0]);
                 }
                
                 if(result != null)
@@ -110,7 +142,18 @@ namespace Project2.WebAPIs.Finger_Print
                     .ReadAsMultipartAsync(provider);
 
                 string ISPN = provider.FormData.Get(0);
+                if(ISPN == null || ISPN.Trim() == "" || !Helper.isAllCharsDigits(ISPN))
+                {
+                    throw new Exception("Invalid National Number");
+                }
 
+               var customer = cRepo.FindBy(ele => ele.ISPN.Trim() == ISPN.Trim() || ele.NationalNumber.Trim() == ISPN.Trim()).FirstOrDefault();
+                if(customer == null)
+                {
+                    result.Code = 3;
+                    result.Message = "Customer doesn't exist";
+                    return Ok(result);
+                }
                 //iterate each file in the request (in case multiple file uploaded)
                 foreach (var file in provider.FileData)
                 {
@@ -133,12 +176,19 @@ namespace Project2.WebAPIs.Finger_Print
                     // Process the list of files found in the directory.
                     string[] fileEntries = Directory.GetFiles(root);
                     foreach (string fileName in fileEntries)
+                    {
                         if (fileName.Contains(name))
                         {
                             images.Add(fileName);
                         }
+                    }
+                        
 
-
+                    if(images.Count == 0)
+                    {
+                        result.Code = 1;
+                        result.Message = "Fingerprint not found";
+                    }
                     ////check if the file name is already existed
                     //if (System.IO.File.Exists(filePath))
                     //{
@@ -157,17 +207,12 @@ namespace Project2.WebAPIs.Finger_Print
 
                 }
 
-                bool a  ;
-
-                if (images.Count == 0)
+                result res = new result() ;
+              
+                if (images.Count > 0)
                 {
-                    throw new Exception("Can't find fingerprints between customer files");
-
-                }
-                if (images.Count > 2)
-                {
-                   a = bestMatch.match(source, images);
-                    return Ok(a);
+                    res = bestMatch.match(source, images);
+                    return Ok(res);
 
                 }
                 else

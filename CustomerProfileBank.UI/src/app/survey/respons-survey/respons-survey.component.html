@@ -15,125 +15,149 @@
                     </div>
                 </div>
 
-                <form #SubmitForm="ngForm" (ngSubmit)="onSubmit()">
-                    <div class="card-body">
+                <div class="alert alert-danger" role="alert"
+                    *ngIf="Questions==null || Questions.length==0;else answer ">
+                    Error : No More Surveys left for this customer
+                </div>
+
+                <ng-template #answer>
+
+                    <form #SubmitForm="ngForm" (ngSubmit)="onSubmit()">
+
+                        <div class="card-body">
 
 
 
-                        <div class="row">
+                            <div class="row">
 
-                            <div class="col-md-6" *ngFor="let item of Questions">
-                                <div>
-                                    <!-- Question Text dosn't change in any type -->
-                                    <h6> <span> {{item.Text}}</span> </h6>
-
-
-
-                                    <!-- answer type -->
+                                <div class="col-md-6" *ngFor="let item of Questions">
+                                    <div>
+                                        <!-- Question Text dosn't change in any type -->
+                                        <h6> <span> {{item.Text}}</span> </h6>
 
 
 
-
-                                    <!--  OPEN -->
-                                    <div *ngIf="item.Type?.trim().toUpperCase()=='OPEN'">
-
-                                        <mat-form-field>
-                                            <input matInput placeholder="Type your answer here" [pattern]="pattern"
-                                                type="text" [name]="item.Id" [required]="item.IsMandatory"
-                                                [ngModel]="item.answer" (ngModelChange)="answerQuestion(item,$event)"
-                                                #answer="ngModel">
-                                            <mat-error *ngIf="answer.invalid && (answer.dirty || answer.touched)">
-                                                <span>Answer on this question is <strong>required</strong></span>
-                                            </mat-error>
-
-                                        </mat-form-field>
-
-                                    </div>
+                                        <!-- answer type -->
 
 
 
-                                    <!--  SINGLESELECT -->
-                                    <div *ngIf="item.Type?.trim().toUpperCase()=='SINGLESELECT'">
-                                        <div *ngIf="!item.Options || item?.Options.length==0">
-                                            <span> No Options for this Question</span>
-                                        </div>
-                                        <div *ngIf="item.Options && item.Options.length > 0">
+
+                                        <!--  OPEN -->
+                                        <div *ngIf="item.Type?.trim().toUpperCase()=='OPEN'">
+
                                             <mat-form-field>
-                                                <mat-label>Select an option</mat-label>
-                                                <mat-select [required]="item.IsMandatory" [ngModel]="item.answer"
-                                                    #answer="ngModel" (ngModelChange)="answerQuestion(item,$event)"
-                                                    [name]="item.Id">
-
-                                                    <mat-option *ngIf="!item.IsMandatory" [value]="null">None
-                                                    </mat-option>
-
-                                                    <mat-option *ngFor="let option of item.Options" [value]="option.Id">
-                                                        {{option.Text}}</mat-option>
-                                                </mat-select>
+                                                <input matInput placeholder="Type your answer here" [pattern]="pattern"
+                                                    type="text" [name]="item.Id" [required]="item.IsMandatory"
+                                                    [ngModel]="item.answer"
+                                                    (ngModelChange)="answerQuestion(item,$event)" #answer="ngModel">
                                                 <mat-error *ngIf="answer.invalid && (answer.dirty || answer.touched)">
                                                     <span>Answer on this question is <strong>required</strong></span>
                                                 </mat-error>
+
                                             </mat-form-field>
 
                                         </div>
+
+
+
+                                        <!--  SINGLESELECT -->
+                                        <div *ngIf="item.Type?.trim().toUpperCase()=='SINGLESELECT'">
+                                            <div *ngIf="!item.Options || item?.Options.length==0">
+                                                <span> No Options for this Question</span>
+                                            </div>
+                                            <div *ngIf="item.Options && item.Options.length > 0">
+                                                <mat-form-field>
+                                                    <mat-label>Select an option</mat-label>
+                                                    <mat-select [required]="item.IsMandatory" [ngModel]="item.answer"
+                                                        #answer="ngModel" (ngModelChange)="answerQuestion(item,$event)"
+                                                        [name]="item.Id">
+
+                                                        <mat-option *ngIf="!item.IsMandatory" [value]="null">None
+                                                        </mat-option>
+
+                                                        <mat-option *ngFor="let option of item.Options"
+                                                            [value]="option.Id">
+                                                            {{option.Text}}</mat-option>
+                                                    </mat-select>
+                                                    <mat-error
+                                                        *ngIf="answer.invalid && (answer.dirty || answer.touched)">
+                                                        <span>Answer on this question is
+                                                            <strong>required</strong></span>
+                                                    </mat-error>
+                                                </mat-form-field>
+
+                                            </div>
+                                        </div>
+
+
+                                        <!-- MULTISELECT -->
+                                        <div *ngIf="item.Type?.trim().toUpperCase()=='MULTISELECT'">
+                                            <div *ngIf="!item.Options || item?.Options.length==0">
+                                                <span> No Options for this Question</span>
+                                            </div>
+                                            <div *ngIf="item.Options && item.Options.length > 0">
+                                                <mat-form-field>
+                                                    <mat-label>Select an option</mat-label>
+                                                    <mat-select [required]="item.IsMandatory" multiple
+                                                        [compareWith]="compare" #answer="ngModel"
+                                                        [ngModel]="item.answer"
+                                                        (ngModelChange)="answerQuestion(item,$event)" [name]="item.Id">
+
+                                                        <mat-option *ngFor="let option of item.Options"
+                                                            [value]="option.Id">
+                                                            {{option.Text}}</mat-option>
+                                                    </mat-select>
+                                                    <mat-error
+                                                        *ngIf="answer.invalid && (answer.dirty || answer.touched)">
+                                                        <span>Answer on this question is
+                                                            <strong>required</strong></span>
+                                                    </mat-error>
+                                                </mat-form-field>
+
+                                            </div>
+                                        </div>
+
+
                                     </div>
 
-
-                                    <!-- MULTISELECT -->
-                                    <div *ngIf="item.Type?.trim().toUpperCase()=='MULTISELECT'">
-                                        <div *ngIf="!item.Options || item?.Options.length==0">
-                                            <span> No Options for this Question</span>
-                                        </div>
-                                        <div *ngIf="item.Options && item.Options.length > 0">
-                                            <mat-form-field>
-                                                <mat-label>Select an option</mat-label>
-                                                <mat-select [required]="item.IsMandatory" multiple
-                                                    [compareWith]="compare" #answer="ngModel" [ngModel]="item.answer"
-                                                    (ngModelChange)="answerQuestion(item,$event)" [name]="item.Id">
-
-                                                    <mat-option *ngFor="let option of item.Options" [value]="option.Id">
-                                                        {{option.Text}}</mat-option>
-                                                </mat-select>
-                                                <mat-error *ngIf="answer.invalid && (answer.dirty || answer.touched)">
-                                                    <span>Answer on this question is <strong>required</strong></span>
-                                                </mat-error>
-                                            </mat-form-field>
-
-                                        </div>
-                                    </div>
-
+                                    <hr class="my-4" />
 
                                 </div>
-
-                                <hr class="my-4" />
-
                             </div>
+
+
+                            <div class="row">
+                                <div class="col-4 text-left" style="color: #28a745d9;">
+                                    <small> The submit button will be Enabled as soon as you answer the mandatory
+                                        questions
+                                    </small>
+                                </div>
+
+                                <div class="col-4 text-right">
+                                    <button [disabled]="SubmitForm.invalid" type="submit"
+                                        class="btn btn-lg btn-primary">Submit</button>
+                                </div>
+                            </div>
+
+
+
+
                         </div>
+                    </form>
+                </ng-template>
 
-
-                        <div class="row">
-                            <div class="col-4 text-left" style="color: #28a745d9;">
-                                <small> The submit button will be Enabled as soon as you answer the mandatory questions
-                                </small>
-                            </div>
-
-                            <div class="col-4 text-right">
-                                <button [disabled]="SubmitForm.invalid" type="submit"
-                                    class="btn btn-lg btn-primary">Submit</button>
-                            </div>
-                        </div>
-
-
-
-
-                    </div>
-                </form>
             </div>
         </div>
     </div>
 </div>
 
 
+<div class="col-4 text-right">
+    <button type="button" class="btn btn-lg btn-primary" (click)="naviToDialog()">try</button>
+</div>
+<!-- 
 <pre>
 {{Survey|json}}
 </pre>
+ -->
+

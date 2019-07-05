@@ -53,7 +53,9 @@ const routes: Routes = [
     path: '**',
     redirectTo: 'pageNotFound'
   },
-  { path: 'pageNotFound', component: PageNotFoundComponent }
+  {
+    path: 'pageNotFound', component: PageNotFoundComponent,data : {}
+  }
 
 ];
 
